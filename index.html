@@ -35,15 +35,114 @@ const output=document.getElementById("output"),wishArea=document.getElementById(
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function type(t,s=35){for(const c of t){output.textContent+=c;await sleep(c==="\n"?160:s)}}
 const intro=["Connection established...","","The Feather watches.","The Hawk waits.","","You have been granted one wish.","Choose carefully.","Not every wish asks the same price."];
-const messages=[
-"The Feather Has Fallen.\nThe Hawk Has Taken Flight.\nEvery wish leaves something behind.",
-"The Ink Remembers What the Hand Forgets.\nThe balance has been marked.",
-"The Hawk Circled Once.\nIt Did Not Circle Twice.\nNothing crosses the threshold unchanged.",
-"One Feather Was Given.\nOne Was Taken.\nNo wish travels alone.",
-"The Wind Changed Before the Feather Touched the Ground.\nFor what is given, something must be surrendered.",
-"The Mirror Closed Before It Answered.\nEvery gift leaves an empty place.",
-"The Seal Was Accepted Without Question.\nThe price is never named before the journey begins."
+const openings=[
+"Your wish has been heard.",
+"The Feather has accepted your words.",
+"The Hawk opened its eyes.",
+"The mirror remembered your face.",
+"The ink has dried.",
+"Your wish crossed the threshold.",
+"The Sorcerer received your wish.",
+"Something moved behind the silence.",
+"The seal has been accepted.",
+"The darkness noticed your request.",
+"The Feather stopped falling.",
+"The Hawk changed its path.",
+"The mirror refused to look away.",
+"Your words entered the waiting place.",
+"The night carried your wish farther than expected.",
+"An old door opened without making a sound.",
+"The room became colder after your wish was sealed.",
+"Something beneath the silence began to listen.",
+"The last echo returned with another voice.",
+"Your wish reached a place that does not forget."
 ];
+
+const warnings=[
+"Something else heard it too.",
+"You were not the only one listening.",
+"The path behind you has already changed.",
+"Do not speak the wish again.",
+"The first price is always hidden.",
+"The silence around you is no longer empty.",
+"Something has begun to follow the sound of your words.",
+"The mirror kept more than your reflection.",
+"The Hawk is no longer watching from the sky.",
+"Time has started counting.",
+"Do not turn around when the room becomes quiet.",
+"The next shadow may not belong to you.",
+"Someone has already walked the path ahead.",
+"The Feather remembers every hand that touches it.",
+"The waiting is part of the cost.",
+"The oldest debts are collected without warning.",
+"Not every answer arrives alone.",
+"The darkness now knows what you asked for.",
+"The first sign may look completely ordinary.",
+"Something has been awakened by your request."
+];
+
+const hauntings=[
+"Footsteps may stop when you stop.",
+"A reflection may move after you look away.",
+"The sound at the window may not be the wind.",
+"A shadow may stand where no one is standing.",
+"You may hear your wish spoken in an empty room.",
+"The Hawk may appear where no sky can be seen.",
+"The mirror may show a room that is not yours.",
+"The Feather may return even after it is thrown away.",
+"A door may open in a place where no door existed.",
+"You may wake to find the room listening.",
+"The silence may answer before you speak.",
+"A familiar voice may call from somewhere impossible.",
+"The lights may dim when your wish is mentioned.",
+"Something may breathe on the other side of the wall.",
+"The footsteps behind you may continue after you stop.",
+"The mirror may remember a face you have never worn.",
+"The Hawk may circle above a place you have not visited yet.",
+"The Feather may fall upward when the debt comes due.",
+"Your shadow may arrive before you do.",
+"The room may become quiet because something entered it."
+];
+
+const endings=[
+"There is no turning back.",
+"Time will collect what is owed.",
+"What was given must eventually be taken.",
+"The cost will reveal itself when it is ready.",
+"The Hawk will return when the debt is due.",
+"Nothing crosses the threshold unchanged.",
+"Do not search for what is now searching for you.",
+"The wish is no longer yours.",
+"The path has already closed behind you.",
+"The seal cannot be undone.",
+"The mirror never forgets those who ask.",
+"The Feather chooses only once.",
+"The waiting has already begun.",
+"The next sign will not ask permission.",
+"The debt has been marked.",
+"Not every wish ends when it is granted.",
+"The darkness will decide what remains.",
+"Some doors close only after something enters.",
+"The oldest promises are paid in silence.",
+"Your fate has already begun to move."
+];
+
+const messages=[];
+
+for(const opening of openings){
+  for(const warning of warnings){
+    for(const haunting of hauntings){
+      for(const ending of endings){
+        messages.push(
+          opening+"\n"+
+          warning+"\n"+
+          haunting+"\n"+
+          ending
+        );
+      }
+    }
+  }
+}
 (async()=>{await sleep(700);for(const line of intro){await type(line+"\n");await sleep(350)}wishArea.classList.remove("hidden")})();
 seal.onclick=async()=>{if(!wish.value.trim()){wish.placeholder="A wish must first be written...";return}wishArea.classList.add("hidden");output.textContent="";await type("Receiving...\n",50);await sleep(500);await type("Reading...\n",50);await sleep(700);await type("\nThe Ink Has Dried.\n",60);await sleep(900);await type("\n"+messages[Math.floor(Math.random()*messages.length)]+"\n",40);await sleep(900);final.classList.remove("hidden")};
 </script>
