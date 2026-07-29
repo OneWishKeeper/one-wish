@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One Wish</title>
+<style>
+body{margin:0;min-height:100vh;background:#000;color:#7cff89;font-family:"Courier New",monospace;display:grid;place-items:center;padding:24px;box-sizing:border-box}
+main{width:min(760px,100%);border:1px solid #173a1c;padding:24px;box-shadow:0 0 30px rgba(124,255,137,.12);background:#020702}
+h1{text-align:center;letter-spacing:.15em}
+#output{white-space:pre-wrap;line-height:1.6;min-height:220px}
+textarea{width:100%;min-height:120px;background:#000;color:#7cff89;border:1px solid #245d2c;padding:12px;font:inherit;box-sizing:border-box}
+button,a{display:block;width:100%;box-sizing:border-box;margin-top:14px;padding:14px;background:transparent;color:#7cff89;border:1px solid #7cff89;font:700 16px "Courier New",monospace;text-align:center;text-decoration:none}
+.notice{font-size:12px;color:#4ca85a}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<main>
+<h1>ONE WISH</h1>
+<div id="output"></div>
+<section id="wishArea" class="hidden">
+<textarea id="wish" maxlength="700" placeholder="Write your wish here..."></textarea>
+<button id="seal">SEAL MY WISH</button>
+<p class="notice">Submit only the words of your wish. Do not include your name, email, phone number, location, or other personal information.</p>
+</section>
+<section id="final" class="hidden">
+<hr>
+<p><strong>The journey does not end here.</strong><br>Those who wish to carry the Feather may seek the Sorcerer.</p>
+<a href="mailto:REPLACE-WITH-YOUR-EMAIL?subject=Seeking%20the%20Sorcerer">SEEK THE SORCERER</a>
+</section>
+</main>
+<script>
+const output=document.getElementById("output"),wishArea=document.getElementById("wishArea"),final=document.getElementById("final"),seal=document.getElementById("seal"),wish=document.getElementById("wish");
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function type(t,s=35){for(const c of t){output.textContent+=c;await sleep(c==="\n"?160:s)}}
+const intro=["Connection established...","","The Feather watches.","The Hawk waits.","","You have been granted one wish.","Choose carefully.","Not every wish asks the same price."];
+const messages=[
+"The Feather Has Fallen.\nThe Hawk Has Taken Flight.\nEvery wish leaves something behind.",
+"The Ink Remembers What the Hand Forgets.\nThe balance has been marked.",
+"The Hawk Circled Once.\nIt Did Not Circle Twice.\nNothing crosses the threshold unchanged.",
+"One Feather Was Given.\nOne Was Taken.\nNo wish travels alone.",
+"The Wind Changed Before the Feather Touched the Ground.\nFor what is given, something must be surrendered.",
+"The Mirror Closed Before It Answered.\nEvery gift leaves an empty place.",
+"The Seal Was Accepted Without Question.\nThe price is never named before the journey begins."
+];
+(async()=>{await sleep(700);for(const line of intro){await type(line+"\n");await sleep(350)}wishArea.classList.remove("hidden")})();
+seal.onclick=async()=>{if(!wish.value.trim()){wish.placeholder="A wish must first be written...";return}wishArea.classList.add("hidden");output.textContent="";await type("Receiving...\n",50);await sleep(500);await type("Reading...\n",50);await sleep(700);await type("\nThe Ink Has Dried.\n",60);await sleep(900);await type("\n"+messages[Math.floor(Math.random()*messages.length)]+"\n",40);await sleep(900);final.classList.remove("hidden")};
+</script>
+</body>
+</html>
