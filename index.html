@@ -150,7 +150,26 @@ for(const opening of openings){
   }
 }
 (async()=>{await sleep(700);for(const line of intro){await type(line+"\n");await sleep(350)}wishArea.classList.remove("hidden")})();
-seal.onclick=async()=>{if(!wish.value.trim()){wish.placeholder="A wish must first be written...";return}wishArea.classList.add("hidden");output.textContent="";await type("Receiving...\n",50);await sleep(500);await type("Reading...\n",50);await sleep(700);await type("\nThe Ink Has Dried.\n",60);await sleep(900);await type("\n"+messages[Math.floor(Math.random()*messages.length)]+"\n",40);await sleep(900);final.classList.remove("hidden")};
+seal.onclick=async()=>{
+  if(!wish.value.trim()){
+    wish.placeholder="A wish must first be written...";
+    return;
+  }
+
+  wishArea.classList.add("hidden");
+  output.textContent="";
+
+  await type("Receiving...\n",50);
+  await sleep(500);
+
+  await type("Reading...\n",50);
+  await sleep(700);
+
+  await type("\nThe Ink Has Dried.\n",60);
+  await sleep(900);
+
+  await type("\n"+messages[Math.floor(Math.random()*messages.length)]+"\n",40);
+};
 </script>
 </body>
 </html>
