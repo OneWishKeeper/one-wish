@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>One Wish</title>
 
 <style>
@@ -24,6 +25,7 @@ main{
   padding:24px;
   box-shadow:0 0 30px rgba(124,255,137,.12);
   background:#020702;
+  box-sizing:border-box;
 }
 
 h1{
@@ -40,12 +42,18 @@ h1{
 textarea{
   width:100%;
   min-height:120px;
+  resize:vertical;
   background:#000;
   color:#7cff89;
   border:1px solid #245d2c;
   padding:12px;
   font:inherit;
   box-sizing:border-box;
+}
+
+textarea:focus{
+  outline:none;
+  box-shadow:0 0 14px rgba(124,255,137,.18);
 }
 
 button{
@@ -59,10 +67,18 @@ button{
   border:1px solid #7cff89;
   font:700 16px "Courier New",monospace;
   text-align:center;
+  line-height:1.4;
+  cursor:pointer;
+}
+
+button:disabled{
+  opacity:.45;
+  cursor:not-allowed;
 }
 
 .notice{
   font-size:12px;
+  line-height:1.5;
   color:#4ca85a;
 }
 
@@ -73,6 +89,7 @@ button{
 </head>
 
 <body>
+
 <main>
 
 <h1>ONE WISH</h1>
@@ -80,43 +97,78 @@ button{
 <div id="output"></div>
 
 <section id="wishArea" class="hidden">
+
   <textarea
     id="wish"
     maxlength="700"
     placeholder="Write your wish here..."
   ></textarea>
 
-  <button id="seal">SEAL MY WISH</button>
+  <button id="seal">
+    SEAL MY WISH
+  </button>
 
   <p class="notice">
     Submit only the words of your wish. Do not include your name,
     email, phone number, location, or other personal information.
   </p>
+
 </section>
 
-<button id="refresh" class="hidden">
-  REFRESH... IF YOU DARE
+<button id="secondWishButton" class="hidden">
+  ONE WISH REMAINS... IF YOU DARE
 </button>
 
 </main>
 
 <script>
-const output=document.getElementById("output");
-const wishArea=document.getElementById("wishArea");
-const seal=document.getElementById("seal");
-const wish=document.getElementById("wish");
-const refresh=document.getElementById("refresh");
+const output = document.getElementById("output");
+const wishArea = document.getElementById("wishArea");
+const seal = document.getElementById("seal");
+const wish = document.getElementById("wish");
+const secondWishButton =
+  document.getElementById("secondWishButton");
 
-const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+const sleep = milliseconds =>
+  new Promise(resolve => setTimeout(resolve, milliseconds));
 
-async function type(text,speed=35){
+let wishNumber = 1;
+let processing = false;
+
+
+/* ---------------------------------
+   TYPEWRITER EFFECT
+--------------------------------- */
+
+async function typeText(text, speed = 35){
   for(const character of text){
-    output.textContent+=character;
-    await sleep(character==="\n"?160:speed);
+    output.textContent += character;
+
+    await sleep(
+      character === "\n"
+        ? 150
+        : speed
+    );
   }
 }
 
-const intro=[
+
+/* ---------------------------------
+   RANDOM ITEM
+--------------------------------- */
+
+function randomFrom(list){
+  return list[
+    Math.floor(Math.random() * list.length)
+  ];
+}
+
+
+/* ---------------------------------
+   INTRODUCTION
+--------------------------------- */
+
+const intro = [
   "Connection established...",
   "",
   "The Feather watches.",
@@ -127,7 +179,15 @@ const intro=[
   "Not every wish asks the same price."
 ];
 
-const openings=[
+
+/* ---------------------------------
+   RANDOM WISH PROPHECIES
+
+   20 × 20 × 20 × 20 =
+   160,000 possible combinations
+--------------------------------- */
+
+const openings = [
   "Your wish has been heard.",
   "The Feather has accepted your words.",
   "The Hawk opened its eyes.",
@@ -150,7 +210,7 @@ const openings=[
   "Your wish reached a place that does not forget."
 ];
 
-const warnings=[
+const warnings = [
   "Something else heard it too.",
   "You were not the only one listening.",
   "The path behind you has already changed.",
@@ -173,7 +233,7 @@ const warnings=[
   "Something has been awakened by your request."
 ];
 
-const hauntings=[
+const hauntings = [
   "Footsteps may stop when you stop.",
   "A reflection may move after you look away.",
   "The sound at the window may not be the wind.",
@@ -196,7 +256,7 @@ const hauntings=[
   "The room may become quiet because something entered it."
 ];
 
-const endings=[
+const endings = [
   "There is no turning back.",
   "Time will collect what is owed.",
   "What was given must eventually be taken.",
@@ -219,122 +279,336 @@ const endings=[
   "Your fate has already begun to move."
 ];
 
-const challenges=[
-  "Carry a black feather with you until tomorrow.\n\nThe Feather remembers those who obey.",
-
-  "Do not look into a mirror until sunrise.\n\nSome reflections should be left alone.",
-
-  "Find three pennies resting heads-up.\n\nOnly then will the path reopen.",
-
-  "Leave a glass of water beside your bed tonight.\n\nDo not touch it until morning.",
-
-  "Keep a small stone in your pocket for seven days.\n\nLet it carry what follows.",
-
-  "Speak your wish to no one for three days.\n\nSilence has its own power.",
-
-  "If you see a hawk, say nothing and continue walking.\n\nThe Hawk has already seen you.",
-
-  "Take a different path the next time you return home.\n\nThe old path has already changed.",
-
-  "Stand beneath the night sky for one silent minute.\n\nDo not ask for another sign.",
-
-  "Place one penny near a window until sunrise.\n\nIn the morning, leave it somewhere else.",
-
-  "Carry a fallen leaf until sunset.\n\nWhen darkness arrives, release it.",
-
-  "Write your wish on paper, fold it once, and keep it hidden for three days.\n\nDo not read it again.",
-
-  "When you next hear a bell, remain still for ten seconds.\n\nListen carefully to what follows.",
-
-  "Keep one light turned off tonight.\n\nSome rooms are meant to remain dark.",
-
-  "Before sleeping, place a small stone beside your bed.\n\nReturn it outside tomorrow."
-];
-
-const messages=[];
-
-for(const opening of openings){
-  for(const warning of warnings){
-    for(const haunting of hauntings){
-      for(const ending of endings){
-        messages.push(
-          opening+"\n"+
-          warning+"\n"+
-          haunting+"\n"+
-          ending
-        );
-      }
-    }
-  }
+function createWishMessage(){
+  return (
+    randomFrom(openings) + "\n" +
+    randomFrom(warnings) + "\n" +
+    randomFrom(hauntings) + "\n" +
+    randomFrom(endings)
+  );
 }
 
-(async()=>{
+
+/* ---------------------------------
+   SECOND-WISH BUTTON PHRASES
+
+   12 × 12 × 10 =
+   1,440 possible button sentences
+--------------------------------- */
+
+const offerBeginnings = [
+  "The Feather still listens",
+  "The door remains open",
+  "The silence offers another choice",
+  "The Hawk has not yet departed",
+  "One final whisper remains",
+  "The path has not completely closed",
+  "The mirror waits for your answer",
+  "The seal allows one final request",
+  "The darkness has left you a choice",
+  "The Feather has paused",
+  "Fate has offered one last opening",
+  "The threshold waits"
+];
+
+const offerMiddles = [
+  "one wish remains",
+  "one final wish may still be spoken",
+  "a second wish is waiting",
+  "you may ask once more",
+  "one last choice belongs to you",
+  "another wish may yet be sealed",
+  "a final request may cross the threshold",
+  "the second wish is yours to choose",
+  "one more desire may be written",
+  "a final chance has appeared",
+  "your second and final wish remains",
+  "one more answer may be sought"
+];
+
+const offerEndings = [
+  "if you dare",
+  "but choose carefully",
+  "though the price may be different",
+  "before the door closes",
+  "but greed rarely ends well",
+  "and the Feather is watching",
+  "though nothing is given twice without cost",
+  "before the silence changes its mind",
+  "but this choice cannot be recalled",
+  "and what follows will be yours"
+];
+
+function createSecondWishButtonText(){
+  return (
+    randomFrom(offerBeginnings) +
+    "... " +
+    randomFrom(offerMiddles) +
+    "... " +
+    randomFrom(offerEndings)
+  ).toUpperCase();
+}
+
+
+/* ---------------------------------
+   WARNINGS BEFORE SECOND WISH
+
+   12 × 12 × 10 =
+   1,440 possible warning combinations
+--------------------------------- */
+
+const greedBeginnings = [
+  "You were given one wish.",
+  "One wish was placed before you.",
+  "The Feather answered you once.",
+  "One desire was already accepted.",
+  "The first wish was your gift.",
+  "You already crossed the threshold once.",
+  "The silence already heard your request.",
+  "Your first wish has already been sealed.",
+  "One answer has already been promised.",
+  "The Hawk already carried your words.",
+  "The mirror already received one wish.",
+  "Fate already granted you one choice."
+];
+
+const greedMiddles = [
+  "Yet you have returned for another.",
+  "Still, you seek a second.",
+  "Yet one was not enough.",
+  "Still, your hand reaches toward the door.",
+  "But you have chosen to ask again.",
+  "Yet your hunger brought you back.",
+  "Still, you remain before the Feather.",
+  "But your desire has spoken twice.",
+  "Yet you ask the silence for more.",
+  "Still, you refuse to walk away.",
+  "But another wish now waits upon your tongue.",
+  "Yet curiosity has brought you back."
+];
+
+const greedEndings = [
+  "Greed does not end well.",
+  "May the second wish be worth its cost.",
+  "A second wish carries a heavier price.",
+  "Choose carefully, because this is the final one.",
+  "The Feather has noticed your hunger.",
+  "One was a gift; the second is your decision.",
+  "Not every second chance is an act of mercy.",
+  "What follows belongs to the choice you make now.",
+  "The door may open farther than you intended.",
+  "Speak carefully, because the balance is listening."
+];
+
+function createSecondWishWarning(){
+  return (
+    randomFrom(greedBeginnings) + "\n" +
+    randomFrom(greedMiddles) + "\n" +
+    randomFrom(greedEndings)
+  );
+}
+
+
+/* ---------------------------------
+   FINAL MESSAGES AFTER SECOND WISH
+
+   12 × 12 × 10 =
+   1,440 possible final endings
+--------------------------------- */
+
+const finalBeginnings = [
+  "The Feather has fallen silent.",
+  "Your second wish has crossed the threshold.",
+  "The Hawk has now turned away.",
+  "Two wishes have been sealed.",
+  "The mirror has closed.",
+  "The final wish has been accepted.",
+  "The last line of ink has dried.",
+  "The door has opened for the final time.",
+  "The silence has received everything you offered.",
+  "The Feather has given all it will give.",
+  "Your final words have entered the waiting place.",
+  "The second seal has been marked."
+];
+
+const finalMiddles = [
+  "There are no more wishes.",
+  "Nothing further will be granted.",
+  "The Feather will answer no more.",
+  "The path will not reopen.",
+  "No third request will be heard.",
+  "The balance now belongs to fate.",
+  "Only the consequences remain.",
+  "What follows cannot be called back.",
+  "The choice now moves without you.",
+  "The silence has taken control.",
+  "The doorway will not appear again.",
+  "Your part in the asking is finished."
+];
+
+const finalClosings = [
+  "Hopefully you know what door you just opened.",
+  "Some doors never close once opened.",
+  "May you understand what you invited through.",
+  "What comes next was permitted by your choice.",
+  "The Feather has nothing more to say.",
+  "Time will decide what your second wish was worth.",
+  "One wish was the gift; the second was the temptation.",
+  "Whatever heard you has now heard enough.",
+  "The path behind you is no longer where you left it.",
+  "Now you must wait for the answer."
+];
+
+function createFinalMessage(){
+  return (
+    randomFrom(finalBeginnings) + "\n" +
+    randomFrom(finalMiddles) + "\n" +
+    randomFrom(finalClosings)
+  );
+}
+
+
+/* ---------------------------------
+   START THE PAGE
+--------------------------------- */
+
+async function start(){
   await sleep(700);
 
   for(const line of intro){
-    await type(line+"\n");
+    await typeText(line + "\n");
     await sleep(350);
   }
 
   wishArea.classList.remove("hidden");
-})();
+  wish.focus();
+}
 
-seal.onclick=async()=>{
-  if(!wish.value.trim()){
-    wish.placeholder="A wish must first be written...";
+start();
+
+
+/* ---------------------------------
+   SUBMIT FIRST OR SECOND WISH
+--------------------------------- */
+
+seal.addEventListener("click", async () => {
+  if(processing){
     return;
   }
+
+  const wishText = wish.value.trim();
+
+  if(!wishText){
+    wish.placeholder =
+      wishNumber === 1
+        ? "A wish must first be written..."
+        : "Your second wish must first be written...";
+
+    wish.focus();
+    return;
+  }
+
+  processing = true;
+
+  seal.disabled = true;
+  wish.disabled = true;
 
   wishArea.classList.add("hidden");
-  output.textContent="";
+  secondWishButton.classList.add("hidden");
 
-  await type("Receiving...\n",50);
+  output.textContent = "";
+
+  await typeText("Receiving...\n", 50);
   await sleep(500);
 
-  await type("Reading...\n",50);
+  await typeText("Reading...\n", 50);
   await sleep(700);
 
-  await type("\nThe Ink Has Dried.\n",60);
+  await typeText("\nThe Ink Has Dried.\n", 60);
   await sleep(900);
 
-  const message=
-    messages[Math.floor(Math.random()*messages.length)];
+  const prophecy = createWishMessage();
 
-  await type("\n"+message+"\n",40);
-  await sleep(700);
+  await typeText("\n" + prophecy + "\n", 40);
+  await sleep(900);
 
-  refresh.classList.remove("hidden");
-};
+  if(wishNumber === 1){
+    secondWishButton.textContent =
+      createSecondWishButtonText();
 
-let challengeReceived=false;
+    secondWishButton.classList.remove("hidden");
 
-refresh.onclick=async()=>{
-  if(challengeReceived){
-    location.reload();
+    processing = false;
     return;
   }
 
-  challengeReceived=true;
-  refresh.classList.add("hidden");
-  output.textContent="";
-
-  await type("You chose to return...\n",50);
   await sleep(700);
 
-  await type("One final trial remains.\n\n",50);
+  const finalMessage = createFinalMessage();
+
+  await typeText(
+    "\n" +
+    "The second wish has been sealed.\n\n" +
+    finalMessage +
+    "\n",
+    45
+  );
+
+  secondWishButton.classList.add("hidden");
+  wishArea.classList.add("hidden");
+
+  processing = false;
+});
+
+
+/* ---------------------------------
+   ACCEPT THE SECOND AND FINAL WISH
+--------------------------------- */
+
+secondWishButton.addEventListener("click", async () => {
+  if(processing || wishNumber !== 1){
+    return;
+  }
+
+  processing = true;
+  wishNumber = 2;
+
+  secondWishButton.disabled = true;
+  secondWishButton.classList.add("hidden");
+
+  output.textContent = "";
+
+  await typeText("You have chosen to return...\n", 50);
+  await sleep(650);
+
+  await typeText(
+    "\n" + createSecondWishWarning() + "\n",
+    45
+  );
+
+  await sleep(900);
+
+  await typeText(
+    "\nOne final wish remains.\n",
+    48
+  );
+
   await sleep(700);
 
-  const challenge=
-    challenges[Math.floor(Math.random()*challenges.length)];
+  wish.value = "";
+  wish.disabled = false;
 
-  await type(challenge+"\n\n",40);
-  await sleep(700);
+  wish.placeholder =
+    "Write your second and final wish here...";
 
-  await type("Whether you obey is no longer my concern.\n",45);
+  seal.disabled = false;
+  seal.textContent = "SEAL MY FINAL WISH";
 
-  refresh.textContent="BEGIN AGAIN... IF YOU DARE";
-  refresh.classList.remove("hidden");
-};
+  wishArea.classList.remove("hidden");
+
+  processing = false;
+  wish.focus();
+});
 </script>
 
 </body>
