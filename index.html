@@ -24,16 +24,22 @@ button,a{display:block;width:100%;box-sizing:border-box;margin-top:14px;padding:
 <button id="seal">SEAL MY WISH</button>
 <p class="notice">Submit only the words of your wish. Do not include your name, email, phone number, location, or other personal information.</p>
 </section>
-<section id="final" class="hidden">
-<hr>
-<p><strong>The journey does not end here.</strong><br>Those who wish to carry the Feather may seek the Sorcerer.</p>
-<a href="mailto:justonewishawaits@gmail.com?subject=Seeking%20the%20Sorcerer">SEEK THE SORCERER</a>
-</section>
+
 </main>
 <script>
-const output=document.getElementById("output"),wishArea=document.getElementById("wishArea"),final=document.getElementById("final"),seal=document.getElementById("seal"),wish=document.getElementById("wish");
+const output=document.getElementById("output"),
+wishArea=document.getElementById("wishArea"),
+seal=document.getElementById("seal"),
+wish=document.getElementById("wish");
+
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-async function type(t,s=35){for(const c of t){output.textContent+=c;await sleep(c==="\n"?160:s)}}
+
+async function type(t,s=35){
+  for(const c of t){
+    output.textContent+=c;
+    await sleep(c==="\n"?160:s);
+  }
+}
 const intro=["Connection established...","","The Feather watches.","The Hawk waits.","","You have been granted one wish.","Choose carefully.","Not every wish asks the same price."];
 const openings=[
 "Your wish has been heard.",
