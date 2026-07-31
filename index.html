@@ -115,7 +115,6 @@ button:disabled{opacity:.45;cursor:not-allowed}
 }
 
 .hidden{display:none!important}
-
 .glitch{animation:glitch .18s steps(2,end) 3}
 .flicker{animation:flicker .15s linear 2}
 
@@ -177,7 +176,17 @@ button:disabled{opacity:.45;cursor:not-allowed}
   </button>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+const SUPABASE_URL = "https://qchdhrxniqpwcwtxkrgz.supabase.co";
+const SUPABASE_KEY = "sb_publishable_lYRHZV7dGb74UBYmfPTdbg_-RTlhzeO";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
 const output = document.getElementById("output");
 const cursor = document.getElementById("cursor");
 const panel = document.getElementById("panel");
@@ -191,6 +200,24 @@ const randomFrom = list => list[Math.floor(Math.random() * list.length)];
 
 let wishNumber = 1;
 let processing = false;
+
+async function saveWish(wishText){
+  try{
+    const { error } = await supabaseClient
+      .from("wishes")
+      .insert({ wish_text: wishText });
+
+    if(error){
+      console.error("Wish submission failed:", error);
+      return false;
+    }
+
+    return true;
+  }catch(error){
+    console.error("Wish submission failed:", error);
+    return false;
+  }
+}
 
 async function typeText(text, speed = 32){
   cursor.classList.remove("hidden");
@@ -219,11 +246,6 @@ function occasionalGlitch(chance = 0.16){
   }
 }
 
-/*
-  PHRASE FORGE
-  Each major category below is built to exactly 250 unique phrases.
-  This keeps the file manageable while still giving the site a huge vocabulary.
-*/
 function forgePhrases(starters, middles, endings, count = 250){
   const phrases = [];
 
@@ -243,7 +265,7 @@ function forgePhrases(starters, middles, endings, count = 250){
     }
   }
 
-  throw new Error("Not enough unique phrase combinations were provided.");
+  return phrases;
 }
 
 function forgeLines(firstLines, secondLines, thirdLines, count = 250){
@@ -265,14 +287,9 @@ function forgeLines(firstLines, secondLines, thirdLines, count = 250){
     }
   }
 
-  throw new Error("Not enough unique multiline combinations were provided.");
+  return phrases;
 }
 
-/*
-  BROWSER MEMORY
-  The visitor's browser remembers phrases already shown.
-  A category resets only after every phrase in that category has appeared.
-*/
 const MEMORY_KEY = "oneWishSeenPhrasesV2";
 
 function loadMemory(){
@@ -287,7 +304,7 @@ function saveMemory(memory){
   try{
     localStorage.setItem(MEMORY_KEY, JSON.stringify(memory));
   }catch{
-    /* The site still works if browser storage is unavailable. */
+    /* Site still works when browser storage is unavailable. */
   }
 }
 
@@ -322,7 +339,6 @@ const intro = [
   "Not every wish asks the same price."
 ];
 
-/* 250 FIRST-WISH OPENINGS */
 const firstOpenings = forgePhrases(
   [
     "Your wish",
@@ -357,7 +373,6 @@ const firstOpenings = forgePhrases(
   ]
 );
 
-/* 250 HOPEFUL / WISHFUL PHRASES */
 const firstHopeful = forgePhrases(
   [
     "A quiet change",
@@ -392,7 +407,6 @@ const firstHopeful = forgePhrases(
   ]
 );
 
-/* 250 FIRST-WISH WARNINGS / MYSTERY PHRASES */
 const firstMystery = forgePhrases(
   [
     "Do not",
@@ -427,7 +441,6 @@ const firstMystery = forgePhrases(
   ]
 );
 
-/* 250 FIRST-WISH CLOSINGS */
 const firstClosings = forgePhrases(
   [
     "Now",
@@ -462,7 +475,6 @@ const firstClosings = forgePhrases(
   ]
 );
 
-/* 250 SECOND-WISH OPENINGS */
 const secondOpenings = forgePhrases(
   [
     "Your second wish",
@@ -497,7 +509,6 @@ const secondOpenings = forgePhrases(
   ]
 );
 
-/* 250 SECOND-WISH WARNINGS */
 const secondWarnings = forgePhrases(
   [
     "One wish was the gift;",
@@ -532,7 +543,6 @@ const secondWarnings = forgePhrases(
   ]
 );
 
-/* 250 SECOND-WISH MYSTERY PHRASES */
 const secondMystery = forgePhrases(
   [
     "A familiar road",
@@ -567,7 +577,6 @@ const secondMystery = forgePhrases(
   ]
 );
 
-/* 250 SECOND-WISH CLOSINGS */
 const secondClosings = forgePhrases(
   [
     "There will be",
@@ -602,7 +611,6 @@ const secondClosings = forgePhrases(
   ]
 );
 
-/* 250 SECOND-WISH BUTTONS */
 const secondWishButtons = forgePhrases(
   [
     "ONE WISH SHOULD HAVE BEEN ENOUGH...",
@@ -637,7 +645,6 @@ const secondWishButtons = forgePhrases(
   ]
 );
 
-/* 250 GREED / TEMPTATION WARNINGS */
 const greedWarnings = forgeLines(
   [
     "You were given one wish.",
@@ -677,7 +684,6 @@ const greedWarnings = forgeLines(
   ]
 );
 
-/* 250 HARMLESS RITUAL CHALLENGES */
 const challenges = forgeLines(
   [
     "Carry three pennies until sunset.",
@@ -717,7 +723,6 @@ const challenges = forgeLines(
   ]
 );
 
-/* Rare events remain truly rare. */
 function rareEvent(){
   const roll = Math.floor(Math.random() * 5000) + 1;
 
@@ -830,6 +835,18 @@ seal.addEventListener("click", async () => {
   processing = true;
   seal.disabled = true;
   wish.disabled = true;
+
+  const wishSaved = await saveWish(wishText);
+
+  if(!wishSaved){
+    processing = false;
+    seal.disabled = false;
+    wish.disabled = false;
+    wish.placeholder = "The connection could not receive your wish. Please try again...";
+    wish.focus();
+    return;
+  }
+
   wishArea.classList.add("hidden");
   secondWishButton.classList.add("hidden");
 
