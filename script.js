@@ -1,3 +1,11 @@
+const SUPABASE_URL = "https://qchdhrxniqpwcwtxkrgz.supabase.co";
+const SUPABASE_KEY = "sb_publishable_lYRHZV7dGb74UBYmfPTdbg_-RTlhzeO";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
 const output = document.getElementById("output");
 const cursor = document.getElementById("cursor");
 const wishArea = document.getElementById("wishArea");
@@ -28,6 +36,21 @@ const messages = [
 
 const sleep = (milliseconds) =>
   new Promise((resolve) => setTimeout(resolve, milliseconds));
+
+async function saveWish(wishText) {
+  const { error } = await supabaseClient
+    .from("wishes")
+    .insert({
+      wish_text: wishText
+    });
+
+  if (error) {
+    console.error("Wish submission failed:", error);
+    return false;
+  }
+
+  return true;
+}
 
 async function typeText(text, speed = 34) {
   for (const character of text) {
@@ -60,6 +83,17 @@ seal.addEventListener("click", async () => {
 
   seal.disabled = true;
   wish.disabled = true;
+
+  const wishSaved = await saveWish(wishText);
+
+  if (!wishSaved) {
+    wish.placeholder = "The connection could not receive your wish. Try again...";
+    seal.disabled = false;
+    wish.disabled = false;
+    wish.focus();
+    return;
+  }
+
   wishArea.classList.add("hidden");
   output.textContent = "";
   cursor.style.display = "inline-block";
