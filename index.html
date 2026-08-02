@@ -758,8 +758,7 @@ async function saveWish(wishText){
     const {error}=await supabaseClient
       .from("wishes")
       .insert({
-        wish_text:wishText,
-        wish_number:wishNumber
+        wish_text:wishText
       });
 
     if(error){
