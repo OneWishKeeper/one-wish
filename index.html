@@ -565,26 +565,33 @@
     }
 
     async function saveWish(wishText, wishNumber) {
-      try {
-        const { error } = await supabaseClient
-          .from("wishes")
-          .insert([
-            {
-              text: wishText,
-              wish_number: wishNumber
-            }
+      const attempts = [
+        { text: wishText, wish_number: wishNumber },
+        { wish_text: wishText, wish_number: wishNumber },
+        { text: wishText },
+        { wish_text: wishText }
+      ];
+
+      for (const row of attempts) {
+        try {
+          const result = await Promise.race([
+            supabaseClient.from("wishes").insert([row]),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error("Wish save timed out.")), 12000)
+            )
           ]);
 
-        if (error) {
-          console.error("Wish submission failed:", error);
-          return false;
-        }
+          if (!result.error) {
+            return true;
+          }
 
-        return true;
-      } catch (error) {
-        console.error("Unexpected wish submission error:", error);
-        return false;
+          console.warn("Wish save attempt failed:", row, result.error);
+        } catch (error) {
+          console.warn("Wish save attempt failed:", row, error);
+        }
       }
+
+      return false;
     }
 
     async function typeText(text, speed = 34) {
@@ -646,9 +653,15 @@
       firstWish.disabled = true;
       sealFirst.textContent = "SEALING...";
 
+      output.textContent = "The seal is listening...\n";
+      cursor.style.display = "inline-block";
+
       const saved = await saveWish(text, 1);
 
       if (!saved) {
+        output.textContent =
+          "The connection could not receive your wish.\nPlease try again.";
+        cursor.style.display = "none";
         firstWish.placeholder =
           "The connection could not receive your wish. Try again...";
         sealFirst.disabled = false;
@@ -683,9 +696,15 @@
       secondWish.disabled = true;
       sealSecond.textContent = "SEALING THE SECOND WISH...";
 
+      output.textContent = "The second seal is listening...\n";
+      cursor.style.display = "inline-block";
+
       const saved = await saveWish(text, 2);
 
       if (!saved) {
+        output.textContent =
+          "The connection could not receive the second wish.\nPlease try again.";
+        cursor.style.display = "none";
         secondWish.placeholder =
           "The connection could not receive the second wish. Try again...";
         sealSecond.disabled = false;
