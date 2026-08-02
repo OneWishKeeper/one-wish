@@ -40,17 +40,17 @@ body::before{
   z-index:-2;
   pointer-events:none;
   background-image:
-    linear-gradient(rgba(0,0,0,.08),rgba(0,0,0,.22)),
+    linear-gradient(rgba(0,0,0,.16),rgba(0,0,0,.34)),
     var(--sigil-background);
   background-size:112% 112%;
   background-position:center;
   background-repeat:no-repeat;
-  opacity:1;
+  opacity:.94;
   transform:scale(1.06);
   filter:
-    brightness(1.45)
-    contrast(1.18)
-    drop-shadow(0 0 14px rgba(124,255,137,.48));
+    brightness(.92)
+    contrast(1.12)
+    drop-shadow(0 0 12px rgba(31,122,58,.34));
   animation:sigilBreathe 18s ease-in-out infinite;
 }
 
@@ -198,11 +198,11 @@ button:disabled{opacity:.45;cursor:not-allowed}
 
 @keyframes sigilBreathe{
   0%,100%{
-    opacity:.88;
+    opacity:.78;
     transform:scale(1.06) rotate(0deg);
   }
   50%{
-    opacity:1;
+    opacity:.94;
     transform:scale(1.10) rotate(.45deg);
   }
 }
@@ -283,65 +283,65 @@ let processing = false;
 const sigilDesigns = [
 `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
 <rect width="900" height="1600" fill="#000"/>
-<g fill="none" stroke="#39ff62" stroke-width="4" opacity=".78">
+<g fill="none" stroke="#1f7a3a" stroke-width="4" opacity=".68">
 <circle cx="450" cy="800" r="350"/><circle cx="450" cy="800" r="285"/><circle cx="450" cy="800" r="205"/>
 <path d="M450 390 L720 1020 L180 1020 Z"/><path d="M450 480 L640 930 L260 930 Z"/>
 <path d="M450 450 V1150"/><path d="M180 800 H720"/><path d="M245 560 L655 1040"/><path d="M655 560 L245 1040"/>
 </g>
-<g fill="#39ff62" opacity=".62" font-size="48" text-anchor="middle">
+<g fill="#1f7a3a" opacity=".50" font-size="48" text-anchor="middle">
 <text x="450" y="250">△ ◯ ✦ ◇</text><text x="450" y="1370">◇ ✦ ◯ △</text>
 <text x="110" y="800">☽</text><text x="790" y="800">☉</text>
 </g></svg>`,
 
 `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
 <rect width="900" height="1600" fill="#000"/>
-<g fill="none" stroke="#56ff75" stroke-width="4" opacity=".75">
+<g fill="none" stroke="#257f42" stroke-width="4" opacity=".65">
 <circle cx="450" cy="800" r="360"/><circle cx="450" cy="800" r="315"/>
 <path d="M450 400 L700 800 L450 1200 L200 800 Z"/>
 <path d="M450 505 L620 800 L450 1095 L280 800 Z"/>
 <circle cx="450" cy="800" r="115"/><path d="M335 800 H565"/><path d="M450 685 V915"/>
 <path d="M225 575 L675 1025"/><path d="M675 575 L225 1025"/>
 </g>
-<g fill="#56ff75" opacity=".58" font-size="42" text-anchor="middle">
+<g fill="#257f42" opacity=".46" font-size="42" text-anchor="middle">
 <text x="450" y="290">✧ ᚱ ᚾ ᛟ ✧</text><text x="450" y="1340">ᛟ ᚾ ᚱ</text>
 <text x="120" y="500">◇</text><text x="780" y="500">◇</text><text x="120" y="1120">◇</text><text x="780" y="1120">◇</text>
 </g></svg>`,
 
 `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
 <rect width="900" height="1600" fill="#000"/>
-<g fill="none" stroke="#47ff69" stroke-width="4" opacity=".78">
+<g fill="none" stroke="#237a3d" stroke-width="4" opacity=".68">
 <circle cx="450" cy="800" r="355"/>
 <path d="M450 420 C690 560 690 1040 450 1180"/><path d="M450 420 C210 560 210 1040 450 1180"/>
 <path d="M450 420 C560 630 560 970 450 1180"/><path d="M450 420 C340 630 340 970 450 1180"/>
 <path d="M230 800 H670"/><circle cx="450" cy="800" r="175"/><circle cx="450" cy="800" r="70"/>
 <path d="M450 625 L600 900 L300 900 Z"/>
 </g>
-<g fill="#47ff69" opacity=".58" font-size="46" text-anchor="middle">
+<g fill="#237a3d" opacity=".46" font-size="46" text-anchor="middle">
 <text x="450" y="260">☽ ✦ ☉ ✦ ☾</text><text x="450" y="1370">☾ ✦ ☉ ✦ ☽</text>
 <text x="115" y="810">ᚨ</text><text x="785" y="810">ᛉ</text>
 </g></svg>`,
 
 `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
 <rect width="900" height="1600" fill="#000"/>
-<g fill="none" stroke="#61ff7c" stroke-width="4" opacity=".72">
+<g fill="none" stroke="#2a8247" stroke-width="4" opacity=".62">
 <circle cx="450" cy="800" r="365"/><circle cx="450" cy="800" r="245"/>
 <path d="M450 420 L590 700 L780 800 L590 900 L450 1180 L310 900 L120 800 L310 700 Z"/>
 <path d="M450 555 L530 720 L650 800 L530 880 L450 1045 L370 880 L250 800 L370 720 Z"/>
 <path d="M450 420 V1180"/><path d="M120 800 H780"/>
 </g>
-<g fill="#61ff7c" opacity=".56" font-size="42" text-anchor="middle">
+<g fill="#2a8247" opacity=".44" font-size="42" text-anchor="middle">
 <text x="450" y="280">✦ THE PATH WATCHES ✦</text><text x="450" y="1340">✦ THE FEATHER WAITS ✦</text>
 <text x="110" y="520">△</text><text x="790" y="520">▽</text><text x="110" y="1100">▽</text><text x="790" y="1100">△</text>
 </g></svg>`,
 
 `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
 <rect width="900" height="1600" fill="#000"/>
-<g fill="none" stroke="#43ff68" stroke-width="4" opacity=".78">
+<g fill="none" stroke="#22783c" stroke-width="4" opacity=".68">
 <circle cx="450" cy="800" r="360"/><circle cx="450" cy="800" r="300"/>
 <path d="M450 430 L690 1070 L210 1070 Z"/><path d="M450 1170 L690 530 L210 530 Z"/>
 <circle cx="450" cy="800" r="125"/><path d="M325 800 H575"/><path d="M450 675 V925"/>
 </g>
-<g fill="#43ff68" opacity=".58" font-size="44" text-anchor="middle">
+<g fill="#22783c" opacity=".46" font-size="44" text-anchor="middle">
 <text x="450" y="260">ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ</text><text x="450" y="1370">ᚲ ᚱ ᚨ ᚦ ᚢ ᚠ</text>
 <text x="120" y="800">☿</text><text x="780" y="800">♄</text>
 </g></svg>`
