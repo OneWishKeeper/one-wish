@@ -13,12 +13,9 @@
   --green-dark:#1f7a3a;
 }
 
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
-html,
-body{
+html,body{
   min-height:100%;
   margin:0;
   background:#000;
@@ -29,13 +26,8 @@ body{
   overflow-x:hidden;
   color:var(--green);
   font-family:"Courier New",monospace;
-
   background:
-    radial-gradient(
-      circle at 50% 35%,
-      rgba(20,70,28,.16),
-      transparent 42%
-    ),
+    radial-gradient(circle at 50% 35%,rgba(20,70,28,.16),transparent 42%),
     #000;
 }
 
@@ -47,11 +39,7 @@ body{
   width:min(980px,96vw);
   min-height:100vh;
   margin:0 auto;
-
-  padding:
-    clamp(22px,5vw,52px)
-    clamp(14px,4vw,40px)
-    180px;
+  padding:clamp(22px,5vw,52px) clamp(14px,4vw,40px) 180px;
 }
 
 h1{
@@ -59,7 +47,6 @@ h1{
   text-align:center;
   font-size:clamp(36px,8vw,62px);
   letter-spacing:.16em;
-
   text-shadow:
     0 0 4px #000,
     0 0 10px #000,
@@ -73,7 +60,6 @@ h1{
   line-height:1.7;
   font-size:clamp(18px,4.3vw,24px);
   font-weight:700;
-
   text-shadow:
     0 0 3px #000,
     0 0 8px #000,
@@ -86,35 +72,25 @@ h1{
   height:1.05em;
   margin-left:3px;
   vertical-align:-2px;
-
   background:var(--green);
   box-shadow:0 0 10px rgba(124,255,137,.75);
-
   animation:cursorBlink .85s steps(1,end) infinite;
 }
 
-#wishArea{
-  margin-top:18px;
-}
-
-#wishWrap{
-  position:relative;
-}
+#wishArea{margin-top:18px}
+#wishWrap{position:relative}
 
 textarea{
   width:100%;
   min-height:130px;
   resize:vertical;
   padding:15px;
-
   color:var(--green);
   background:rgba(0,0,0,.78);
   border:1px solid rgba(124,255,137,.68);
-
   font:inherit;
   outline:none;
   caret-color:var(--green);
-
   box-shadow:
     0 0 18px rgba(124,255,137,.11),
     inset 0 0 20px rgba(0,0,0,.75);
@@ -122,49 +98,31 @@ textarea{
 
 textarea:focus{
   border-color:var(--green);
-
   box-shadow:
     0 0 18px rgba(124,255,137,.2),
     inset 0 0 20px rgba(0,0,0,.75);
 }
 
-textarea.ink-awake{
-  animation:inkGlow .9s ease-in-out infinite alternate;
-}
-
-textarea.ink-dissolve{
-  animation:inkDissolve 1.55s ease forwards;
-}
+textarea.ink-awake{animation:inkGlow .9s ease-in-out infinite alternate}
+textarea.ink-dissolve{animation:inkDissolve 1.55s ease forwards}
 
 button{
   display:block;
   width:100%;
   margin-top:14px;
   padding:15px 16px;
-
   color:var(--green);
   background:rgba(0,0,0,.7);
   border:1px solid var(--green);
-
   font:700 16px "Courier New",monospace;
   line-height:1.45;
   cursor:pointer;
-
-  text-shadow:
-    0 0 8px rgba(124,255,137,.45);
-
-  box-shadow:
-    0 0 15px rgba(124,255,137,.11);
+  text-shadow:0 0 8px rgba(124,255,137,.45);
+  box-shadow:0 0 15px rgba(124,255,137,.11);
 }
 
-button:active{
-  transform:translateY(1px);
-}
-
-button:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-}
+button:active{transform:translateY(1px)}
+button:disabled{opacity:.45;cursor:not-allowed}
 
 .notice{
   margin:13px 0 0;
@@ -173,17 +131,9 @@ button:disabled{
   line-height:1.5;
 }
 
-.hidden{
-  display:none!important;
-}
-
-.glitch{
-  animation:glitch .18s steps(2,end) 3;
-}
-
-.flicker{
-  animation:flicker .16s linear 2;
-}
+.hidden{display:none!important}
+.glitch{animation:glitch .18s steps(2,end) 3}
+.flicker{animation:flicker .16s linear 2}
 
 .rare{
   text-shadow:
@@ -200,12 +150,7 @@ button:disabled{
   z-index:0;
   pointer-events:none;
   opacity:.5;
-
-  filter:
-    drop-shadow(
-      0 0 14px rgba(31,122,58,.26)
-    );
-
+  filter:drop-shadow(0 0 14px rgba(31,122,58,.26));
   animation:sigilRotate 220s linear infinite;
 }
 
@@ -232,135 +177,31 @@ button:disabled{
   left:50%;
   top:18%;
   z-index:5;
-
   width:112px;
   height:34px;
-
   transform:translateX(-50%);
   opacity:0;
   pointer-events:none;
-
-  filter:
-    drop-shadow(
-      0 0 10px rgba(124,255,137,.8)
-    );
+  filter:drop-shadow(0 0 10px rgba(124,255,137,.8));
 }
 
 .eye{
   position:absolute;
   top:8px;
-
   width:26px;
   height:12px;
   border-radius:50%;
-
   background:
-    radial-gradient(
-      circle at 50% 50%,
-      #e0ffe5 0 12%,
-      #7cff89 13% 35%,
-      #173a1c 36% 64%,
-      #000 65%
-    );
-
+    radial-gradient(circle at 50% 50%,#e0ffe5 0 12%,#7cff89 13% 35%,#173a1c 36% 64%,#000 65%);
   box-shadow:
     0 0 8px rgba(124,255,137,.85),
     0 0 22px rgba(124,255,137,.35);
 }
 
-.eye.left{
-  left:18px;
-  transform:rotate(4deg);
-}
-
-.eye.right{
-  right:18px;
-  transform:rotate(-4deg);
-}
-
-#watchingEyes.show{
-  animation:eyesAppear 5.6s ease-in-out forwards;
-}
-
-#watchingEyes.blink .eye{
-  animation:eyeBlink .22s linear 1;
-}
-
-/* ---------- RANDOM REAL FEATHERS ---------- */
-
-#feather{
-  position:fixed;
-  left:50%;
-  top:-290px;
-  z-index:7;
-
-  width:clamp(90px,18vw,145px);
-  height:270px;
-
-  transform:
-    translateX(-50%)
-    rotate(-14deg);
-
-  opacity:0;
-  pointer-events:none;
-  overflow:visible;
-}
-
-#feather svg{
-  display:block;
-  width:100%;
-  height:100%;
-  overflow:visible;
-
-  filter:
-    drop-shadow(0 0 7px rgba(235,255,239,.85))
-    drop-shadow(0 0 18px rgba(124,255,137,.65))
-    drop-shadow(0 0 38px rgba(124,255,137,.28));
-}
-
-#feather .vane{
-  fill:url(#activeFeatherGradient);
-  stroke:rgba(225,255,232,.72);
-  stroke-width:1.15;
-  stroke-linejoin:round;
-}
-
-#feather .shaft{
-  fill:none;
-  stroke:url(#activeShaftGradient);
-  stroke-width:4.2;
-  stroke-linecap:round;
-}
-
-#feather .barb{
-  fill:none;
-  stroke:rgba(225,255,232,.68);
-  stroke-width:1.7;
-  stroke-linecap:round;
-}
-
-#feather .barb-dark{
-  fill:none;
-  stroke:rgba(81,156,94,.72);
-  stroke-width:1.45;
-  stroke-linecap:round;
-}
-
-#feather .marking{
-  fill:none;
-  stroke:rgba(25,78,34,.65);
-  stroke-width:5;
-  stroke-linecap:round;
-  opacity:.65;
-}
-
-#feather.drift{
-  animation:featherDrift 8.5s ease-in-out forwards;
-}
-
-#feather.accept{
-  animation:featherAccept 1.8s ease-in forwards;
-}
+.eye.left{left:18px;transform:rotate(4deg)}
+.eye.right{right:18px;transform:rotate(-4deg)}
+#watchingEyes.show{animation:eyesAppear 5.6s ease-in-out forwards}
+#watchingEyes.blink .eye{animation:eyeBlink .22s linear 1}
 
 /* ---------- MIST ---------- */
 
@@ -370,9 +211,7 @@ button:disabled{
   right:0;
   bottom:-35px;
   z-index:3;
-
   height:220px;
-
   pointer-events:none;
   overflow:hidden;
 }
@@ -380,11 +219,9 @@ button:disabled{
 .mistCloud{
   position:absolute;
   bottom:0;
-
   width:65vw;
   height:150px;
   border-radius:50%;
-
   background:
     radial-gradient(
       ellipse at center,
@@ -392,55 +229,40 @@ button:disabled{
       rgba(31,122,58,.12) 38%,
       rgba(0,0,0,0) 72%
     );
-
   filter:blur(17px);
   opacity:.55;
 }
 
 .mistCloud.one{
   left:-24vw;
-  animation:
-    mistMoveOne 28s ease-in-out infinite alternate;
+  animation:mistMoveOne 28s ease-in-out infinite alternate;
 }
 
 .mistCloud.two{
   right:-20vw;
-  animation:
-    mistMoveTwo 34s ease-in-out infinite alternate;
+  animation:mistMoveTwo 34s ease-in-out infinite alternate;
 }
 
 .mistCloud.three{
   left:18vw;
   width:78vw;
   opacity:.32;
-
-  animation:
-    mistMoveThree 42s ease-in-out infinite alternate;
+  animation:mistMoveThree 42s ease-in-out infinite alternate;
 }
 
 #mistSymbol{
   position:absolute;
   left:50%;
   bottom:58px;
-
-  transform:
-    translateX(-50%)
-    scale(.75);
-
+  transform:translateX(-50%) scale(.75);
   color:rgba(124,255,137,.52);
   font-size:58px;
   opacity:0;
-
-  filter:
-    blur(1px)
-    drop-shadow(
-      0 0 12px rgba(124,255,137,.42)
-    );
+  filter:blur(1px) drop-shadow(0 0 12px rgba(124,255,137,.42));
 }
 
 #mistSymbol.show{
-  animation:
-    mistSymbolForm 4.8s ease-in-out forwards;
+  animation:mistSymbolForm 4.8s ease-in-out forwards;
 }
 
 /* ---------- HAWK SHADOW ---------- */
@@ -450,11 +272,9 @@ button:disabled{
   top:13%;
   left:-45vw;
   z-index:6;
-
   width:40vw;
   min-width:280px;
   height:180px;
-
   opacity:0;
   pointer-events:none;
   filter:blur(8px);
@@ -465,10 +285,8 @@ button:disabled{
   content:"";
   position:absolute;
   top:36px;
-
   width:55%;
   height:86px;
-
   background:rgba(0,0,0,.86);
   border-radius:85% 10% 85% 20%;
 }
@@ -480,26 +298,21 @@ button:disabled{
 
 #hawkShadow::after{
   right:0;
-  transform:
-    scaleX(-1)
-    rotate(-14deg);
+  transform:scaleX(-1) rotate(-14deg);
 }
 
 #hawkShadow .body{
   position:absolute;
   left:43%;
   top:58px;
-
   width:14%;
   height:92px;
-
   border-radius:55% 55% 40% 40%;
   background:rgba(0,0,0,.9);
 }
 
 #hawkShadow.fly{
-  animation:
-    hawkShadowPass 5.2s linear forwards;
+  animation:hawkShadowPass 5.2s linear forwards;
 }
 
 /* ---------- MIRROR CRACK ---------- */
@@ -509,17 +322,11 @@ button:disabled{
   right:5vw;
   top:16vh;
   z-index:8;
-
   width:180px;
   height:240px;
-
   opacity:0;
   pointer-events:none;
-
-  filter:
-    drop-shadow(
-      0 0 6px rgba(124,255,137,.45)
-    );
+  filter:drop-shadow(0 0 6px rgba(124,255,137,.45));
 }
 
 #mirrorCrack path{
@@ -531,8 +338,7 @@ button:disabled{
 }
 
 #mirrorCrack.reveal{
-  animation:
-    crackReveal 2.3s ease forwards;
+  animation:crackReveal 2.3s ease forwards;
 }
 
 /* ---------- SCANLINES ---------- */
@@ -541,10 +347,8 @@ button:disabled{
   position:fixed;
   inset:0;
   z-index:50;
-
   pointer-events:none;
   opacity:.045;
-
   background:
     repeating-linear-gradient(
       to bottom,
@@ -557,36 +361,22 @@ button:disabled{
 /* ---------- ANIMATIONS ---------- */
 
 @keyframes cursorBlink{
-  0%,45%{
-    opacity:1;
-  }
-
-  46%,100%{
-    opacity:0;
-  }
+  0%,45%{opacity:1}
+  46%,100%{opacity:0}
 }
 
 @keyframes sigilRotate{
-  from{
-    transform:rotate(0deg);
-  }
-
-  to{
-    transform:rotate(360deg);
-  }
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
 }
 
 @keyframes inkGlow{
   from{
     color:#7cff89;
-
-    text-shadow:
-      0 0 4px rgba(124,255,137,.35);
+    text-shadow:0 0 4px rgba(124,255,137,.35);
   }
-
   to{
     color:#d8ffde;
-
     text-shadow:
       0 0 6px rgba(124,255,137,.9),
       0 0 18px rgba(124,255,137,.4);
@@ -599,207 +389,60 @@ button:disabled{
     filter:blur(0);
     transform:translateY(0);
   }
-
   55%{
     opacity:.65;
     filter:blur(2px);
   }
-
   100%{
     opacity:0;
     filter:blur(11px);
-
-    transform:
-      translateY(-26px)
-      scale(.985);
-  }
-}
-
-@keyframes featherDrift{
-  0%{
-    top:-290px;
-    opacity:0;
-
-    transform:
-      translateX(-50%)
-      rotate(-28deg)
-      scale(.72);
-  }
-
-  8%{
-    opacity:1;
-  }
-
-  24%{
-    transform:
-      translateX(-18%)
-      rotate(17deg)
-      scale(.88);
-  }
-
-  45%{
-    transform:
-      translateX(-76%)
-      rotate(-14deg)
-      scale(.94);
-  }
-
-  67%{
-    transform:
-      translateX(-28%)
-      rotate(12deg)
-      scale(.98);
-  }
-
-  84%{
-    transform:
-      translateX(-67%)
-      rotate(-8deg)
-      scale(1);
-  }
-
-  100%{
-    top:20vh;
-    opacity:.96;
-
-    transform:
-      translateX(-50%)
-      rotate(6deg)
-      scale(1);
-  }
-}
-
-@keyframes featherAccept{
-  0%{
-    top:20vh;
-    opacity:.96;
-
-    transform:
-      translateX(-50%)
-      rotate(6deg)
-      scale(1);
-  }
-
-  38%{
-    opacity:1;
-
-    transform:
-      translateX(-50%)
-      rotate(-4deg)
-      scale(1.15);
-
-    filter:
-      drop-shadow(0 0 18px #e8ffec)
-      drop-shadow(
-        0 0 50px rgba(124,255,137,.95)
-      );
-  }
-
-  100%{
-    top:-300px;
-    opacity:0;
-
-    transform:
-      translateX(-50%)
-      rotate(30deg)
-      scale(.58);
+    transform:translateY(-26px) scale(.985);
   }
 }
 
 @keyframes eyesAppear{
-  0%{
-    opacity:0;
-  }
-
-  18%{
-    opacity:.85;
-  }
-
-  70%{
-    opacity:.85;
-  }
-
-  100%{
-    opacity:0;
-  }
+  0%{opacity:0}
+  18%{opacity:.85}
+  70%{opacity:.85}
+  100%{opacity:0}
 }
 
 @keyframes eyeBlink{
-  0%,100%{
-    transform:scaleY(1);
-  }
-
-  50%{
-    transform:scaleY(.06);
-  }
+  0%,100%{transform:scaleY(1)}
+  50%{transform:scaleY(.06)}
 }
 
 @keyframes mistMoveOne{
-  from{
-    transform:translateX(0);
-  }
-
-  to{
-    transform:
-      translateX(52vw)
-      scale(1.12);
-  }
+  from{transform:translateX(0)}
+  to{transform:translateX(52vw) scale(1.12)}
 }
 
 @keyframes mistMoveTwo{
-  from{
-    transform:
-      translateX(0)
-      scale(1.05);
-  }
-
-  to{
-    transform:
-      translateX(-54vw)
-      scale(.92);
-  }
+  from{transform:translateX(0) scale(1.05)}
+  to{transform:translateX(-54vw) scale(.92)}
 }
 
 @keyframes mistMoveThree{
-  from{
-    transform:translateX(-18vw);
-  }
-
-  to{
-    transform:translateX(20vw);
-  }
+  from{transform:translateX(-18vw)}
+  to{transform:translateX(20vw)}
 }
 
 @keyframes mistSymbolForm{
   0%{
     opacity:0;
     filter:blur(16px);
-
-    transform:
-      translateX(-50%)
-      scale(.55);
+    transform:translateX(-50%) scale(.55);
   }
-
   38%{
     opacity:.58;
     filter:blur(2px);
-
-    transform:
-      translateX(-50%)
-      scale(1);
+    transform:translateX(-50%) scale(1);
   }
-
-  72%{
-    opacity:.42;
-  }
-
+  72%{opacity:.42}
   100%{
     opacity:0;
     filter:blur(13px);
-
-    transform:
-      translateX(-50%)
-      scale(1.2);
+    transform:translateX(-50%) scale(1.2);
   }
 }
 
@@ -807,83 +450,35 @@ button:disabled{
   0%{
     left:-45vw;
     opacity:0;
-
-    transform:
-      translateY(20px)
-      scale(.75)
-      rotate(-2deg);
+    transform:translateY(20px) scale(.75) rotate(-2deg);
   }
-
-  12%{
-    opacity:.62;
-  }
-
-  50%{
-    opacity:.4;
-  }
-
-  88%{
-    opacity:.28;
-  }
-
+  12%{opacity:.62}
+  50%{opacity:.4}
+  88%{opacity:.28}
   100%{
     left:115vw;
     opacity:0;
-
-    transform:
-      translateY(-18px)
-      scale(1.05)
-      rotate(3deg);
+    transform:translateY(-18px) scale(1.05) rotate(3deg);
   }
 }
 
 @keyframes crackReveal{
-  0%{
-    opacity:0;
-    transform:scale(.9);
-  }
-
-  35%{
-    opacity:.8;
-    transform:scale(1.02);
-  }
-
-  100%{
-    opacity:.48;
-    transform:scale(1);
-  }
+  0%{opacity:0;transform:scale(.9)}
+  35%{opacity:.8;transform:scale(1.02)}
+  100%{opacity:.48;transform:scale(1)}
 }
 
 @keyframes glitch{
-  0%{
-    transform:translate(0);
-  }
-
-  33%{
-    transform:translate(1px,-1px);
-  }
-
-  66%{
-    transform:translate(-1px,1px);
-  }
-
-  100%{
-    transform:translate(0);
-  }
+  0%{transform:translate(0)}
+  33%{transform:translate(1px,-1px)}
+  66%{transform:translate(-1px,1px)}
+  100%{transform:translate(0)}
 }
 
 @keyframes flicker{
-  0%,100%{
-    opacity:1;
-  }
-
-  35%{
-    opacity:.72;
-  }
-
-  60%{
-    opacity:.9;
-  }
+  0%,100%{opacity:1}
+  35%{opacity:.72}
+  60%{opacity:.9}
 }
 
 @media(max-width:600px){
@@ -892,23 +487,14 @@ button:disabled{
     padding:16px 12px 170px;
   }
 
-  h1{
-    font-size:36px;
-  }
+  h1{font-size:36px}
 
   #output{
     min-height:285px;
     font-size:19px;
   }
 
-  #watchingEyes{
-    top:12%;
-  }
-
-  #feather{
-    width:105px;
-    height:245px;
-  }
+  #watchingEyes{top:12%}
 
   #mirrorCrack{
     width:130px;
@@ -940,35 +526,21 @@ button:disabled{
 
 <div id="sigilLayer" aria-hidden="true">
   <svg viewBox="0 0 1200 1200">
-    <g
-      fill="none"
-      stroke="#1f7a3a"
-      stroke-width="4"
-      opacity=".55"
-    >
+    <g fill="none" stroke="#1f7a3a" stroke-width="4" opacity=".55">
       <circle cx="600" cy="600" r="430"/>
       <circle cx="600" cy="600" r="355"/>
       <circle cx="600" cy="600" r="270"/>
       <circle cx="600" cy="600" r="125"/>
-
       <path d="M600 160 L980 820 L220 820 Z"/>
       <path d="M600 1040 L980 380 L220 380 Z"/>
-
       <path d="M600 170 V1030"/>
       <path d="M170 600 H1030"/>
-
       <path d="M295 295 L905 905"/>
       <path d="M905 295 L295 905"/>
-
       <path d="M600 245 L840 600 L600 955 L360 600 Z"/>
     </g>
 
-    <g
-      fill="#1f7a3a"
-      opacity=".4"
-      font-size="42"
-      text-anchor="middle"
-    >
+    <g fill="#1f7a3a" opacity=".4" font-size="42" text-anchor="middle">
       <text x="600" y="110">✦ ᚱ ᛟ ᚾ ᚨ ✦</text>
       <text x="600" y="1140">✦ ᚨ ᚾ ᛟ ᚱ ✦</text>
       <text x="100" y="615">☽</text>
@@ -977,24 +549,12 @@ button:disabled{
   </svg>
 </div>
 
-<canvas
-  id="particleCanvas"
-  aria-hidden="true"
-></canvas>
+<canvas id="particleCanvas" aria-hidden="true"></canvas>
 
-<div
-  id="watchingEyes"
-  aria-hidden="true"
->
+<div id="watchingEyes" aria-hidden="true">
   <span class="eye left"></span>
   <span class="eye right"></span>
 </div>
-
-<!-- A new complete feather SVG is inserted here every time -->
-<div
-  id="feather"
-  aria-hidden="true"
-></div>
 
 <div id="mist" aria-hidden="true">
   <div class="mistCloud one"></div>
@@ -1007,11 +567,7 @@ button:disabled{
   <span class="body"></span>
 </div>
 
-<svg
-  id="mirrorCrack"
-  viewBox="0 0 180 240"
-  aria-hidden="true"
->
+<svg id="mirrorCrack" viewBox="0 0 180 240" aria-hidden="true">
   <path d="M92 12 L89 52 L105 72 L91 96 L100 121 L82 143 L88 171 L71 198 L74 232"/>
   <path d="M90 53 L62 35 L48 18"/>
   <path d="M104 72 L134 58 L157 40"/>
@@ -1024,18 +580,13 @@ button:disabled{
 <div id="scanlines" aria-hidden="true"></div>
 
 <main id="page">
-
   <h1>ONE WISH</h1>
 
   <div>
-    <span id="output"></span>
-    <span id="cursor"></span>
+    <span id="output"></span><span id="cursor"></span>
   </div>
 
-  <section
-    id="wishArea"
-    class="hidden"
-  >
+  <section id="wishArea" class="hidden">
     <div id="wishWrap">
       <textarea
         id="wish"
@@ -1044,575 +595,124 @@ button:disabled{
       ></textarea>
     </div>
 
-    <button id="seal">
-      SEAL MY WISH
-    </button>
+    <button id="seal">SEAL MY WISH</button>
 
     <p class="notice">
-      Submit only the words of your wish.
-      Do not include your name, email,
-      phone number, location, or other
-      personal information.
+      Submit only the words of your wish. Do not include your name,
+      email, phone number, location, or other personal information.
     </p>
   </section>
 
-  <button
-    id="secondWishButton"
-    class="hidden"
-  >
+  <button id="secondWishButton" class="hidden">
     ONE WISH REMAINS... IF YOU DARE
   </button>
-
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL =
-  "https://qchdhrxniqpwcwtxkrgz.supabase.co";
+const SUPABASE_URL="https://qchdhrxniqpwcwtxkrgz.supabase.co";
+const SUPABASE_KEY="sb_publishable_lYRHZV7dGb74UBYmfPTdbg_-RTlhzeO";
 
-const SUPABASE_KEY =
-  "sb_publishable_lYRHZV7dGb74UBYmfPTdbg_-RTlhzeO";
+const supabaseClient=window.supabase
+  ? window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
+  : null;
 
-const supabaseClient =
-  window.supabase
-    ? window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      )
-    : null;
+const output=document.getElementById("output");
+const cursor=document.getElementById("cursor");
+const page=document.getElementById("page");
+const wishArea=document.getElementById("wishArea");
+const seal=document.getElementById("seal");
+const wish=document.getElementById("wish");
+const secondWishButton=document.getElementById("secondWishButton");
+const watchingEyes=document.getElementById("watchingEyes");
+const hawkShadow=document.getElementById("hawkShadow");
+const mistSymbol=document.getElementById("mistSymbol");
+const mirrorCrack=document.getElementById("mirrorCrack");
 
-const output =
-  document.getElementById("output");
+const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+const randomFrom=list=>list[Math.floor(Math.random()*list.length)];
 
-const cursor =
-  document.getElementById("cursor");
-
-const page =
-  document.getElementById("page");
-
-const wishArea =
-  document.getElementById("wishArea");
-
-const seal =
-  document.getElementById("seal");
-
-const wish =
-  document.getElementById("wish");
-
-const secondWishButton =
-  document.getElementById("secondWishButton");
-
-const feather =
-  document.getElementById("feather");
-
-const watchingEyes =
-  document.getElementById("watchingEyes");
-
-const hawkShadow =
-  document.getElementById("hawkShadow");
-
-const mistSymbol =
-  document.getElementById("mistSymbol");
-
-const mirrorCrack =
-  document.getElementById("mirrorCrack");
-
-const sleep = milliseconds =>
-  new Promise(resolve =>
-    setTimeout(resolve,milliseconds)
-  );
-
-const randomFrom = list =>
-  list[
-    Math.floor(Math.random() * list.length)
-  ];
-
-let wishNumber = 1;
-let processing = false;
-let lastFeatherIndex = -1;
-
-/* ---------- FIVE COMPLETELY DIFFERENT FEATHERS ---------- */
-
-const featherDesigns = [
-
-/* 1. LONG HAWK FLIGHT FEATHER */
-`
-<svg viewBox="0 0 170 340">
-  <defs>
-    <linearGradient id="activeFeatherGradient" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#effff2"/>
-      <stop offset=".24" stop-color="#adffb8"/>
-      <stop offset=".62" stop-color="#397c47"/>
-      <stop offset="1" stop-color="#061007"/>
-    </linearGradient>
-
-    <linearGradient id="activeShaftGradient" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset=".55" stop-color="#aaffb4"/>
-      <stop offset="1" stop-color="#385c3d"/>
-    </linearGradient>
-  </defs>
-
-  <path class="vane"
-    d="M105 10
-       C78 18 51 40 36 72
-       L29 92
-       L39 88
-       L26 109
-       L39 104
-       L27 127
-       L42 120
-       L31 145
-       L46 137
-       L36 163
-       L51 154
-       L42 181
-       L57 170
-       L49 198
-       L63 186
-       L56 215
-       L70 202
-       L66 230
-       L79 216
-       L77 246
-       C91 220 102 195 113 168
-       C128 131 142 86 133 48
-       C129 29 119 15 105 10 Z"/>
-
-  <path class="shaft"
-    d="M73 326
-       C79 274 88 223 98 175
-       C106 137 114 99 120 60
-       C122 45 124 32 126 23"/>
-
-  <path class="barb" d="M99 168 C76 159 55 146 37 132"/>
-  <path class="barb-dark" d="M96 183 C74 178 57 169 42 158"/>
-  <path class="barb" d="M92 199 C72 198 58 193 48 187"/>
-  <path class="barb-dark" d="M89 216 C72 221 61 222 53 220"/>
-  <path class="barb" d="M86 233 C73 243 65 248 59 251"/>
-
-  <path class="barb" d="M103 151 C119 138 131 124 139 110"/>
-  <path class="barb-dark" d="M107 131 C123 115 133 100 138 86"/>
-  <path class="barb" d="M111 111 C126 94 134 78 136 64"/>
-  <path class="barb-dark" d="M115 89 C127 74 132 61 132 49"/>
-
-  <path class="marking" d="M52 113 C70 122 81 127 104 130"/>
-  <path class="marking" d="M45 153 C63 162 76 165 96 167"/>
-</svg>
-`,
-
-/* 2. BLACK CROW FEATHER */
-`
-<svg viewBox="0 0 175 340">
-  <defs>
-    <linearGradient id="activeFeatherGradient" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#d8ffe0"/>
-      <stop offset=".2" stop-color="#60b66f"/>
-      <stop offset=".52" stop-color="#16351d"/>
-      <stop offset="1" stop-color="#010401"/>
-    </linearGradient>
-
-    <linearGradient id="activeShaftGradient" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#dffff0"/>
-      <stop offset=".45" stop-color="#63c873"/>
-      <stop offset="1" stop-color="#182d1b"/>
-    </linearGradient>
-  </defs>
-
-  <path class="vane"
-    d="M87 8
-       C55 22 30 55 23 94
-       L34 88
-       L22 112
-       L37 104
-       L26 132
-       L43 122
-       L32 151
-       L49 141
-       L39 172
-       L55 160
-       L47 190
-       L62 178
-       L56 209
-       L70 195
-       L66 226
-       L79 211
-       L78 245
-       C94 224 108 201 119 175
-       C136 136 145 90 132 49
-       C124 24 105 8 87 8 Z"/>
-
-  <path class="shaft"
-    d="M76 329
-       C80 277 85 227 91 183
-       C97 139 102 96 106 54
-       C107 39 108 25 108 17"/>
-
-  <path class="barb-dark" d="M91 183 C67 174 48 162 33 149"/>
-  <path class="barb" d="M89 199 C68 194 52 187 41 178"/>
-  <path class="barb-dark" d="M87 216 C69 217 56 214 47 209"/>
-  <path class="barb" d="M84 234 C70 240 60 243 54 243"/>
-
-  <path class="barb" d="M94 164 C115 149 129 134 138 117"/>
-  <path class="barb-dark" d="M97 142 C118 126 131 108 137 91"/>
-  <path class="barb" d="M100 119 C119 102 130 84 133 68"/>
-  <path class="barb-dark" d="M103 94 C117 78 124 62 125 48"/>
-
-  <path class="marking" d="M40 111 C61 124 77 129 98 130"/>
-  <path class="marking" d="M36 150 C58 161 72 165 93 165"/>
-  <path class="marking" d="M48 190 C63 196 73 198 88 198"/>
-</svg>
-`,
-
-/* 3. WIDE OWL FEATHER */
-`
-<svg viewBox="0 0 190 335">
-  <defs>
-    <linearGradient id="activeFeatherGradient" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f4fff5"/>
-      <stop offset=".3" stop-color="#c2ffca"/>
-      <stop offset=".65" stop-color="#659b6d"/>
-      <stop offset="1" stop-color="#101b11"/>
-    </linearGradient>
-
-    <linearGradient id="activeShaftGradient" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset=".55" stop-color="#c9ffd0"/>
-      <stop offset="1" stop-color="#4c6650"/>
-    </linearGradient>
-  </defs>
-
-  <path class="vane"
-    d="M96 11
-       C57 19 29 49 19 88
-       C12 116 17 144 31 166
-       L21 177
-       L39 178
-       L30 194
-       L48 191
-       L42 208
-       L59 202
-       L56 221
-       L72 212
-       L72 236
-       C83 219 94 200 104 180
-       C122 143 145 98 141 58
-       C139 30 119 12 96 11 Z"/>
-
-  <path class="shaft"
-    d="M75 322
-       C82 272 91 224 101 180
-       C111 137 120 96 128 54
-       C130 41 132 29 132 21"/>
-
-  <path class="barb" d="M101 180 C76 172 54 160 34 144"/>
-  <path class="barb-dark" d="M97 197 C75 193 57 184 43 174"/>
-  <path class="barb" d="M93 214 C73 214 58 210 47 205"/>
-  <path class="barb-dark" d="M89 231 C73 236 62 238 54 237"/>
-
-  <path class="barb" d="M106 160 C125 146 138 132 147 116"/>
-  <path class="barb-dark" d="M111 138 C130 123 142 106 147 90"/>
-  <path class="barb" d="M116 115 C133 99 143 82 145 66"/>
-  <path class="barb-dark" d="M121 91 C134 76 140 61 139 48"/>
-
-  <path class="marking" d="M35 104 C57 116 78 122 111 122"/>
-  <path class="marking" d="M30 141 C54 153 76 158 103 158"/>
-  <path class="marking" d="M43 178 C61 187 76 190 96 191"/>
-</svg>
-`,
-
-/* 4. NARROW SPEAR FEATHER */
-`
-<svg viewBox="0 0 155 350">
-  <defs>
-    <linearGradient id="activeFeatherGradient" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset=".3" stop-color="#9effac"/>
-      <stop offset=".67" stop-color="#28733a"/>
-      <stop offset="1" stop-color="#020703"/>
-    </linearGradient>
-
-    <linearGradient id="activeShaftGradient" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset=".5" stop-color="#93ffa3"/>
-      <stop offset="1" stop-color="#315c38"/>
-    </linearGradient>
-  </defs>
-
-  <path class="vane"
-    d="M93 7
-       C74 18 56 40 46 67
-       L38 91
-       L47 86
-       L37 111
-       L49 104
-       L39 132
-       L52 123
-       L43 152
-       L56 142
-       L48 173
-       L61 161
-       L55 192
-       L68 180
-       L63 212
-       L75 198
-       L72 231
-       L83 216
-       L82 250
-       C94 225 104 200 113 171
-       C126 130 135 82 121 42
-       C114 22 104 10 93 7 Z"/>
-
-  <path class="shaft"
-    d="M78 339
-       C82 281 87 228 93 179
-       C98 132 103 88 107 49
-       C109 32 110 21 111 15"/>
-
-  <path class="barb" d="M93 179 C75 168 58 155 44 141"/>
-  <path class="barb-dark" d="M91 197 C74 190 61 181 50 172"/>
-  <path class="barb" d="M89 215 C73 212 62 207 54 201"/>
-  <path class="barb-dark" d="M87 233 C74 235 65 234 59 232"/>
-
-  <path class="barb" d="M96 160 C111 145 121 131 127 116"/>
-  <path class="barb-dark" d="M99 138 C114 122 123 106 126 91"/>
-  <path class="barb" d="M102 114 C115 98 122 82 123 68"/>
-  <path class="barb-dark" d="M104 89 C114 75 119 62 118 50"/>
-</svg>
-`,
-
-/* 5. SOFT DOWN FEATHER */
-`
-<svg viewBox="0 0 220 310">
-  <defs>
-    <linearGradient id="activeFeatherGradient" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset=".3" stop-color="#d7ffdc"/>
-      <stop offset=".65" stop-color="#78b980"/>
-      <stop offset="1" stop-color="#102014"/>
-    </linearGradient>
-
-    <linearGradient id="activeShaftGradient" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset=".5" stop-color="#c0ffc8"/>
-      <stop offset="1" stop-color="#4c7051"/>
-    </linearGradient>
-  </defs>
-
-  <path class="shaft"
-    d="M103 298
-       C104 258 106 217 109 175
-       C111 138 114 103 118 70"/>
-
-  <path class="barb" d="M109 174 C75 160 46 137 25 110"/>
-  <path class="barb" d="M108 187 C70 180 42 162 20 141"/>
-  <path class="barb-dark" d="M107 201 C73 201 47 190 25 174"/>
-  <path class="barb" d="M106 216 C77 224 51 218 31 209"/>
-  <path class="barb-dark" d="M105 231 C82 245 60 247 42 243"/>
-
-  <path class="barb" d="M111 160 C144 145 169 123 188 98"/>
-  <path class="barb-dark" d="M110 175 C149 166 179 148 199 126"/>
-  <path class="barb" d="M109 190 C145 190 174 181 197 165"/>
-  <path class="barb-dark" d="M108 205 C140 216 168 213 190 204"/>
-  <path class="barb" d="M107 221 C133 237 157 242 176 239"/>
-
-  <path class="barb" d="M113 145 C86 128 66 106 54 80"/>
-  <path class="barb-dark" d="M114 132 C142 115 161 95 174 72"/>
-  <path class="barb" d="M116 116 C94 99 80 81 72 62"/>
-  <path class="barb-dark" d="M117 103 C138 88 151 72 158 57"/>
-
-  <circle
-    cx="118"
-    cy="71"
-    r="9"
-    fill="rgba(190,255,201,.42)"
-  />
-</svg>
-`
-
-];
-
-function chooseNewFeather(){
-  let index =
-    Math.floor(
-      Math.random() * featherDesigns.length
-    );
-
-  while(
-    featherDesigns.length > 1 &&
-    index === lastFeatherIndex
-  ){
-    index =
-      Math.floor(
-        Math.random() * featherDesigns.length
-      );
-  }
-
-  lastFeatherIndex = index;
-
-  feather.innerHTML =
-    featherDesigns[index];
-
-  const randomSize =
-    92 + Math.floor(Math.random() * 35);
-
-  feather.style.width =
-    `${randomSize}px`;
-}
+let wishNumber=1;
+let processing=false;
 
 /* ---------- DATABASE ---------- */
 
 async function saveWish(wishText){
   if(!supabaseClient){
-    console.error(
-      "Supabase library did not load."
-    );
-
+    console.error("Supabase library did not load.");
     return false;
   }
 
   try{
-    const {error} =
-      await supabaseClient
-        .from("wishes")
-        .insert({
-          wish_text:wishText
-        });
+    const {error}=await supabaseClient
+      .from("wishes")
+      .insert({wish_text:wishText});
 
     if(error){
-      console.error(
-        "Wish submission failed:",
-        error
-      );
-
+      console.error("Wish submission failed:",error);
       return false;
     }
 
     return true;
-
   }catch(error){
-    console.error(
-      "Wish submission failed:",
-      error
-    );
-
+    console.error("Wish submission failed:",error);
     return false;
   }
 }
 
 /* ---------- VISUAL EFFECTS ---------- */
 
-function launchFeather(){
-  chooseNewFeather();
-
-  feather.classList.remove(
-    "accept",
-    "drift"
-  );
-
-  void feather.offsetWidth;
-
-  feather.classList.add("drift");
-}
-
-function acceptWishWithFeather(){
-  feather.classList.remove(
-    "drift",
-    "accept"
-  );
-
-  void feather.offsetWidth;
-
-  feather.classList.add("accept");
-}
-
 function showWatchingEyes(){
-  if(processing){
-    return;
-  }
+  if(processing)return;
 
-  watchingEyes.classList.remove(
-    "show",
-    "blink"
-  );
-
+  watchingEyes.classList.remove("show","blink");
   void watchingEyes.offsetWidth;
-
   watchingEyes.classList.add("show");
 
-  setTimeout(() => {
-    watchingEyes.classList.add("blink");
-  },1600);
-
-  setTimeout(() => {
-    watchingEyes.classList.remove("blink");
-  },1900);
-
-  setTimeout(() => {
-    watchingEyes.classList.add("blink");
-  },3300);
-
-  setTimeout(() => {
-    watchingEyes.classList.remove("blink");
-  },3550);
+  setTimeout(()=>watchingEyes.classList.add("blink"),1600);
+  setTimeout(()=>watchingEyes.classList.remove("blink"),1900);
+  setTimeout(()=>watchingEyes.classList.add("blink"),3300);
+  setTimeout(()=>watchingEyes.classList.remove("blink"),3550);
 }
 
 function scheduleEyes(){
-  const delay =
-    13000 + Math.random() * 18000;
+  const delay=13000+Math.random()*18000;
 
-  setTimeout(() => {
+  setTimeout(()=>{
     showWatchingEyes();
     scheduleEyes();
   },delay);
 }
 
 function passHawkShadow(){
-  if(processing){
-    return;
-  }
+  if(processing)return;
 
   hawkShadow.classList.remove("fly");
-
   void hawkShadow.offsetWidth;
-
   hawkShadow.classList.add("fly");
 }
 
 function scheduleHawkShadow(){
-  const delay =
-    35000 + Math.random() * 55000;
+  const delay=35000+Math.random()*55000;
 
-  setTimeout(() => {
+  setTimeout(()=>{
     passHawkShadow();
     scheduleHawkShadow();
   },delay);
 }
 
 function formMistSymbol(){
-  mistSymbol.textContent =
-    randomFrom([
-      "✦",
-      "☽",
-      "◇",
-      "ᚱ",
-      "ᛟ",
-      "𓅃"
-    ]);
-
+  mistSymbol.textContent=randomFrom(["✦","☽","◇","ᚱ","ᛟ","𓅃"]);
   mistSymbol.classList.remove("show");
-
   void mistSymbol.offsetWidth;
-
   mistSymbol.classList.add("show");
 }
 
 function scheduleMistSymbol(){
-  const delay =
-    18000 + Math.random() * 28000;
+  const delay=18000+Math.random()*28000;
 
-  setTimeout(() => {
+  setTimeout(()=>{
     formMistSymbol();
     scheduleMistSymbol();
   },delay);
@@ -1620,269 +720,148 @@ function scheduleMistSymbol(){
 
 function revealMirrorCrack(){
   mirrorCrack.classList.remove("reveal");
-
   void mirrorCrack.offsetWidth;
-
   mirrorCrack.classList.add("reveal");
 }
 
 async function dissolveInk(){
   wish.classList.add("ink-awake");
-
   await sleep(650);
-
   wish.classList.remove("ink-awake");
   wish.classList.add("ink-dissolve");
-
   await sleep(1350);
-
   wish.classList.remove("ink-dissolve");
 }
 
 /* ---------- PARTICLES ---------- */
 
-const canvas =
-  document.getElementById("particleCanvas");
-
-const context =
-  canvas.getContext("2d");
-
-let particles = [];
+const canvas=document.getElementById("particleCanvas");
+const context=canvas.getContext("2d");
+let particles=[];
 
 function resizeCanvas(){
-  const ratio =
-    Math.min(
-      window.devicePixelRatio || 1,
-      2
-    );
+  const ratio=Math.min(window.devicePixelRatio||1,2);
 
-  canvas.width =
-    Math.floor(
-      window.innerWidth * ratio
-    );
+  canvas.width=Math.floor(window.innerWidth*ratio);
+  canvas.height=Math.floor(window.innerHeight*ratio);
+  canvas.style.width=window.innerWidth+"px";
+  canvas.style.height=window.innerHeight+"px";
 
-  canvas.height =
-    Math.floor(
-      window.innerHeight * ratio
-    );
-
-  canvas.style.width =
-    window.innerWidth + "px";
-
-  canvas.style.height =
-    window.innerHeight + "px";
-
-  context.setTransform(
-    ratio,
-    0,
-    0,
-    ratio,
-    0,
-    0
-  );
+  context.setTransform(ratio,0,0,ratio,0,0);
 }
 
 function createParticle(){
   return{
-    x:
-      Math.random() *
-      window.innerWidth,
-
-    y:
-      window.innerHeight +
-      Math.random() * 80,
-
-    radius:
-      .6 + Math.random() * 1.8,
-
-    speed:
-      .15 + Math.random() * .55,
-
-    drift:
-      (Math.random() - .5) * .35,
-
-    alpha:
-      .15 + Math.random() * .55,
-
-    pulse:
-      Math.random() * Math.PI * 2,
-
-    targetChance:
-      Math.random() < .08
+    x:Math.random()*window.innerWidth,
+    y:window.innerHeight+Math.random()*80,
+    radius:.6+Math.random()*1.8,
+    speed:.15+Math.random()*.55,
+    drift:(Math.random()-.5)*.35,
+    alpha:.15+Math.random()*.55,
+    pulse:Math.random()*Math.PI*2,
+    targetChance:Math.random()<.08
   };
 }
 
 function resetParticle(particle){
-  Object.assign(
-    particle,
-    createParticle()
-  );
+  Object.assign(particle,createParticle());
 }
 
 function animateParticles(){
-  context.clearRect(
-    0,
-    0,
-    window.innerWidth,
-    window.innerHeight
-  );
+  context.clearRect(0,0,window.innerWidth,window.innerHeight);
 
-  const box =
-    wish.getBoundingClientRect();
+  const box=wish.getBoundingClientRect();
 
   for(const particle of particles){
-    particle.pulse += .025;
-    particle.y -= particle.speed;
-
-    particle.x +=
-      particle.drift +
-      Math.sin(particle.pulse) * .08;
+    particle.pulse+=.025;
+    particle.y-=particle.speed;
+    particle.x+=particle.drift+Math.sin(particle.pulse)*.08;
 
     if(
       particle.targetChance &&
       !wishArea.classList.contains("hidden") &&
-      box.width > 0
+      box.width>0
     ){
-      const targetX =
-        box.left + box.width / 2;
+      const targetX=box.left+box.width/2;
+      const targetY=box.top+box.height/2;
 
-      const targetY =
-        box.top + box.height / 2;
-
-      particle.x +=
-        (targetX - particle.x) * .0007;
-
-      particle.y +=
-        (targetY - particle.y) * .0003;
+      particle.x+=(targetX-particle.x)*.0007;
+      particle.y+=(targetY-particle.y)*.0003;
     }
 
     if(
-      particle.y < -20 ||
-      particle.x < -30 ||
-      particle.x >
-        window.innerWidth + 30
+      particle.y<-20 ||
+      particle.x<-30 ||
+      particle.x>window.innerWidth+30
     ){
       resetParticle(particle);
     }
 
-    const glow =
-      particle.alpha *
-      (
-        .7 +
-        .3 * Math.sin(particle.pulse)
-      );
+    const glow=particle.alpha*(.7+.3*Math.sin(particle.pulse));
 
     context.beginPath();
-
-    context.arc(
-      particle.x,
-      particle.y,
-      particle.radius,
-      0,
-      Math.PI * 2
-    );
-
-    context.fillStyle =
-      `rgba(124,255,137,${glow})`;
-
-    context.shadowBlur = 8;
-
-    context.shadowColor =
-      "rgba(124,255,137,.65)";
-
+    context.arc(particle.x,particle.y,particle.radius,0,Math.PI*2);
+    context.fillStyle=`rgba(124,255,137,${glow})`;
+    context.shadowBlur=8;
+    context.shadowColor="rgba(124,255,137,.65)";
     context.fill();
   }
 
-  context.shadowBlur = 0;
-
-  requestAnimationFrame(
-    animateParticles
-  );
+  context.shadowBlur=0;
+  requestAnimationFrame(animateParticles);
 }
 
 function startParticles(){
   resizeCanvas();
 
-  const count =
-    Math.min(
-      90,
-      Math.max(
-        38,
-        Math.floor(
-          window.innerWidth / 14
-        )
-      )
-    );
+  const count=Math.min(
+    90,
+    Math.max(38,Math.floor(window.innerWidth/14))
+  );
 
-  particles =
-    Array.from(
-      {length:count},
-      createParticle
-    );
-
+  particles=Array.from({length:count},createParticle);
   animateParticles();
 }
 
-window.addEventListener(
-  "resize",
-  resizeCanvas
-);
+window.addEventListener("resize",resizeCanvas);
 
 /* ---------- TEXT HELPERS ---------- */
 
-async function typeText(
-  text,
-  speed = 32
-){
+async function typeText(text,speed=32){
   cursor.classList.remove("hidden");
 
   for(const character of text){
-    output.textContent += character;
-
-    await sleep(
-      character === "\n"
-        ? 100
-        : speed
-    );
+    output.textContent+=character;
+    await sleep(character==="\n"?100:speed);
   }
 }
 
 function clearOutput(){
-  output.textContent = "";
+  output.textContent="";
   output.classList.remove("rare");
 }
 
 function subtleFlicker(){
   page.classList.remove("flicker");
-
   void page.offsetWidth;
-
   page.classList.add("flicker");
 }
 
-function occasionalGlitch(
-  chance = .16
-){
-  if(Math.random() < chance){
+function occasionalGlitch(chance=.16){
+  if(Math.random()<chance){
     output.classList.remove("glitch");
-
     void output.offsetWidth;
-
     output.classList.add("glitch");
   }
 }
 
 /* ---------- LOCAL MEMORY ---------- */
 
-const MEMORY_KEY =
-  "oneWishSeenPhrasesV9";
+const MEMORY_KEY="oneWishSeenPhrasesV10";
 
 function loadMemory(){
   try{
-    return JSON.parse(
-      localStorage.getItem(MEMORY_KEY)
-    ) || {};
-
+    return JSON.parse(localStorage.getItem(MEMORY_KEY))||{};
   }catch{
     return {};
   }
@@ -1890,90 +869,59 @@ function loadMemory(){
 
 function saveMemory(memory){
   try{
-    localStorage.setItem(
-      MEMORY_KEY,
-      JSON.stringify(memory)
-    );
-
+    localStorage.setItem(MEMORY_KEY,JSON.stringify(memory));
   }catch{}
 }
 
-function randomUnseen(
-  category,
-  list
-){
-  if(
-    !Array.isArray(list) ||
-    list.length === 0
-  ){
-    return "";
+function randomUnseen(category,list){
+  if(!Array.isArray(list)||list.length===0)return "";
+
+  const memory=loadMemory();
+  const seen=Array.isArray(memory[category])?memory[category]:[];
+
+  let available=list
+    .map((item,index)=>({item,index}))
+    .filter(entry=>!seen.includes(entry.index));
+
+  if(available.length===0){
+    memory[category]=[];
+    available=list.map((item,index)=>({item,index}));
   }
 
-  const memory = loadMemory();
+  const chosen=randomFrom(available);
 
-  const seen =
-    Array.isArray(memory[category])
-      ? memory[category]
-      : [];
-
-  let available =
-    list
-      .map((item,index) => ({
-        item,
-        index
-      }))
-      .filter(entry =>
-        !seen.includes(entry.index)
-      );
-
-  if(available.length === 0){
-    memory[category] = [];
-
-    available =
-      list.map((item,index) => ({
-        item,
-        index
-      }));
-  }
-
-  const chosen =
-    randomFrom(available);
-
-  memory[category] = [
-    ...(memory[category] || []),
+  memory[category]=[
+    ...(memory[category]||[]),
     chosen.index
   ];
 
   saveMemory(memory);
-
   return chosen.item;
 }
 
 /* ---------- MESSAGE LIBRARIES ---------- */
 
-const introMessages = [
+const introMessages=[
   [
     "Connection established...",
     "",
-    "The Feather watches.",
+    "The Keeper watches.",
     "The Hawk waits.",
     "",
     "You have been granted one wish.",
     "Choose carefully.",
     "Not every wish asks the same price."
   ],
-
   [
     "A path has opened...",
     "",
     "Something beyond the page is listening.",
-    "The Feather has not yet fallen.",
+    "The threshold has not yet closed.",
     "",
     "One wish may now be written.",
     "Do not waste what was given.",
     "Some doors remember who opened them."
   ],
-
   [
     "The signal has crossed...",
     "",
@@ -1984,12 +932,11 @@ const introMessages = [
     "Write only what you are prepared to release.",
     "The silence will decide what follows."
   ],
-
   [
     "The threshold is awake...",
     "",
-    "The Feather waits between two worlds.",
     "The old chamber has opened.",
+    "The Hawk waits between two worlds.",
     "",
     "One wish has been permitted.",
     "Speak through ink, not through fear.",
@@ -1997,30 +944,25 @@ const introMessages = [
   ]
 ];
 
-const receivingMessages = [
+const receivingMessages=[
   "Receiving...\nReading...\n",
-
   "The signal has been received...\nInterpreting the seal...\n",
-
-  "The Feather is listening...\nThe words are crossing...\n",
-
-  "The threshold is open...\nYour words are entering...\n",
-
+  "The threshold is listening...\nThe words are crossing...\n",
+  "The chamber is open...\nYour words are entering...\n",
   "The Hawk has turned...\nThe Keeper is reading...\n",
-
-  "The ink has begun to move...\nThe chamber is listening...\n"
+  "The ink has begun to move...\nThe silence is listening...\n"
 ];
 
-const sealedMessages = [
+const sealedMessages=[
   "The Ink Has Dried.",
   "The Seal Has Closed.",
-  "The Feather Has Taken Your Words.",
+  "The Keeper Has Taken Your Words.",
   "The Threshold Has Accepted the Offering.",
   "The Ledger Has Been Marked.",
   "The Wish Has Left Your Hands."
 ];
 
-const firstOpenings = [
+const firstOpenings=[
   "Your wish has crossed the threshold.",
   "The message you sealed has reached the Keeper.",
   "The desire you carried has entered the black mirror.",
@@ -2028,7 +970,7 @@ const firstOpenings = [
   "The thing you dared to ask has found the listening door."
 ];
 
-const firstHopeful = [
+const firstHopeful=[
   "A quiet change may already be moving toward you.",
   "The first sign may rise from an ordinary moment.",
   "A forgotten road may open where the path once ended.",
@@ -2036,7 +978,7 @@ const firstHopeful = [
   "What you nearly abandoned may be nearer than you believe."
 ];
 
-const firstMystery = [
+const firstMystery=[
   "Do not repeat the wish aloud.",
   "Never ask the silence what it heard.",
   "Do not mistake every accident for an answer.",
@@ -2044,15 +986,15 @@ const firstMystery = [
   "Trust no sign that asks for harm."
 ];
 
-const firstClosings = [
+const firstClosings=[
   "Now walk carefully.",
   "From this hour forward, keep your silence.",
   "Until the first sign, watch what changes.",
   "Do not force the path.",
-  "Wait without calling the Feather again."
+  "Wait without calling the Keeper again."
 ];
 
-const secondOpenings = [
+const secondOpenings=[
   "Your second wish has crossed the threshold.",
   "The final request has entered the deeper chamber.",
   "The second seal has awakened the final door.",
@@ -2060,15 +1002,15 @@ const secondOpenings = [
   "The final line of ink has been marked where no third may be written."
 ];
 
-const secondWarnings = [
+const secondWarnings=[
   "One wish was the gift; the second belongs to your hunger.",
   "The first wish carried hope; the second carries consequence.",
   "You were offered enough; the balance has noticed you asked again.",
-  "The Feather answered once; nothing offered twice remains innocent.",
+  "The Keeper answered once; nothing offered twice remains innocent.",
   "The second wish has awakened the debt."
 ];
 
-const secondMystery = [
+const secondMystery=[
   "A familiar road may no longer lead where it once did.",
   "The next reflection may carry the second sign.",
   "The first answer may reveal the cost before the gift.",
@@ -2076,7 +1018,7 @@ const secondMystery = [
   "Your own words may return in another voice."
 ];
 
-const secondClosings = [
+const secondClosings=[
   "There will be no third wish.",
   "The old rite permits no further asking.",
   "The final ledger accepts no correction.",
@@ -2084,69 +1026,61 @@ const secondClosings = [
   "The silence is now in command."
 ];
 
-const secondWishButtons = [
+const secondWishButtons=[
   "ONE WISH SHOULD HAVE BEEN ENOUGH... WILL YOU ASK AGAIN?",
-  "THE FEATHER STILL LISTENS... IF YOU DARE.",
+  "THE SILENCE STILL LISTENS... IF YOU DARE.",
   "THE FIRST WAS A GIFT... WILL YOU TEST THE BALANCE?",
   "THE DOOR REMAINS OPEN... KNOWING THERE WILL BE NO THIRD?",
-  "WILL YOU CALL THE FEATHER BACK?"
+  "WILL YOU CALL THE KEEPER BACK?"
 ];
 
-const greedWarnings = [
+const greedWarnings=[
   "You were given one wish.\nYet you remained before the door.\nMay the second wish be worth what follows.",
-
-  "The Feather answered you once.\nStill, you called it back.\nThere will be no third request.",
-
+  "The Keeper answered you once.\nStill, you called again.\nThere will be no third request.",
   "The first seal was already accepted.\nYet curiosity overcame the warning.\nThe balance will remember this choice.",
-
   "Enough was placed within your reach.\nStill, you asked for more.\nAfter this, only consequences remain."
 ];
 
-const returnOpenings = [
+const returnOpenings=[
   "You have chosen to return...",
-  "The Feather heard your footsteps again...",
+  "The Keeper heard your footsteps again...",
   "The door was almost closed...",
   "The silence did not expect your return...",
   "The Hawk had begun to turn away..."
 ];
 
-const finalWishNotices = [
+const finalWishNotices=[
   "One final wish remains.",
   "The final line is now yours.",
   "A second and final wish may be written.",
   "Write the final wish before the door closes."
 ];
 
-const challenges = [
+const challenges=[
   "Carry three pennies until sunset.\nDo not explain the act to anyone.\nWhen finished, walk away without looking back.",
-
   "Place a glass of water beside your bed tonight.\nLet silence accompany you.\nAt sunrise, return the water to the earth.",
-
   "Keep a small stone in your pocket for five hours.\nDo not search for a sign.\nWhen complete, leave it beneath the open sky.",
-
   "Stand beneath the open sky for one quiet minute.\nDo not repeat the wish aloud.\nBefore sleep, name one thing you are willing to protect."
 ];
 
-const finalHeadings = [
+const finalHeadings=[
   "THE FINAL TASK",
   "THE LAST INSTRUCTION",
-  "WHAT THE FEATHER REQUIRES",
+  "WHAT THE KEEPER REQUIRES",
   "THE CLOSING RITE"
 ];
 
-const finalEndings = [
+const finalEndings=[
   [
-    "The Feather has fallen silent.",
+    "The chamber has fallen silent.",
     "There will be no third wish.",
     "Hopefully you know what door you just opened."
   ],
-
   [
     "The final page has been closed.",
     "Do not return asking for another wish.",
     "The balance has begun to remember."
   ],
-
   [
     "The Keeper has ended the rite.",
     "No third request exists here.",
@@ -2155,30 +1089,18 @@ const finalEndings = [
 ];
 
 function rareEvent(){
-  const roll =
-    Math.floor(
-      Math.random() * 5000
-    ) + 1;
+  const roll=Math.floor(Math.random()*5000)+1;
 
-  if(roll === 1){
-    return (
-      "RARE SIGN 1/5000\n" +
-      "The Keeper has noticed your return."
-    );
+  if(roll===1){
+    return "RARE SIGN 1/5000\nThe Keeper has noticed your return.";
   }
 
-  if(roll <= 5){
-    return (
-      "RARE SIGN 1/1000\n" +
-      "The Hawk has already visited the path ahead."
-    );
+  if(roll<=5){
+    return "RARE SIGN 1/1000\nThe Hawk has already visited the path ahead.";
   }
 
-  if(roll <= 10){
-    return (
-      "RARE SIGN 1/500\n" +
-      "The Feather refused to fall."
-    );
+  if(roll<=10){
+    return "RARE SIGN 1/500\nThe threshold refused to close.";
   }
 
   return "";
@@ -2186,279 +1108,127 @@ function rareEvent(){
 
 /* ---------- WISH THEMES ---------- */
 
-const wishThemes = [
+const wishThemes=[
   {
-    words:[
-      "money",
-      "rich",
-      "wealth",
-      "cash",
-      "debt",
-      "rent",
-      "bill",
-      "financial"
-    ],
-
+    words:["money","rich","wealth","cash","debt","rent","bill","financial"],
     lines:[
-      "The Feather now carries a desire tied to fortune.",
+      "The Keeper now carries a desire tied to fortune.",
       "Your wish has entered the chamber where fortune changes hands."
     ]
   },
-
   {
-    words:[
-      "love",
-      "relationship",
-      "marriage",
-      "husband",
-      "wife",
-      "boyfriend",
-      "girlfriend",
-      "partner"
-    ],
-
+    words:["love","relationship","marriage","husband","wife","boyfriend","girlfriend","partner"],
     lines:[
-      "The Feather now carries a desire of the heart.",
-      "The Keeper has received a wish shaped by affection."
+      "The Keeper now carries a desire of the heart.",
+      "The chamber has received a wish shaped by affection."
     ]
   },
-
   {
-    words:[
-      "job",
-      "work",
-      "career",
-      "promotion",
-      "business",
-      "employment",
-      "company",
-      "boss"
-    ],
-
+    words:["job","work","career","promotion","business","employment","company","boss"],
     lines:[
-      "The Feather now carries a desire tied to purpose and labor.",
+      "The Keeper now carries a desire tied to purpose and labor.",
       "Your wish now travels beside doors of opportunity."
     ]
   },
-
   {
-    words:[
-      "home",
-      "house",
-      "apartment",
-      "move",
-      "moving",
-      "room",
-      "renting"
-    ],
-
+    words:["home","house","apartment","move","moving","room","renting"],
     lines:[
-      "The Feather now carries a desire for shelter and belonging.",
+      "The Keeper now carries a desire for shelter and belonging.",
       "Your request now travels toward an uncertain doorway."
     ]
   },
-
   {
-    words:[
-      "health",
-      "heal",
-      "healing",
-      "sick",
-      "pain",
-      "illness",
-      "recover"
-    ],
-
+    words:["health","heal","healing","sick","pain","illness","recover"],
     lines:[
-      "The Feather now carries a desire for restoration.",
+      "The Keeper now carries a desire for restoration.",
       "Your request now rests in the chamber of recovery."
     ]
   },
-
   {
-    words:[
-      "family",
-      "daughter",
-      "son",
-      "mother",
-      "father",
-      "child",
-      "children"
-    ],
-
+    words:["family","daughter","son","mother","father","child","children"],
     lines:[
-      "The Feather now carries a desire bound to family.",
+      "The Keeper now carries a desire bound to family.",
       "The seal has accepted a wish concerning someone you protect."
     ]
   },
-
   {
-    words:[
-      "travel",
-      "trip",
-      "flight",
-      "journey",
-      "vacation",
-      "island",
-      "road"
-    ],
-
+    words:["travel","trip","flight","journey","vacation","island","road"],
     lines:[
-      "The Feather now carries a desire tied to the road ahead.",
+      "The Keeper now carries a desire tied to the road ahead.",
       "Your request now travels toward another horizon."
     ]
   },
-
   {
-    words:[
-      "peace",
-      "calm",
-      "stress",
-      "fear",
-      "anxiety",
-      "quiet",
-      "safe"
-    ],
-
+    words:["peace","calm","stress","fear","anxiety","quiet","safe"],
     lines:[
-      "The Feather now carries a desire for quiet within.",
+      "The Keeper now carries a desire for quiet within.",
       "Your request now rests where fear begins to loosen."
     ]
   }
 ];
 
-const generalThemeLines = [
-  "The Feather now carries the shape of your desire.",
+const generalThemeLines=[
+  "The Keeper now carries the shape of your desire.",
   "Your intention has entered the waiting place.",
   "The silence has understood enough.",
   "The path has accepted what you could not leave unspoken."
 ];
 
 function wishTheme(text){
-  const lower =
-    text.toLowerCase();
+  const lower=text.toLowerCase();
 
   for(const theme of wishThemes){
-    if(
-      theme.words.some(word =>
-        lower.includes(word)
-      )
-    ){
+    if(theme.words.some(word=>lower.includes(word))){
       return randomFrom(theme.lines);
     }
   }
 
-  return randomFrom(
-    generalThemeLines
-  );
+  return randomFrom(generalThemeLines);
 }
 
 /* ---------- MESSAGE BUILDERS ---------- */
 
 function makeJourneyCode(){
-  const letters =
-    "ABCDEFGHJKLMNPQRSTUVWXYZ";
+  const letters="ABCDEFGHJKLMNPQRSTUVWXYZ";
+  const words=["HAWK","MIRROR","INK","DOOR","SHADOW","ECHO","PATH","SEAL","MOON","LEDGER"];
 
-  const words = [
-    "HAWK",
-    "FEATHER",
-    "MIRROR",
-    "INK",
-    "DOOR",
-    "SHADOW",
-    "ECHO",
-    "PATH",
-    "SEAL",
-    "MOON"
-  ];
+  const letter=letters[Math.floor(Math.random()*letters.length)];
+  const number=Math.floor(Math.random()*900)+100;
 
-  const letter =
-    letters[
-      Math.floor(
-        Math.random() *
-        letters.length
-      )
-    ];
-
-  const number =
-    Math.floor(
-      Math.random() * 900
-    ) + 100;
-
-  return (
-    `${letter}${number}-${randomFrom(words)}`
-  );
+  return `${letter}${number}-${randomFrom(words)}`;
 }
 
 function firstWishMessage(wishText){
   return [
-    randomUnseen(
-      "firstOpenings",
-      firstOpenings
-    ),
-
+    randomUnseen("firstOpenings",firstOpenings),
     wishTheme(wishText),
-
-    randomUnseen(
-      "firstHopeful",
-      firstHopeful
-    ),
-
-    randomUnseen(
-      "firstMystery",
-      firstMystery
-    ),
-
-    randomUnseen(
-      "firstClosings",
-      firstClosings
-    )
+    randomUnseen("firstHopeful",firstHopeful),
+    randomUnseen("firstMystery",firstMystery),
+    randomUnseen("firstClosings",firstClosings)
   ].join("\n");
 }
 
 function secondWishMessage(wishText){
   return [
-    randomUnseen(
-      "secondOpenings",
-      secondOpenings
-    ),
-
+    randomUnseen("secondOpenings",secondOpenings),
     wishTheme(wishText),
-
-    randomUnseen(
-      "secondWarnings",
-      secondWarnings
-    ),
-
-    randomUnseen(
-      "secondMystery",
-      secondMystery
-    ),
-
-    randomUnseen(
-      "secondClosings",
-      secondClosings
-    )
+    randomUnseen("secondWarnings",secondWarnings),
+    randomUnseen("secondMystery",secondMystery),
+    randomUnseen("secondClosings",secondClosings)
   ].join("\n");
 }
 
 async function displayProcessing(){
   await typeText(
-    randomUnseen(
-      "receivingMessages",
-      receivingMessages
-    ),
+    randomUnseen("receivingMessages",receivingMessages),
     46
   );
 
   await sleep(500);
 
   await typeText(
-    "\n" +
-    randomUnseen(
-      "sealedMessages",
-      sealedMessages
-    ) +
+    "\n"+
+    randomUnseen("sealedMessages",sealedMessages)+
     "\n",
     54
   );
@@ -2470,293 +1240,189 @@ async function displayProcessing(){
 
 async function start(){
   startParticles();
-  launchFeather();
   scheduleEyes();
   scheduleHawkShadow();
   scheduleMistSymbol();
 
   await sleep(650);
 
-  const selectedIntro =
-    randomUnseen(
-      "introMessages",
-      introMessages
-    );
+  const selectedIntro=randomUnseen("introMessages",introMessages);
 
   for(const line of selectedIntro){
-    await typeText(
-      line + "\n"
-    );
-
+    await typeText(line+"\n");
     await sleep(270);
   }
 
   cursor.classList.add("hidden");
-
   wishArea.classList.remove("hidden");
-
   wish.focus();
 }
 
 /* ---------- SEAL WISH ---------- */
 
-seal.addEventListener(
-  "click",
-  async () => {
+seal.addEventListener("click",async()=>{
+  if(processing)return;
 
-    if(processing){
-      return;
-    }
+  const wishText=wish.value.trim();
 
-    const wishText =
-      wish.value.trim();
+  if(!wishText){
+    wish.placeholder=wishNumber===1
+      ?"A wish must first be written..."
+      :"Your second wish must first be written...";
 
-    if(!wishText){
-      wish.placeholder =
-        wishNumber === 1
-          ? "A wish must first be written..."
-          : "Your second wish must first be written...";
+    wish.focus();
+    return;
+  }
 
-      wish.focus();
+  processing=true;
+  seal.disabled=true;
+  wish.disabled=true;
 
-      return;
-    }
+  const wishSaved=await saveWish(wishText);
 
-    processing = true;
+  if(!wishSaved){
+    processing=false;
+    seal.disabled=false;
+    wish.disabled=false;
+    wish.placeholder="The connection could not receive your wish. Please try again...";
+    wish.focus();
+    return;
+  }
 
-    seal.disabled = true;
-    wish.disabled = true;
+  await dissolveInk();
 
-    const wishSaved =
-      await saveWish(wishText);
+  wishArea.classList.add("hidden");
+  secondWishButton.classList.add("hidden");
 
-    if(!wishSaved){
-      processing = false;
+  clearOutput();
+  subtleFlicker();
 
-      seal.disabled = false;
-      wish.disabled = false;
+  await displayProcessing();
+  occasionalGlitch(.22);
 
-      wish.placeholder =
-        "The connection could not receive your wish. Please try again...";
-
-      wish.focus();
-
-      return;
-    }
-
-    acceptWishWithFeather();
-
-    await dissolveInk();
-
-    wishArea.classList.add("hidden");
-
-    secondWishButton.classList.add(
-      "hidden"
-    );
-
-    clearOutput();
-    subtleFlicker();
-
-    await displayProcessing();
-
-    occasionalGlitch(.22);
-
-    if(wishNumber === 1){
-      await typeText(
-        "\n" +
-        firstWishMessage(wishText) +
-        "\n",
-        34
-      );
-
-      await sleep(650);
-
-      const rare =
-        rareEvent();
-
-      if(rare){
-        output.classList.add("rare");
-
-        await typeText(
-          "\n" + rare + "\n",
-          42
-        );
-      }
-
-      cursor.classList.add("hidden");
-
-      secondWishButton.textContent =
-        randomUnseen(
-          "secondWishButtons",
-          secondWishButtons
-        );
-
-      secondWishButton.disabled = false;
-
-      secondWishButton.classList.remove(
-        "hidden"
-      );
-
-      processing = false;
-
-      return;
-    }
-
+  if(wishNumber===1){
     await typeText(
-      "\n" +
-      secondWishMessage(wishText) +
-      "\n",
+      "\n"+firstWishMessage(wishText)+"\n",
       34
     );
 
-    await sleep(700);
+    await sleep(650);
 
-    const rare =
-      rareEvent();
+    const rare=rareEvent();
 
     if(rare){
       output.classList.add("rare");
-
-      await typeText(
-        "\n" + rare + "\n",
-        42
-      );
-
-      await sleep(500);
+      await typeText("\n"+rare+"\n",42);
     }
-
-    revealMirrorCrack();
-
-    const finalHeading =
-      randomUnseen(
-        "finalHeadings",
-        finalHeadings
-      );
-
-    const challenge =
-      randomUnseen(
-        "challenges",
-        challenges
-      );
-
-    const finalEnding =
-      randomUnseen(
-        "finalEndings",
-        finalEndings
-      );
-
-    await typeText(
-      "\n" +
-      finalHeading +
-      "\n\n" +
-      challenge +
-      "\n\n" +
-      "Journey Feather Code: " +
-      makeJourneyCode() +
-      "\n\n" +
-      finalEnding.join("\n") +
-      "\n",
-      38
-    );
 
     cursor.classList.add("hidden");
 
-    wishArea.classList.add("hidden");
-
-    secondWishButton.classList.add(
-      "hidden"
+    secondWishButton.textContent=randomUnseen(
+      "secondWishButtons",
+      secondWishButtons
     );
 
-    processing = false;
+    secondWishButton.disabled=false;
+    secondWishButton.classList.remove("hidden");
+
+    processing=false;
+    return;
   }
-);
+
+  await typeText(
+    "\n"+secondWishMessage(wishText)+"\n",
+    34
+  );
+
+  await sleep(700);
+
+  const rare=rareEvent();
+
+  if(rare){
+    output.classList.add("rare");
+    await typeText("\n"+rare+"\n",42);
+    await sleep(500);
+  }
+
+  revealMirrorCrack();
+
+  const finalHeading=randomUnseen("finalHeadings",finalHeadings);
+  const challenge=randomUnseen("challenges",challenges);
+  const finalEnding=randomUnseen("finalEndings",finalEndings);
+
+  await typeText(
+    "\n"+
+    finalHeading+
+    "\n\n"+
+    challenge+
+    "\n\n"+
+    "Journey Code: "+
+    makeJourneyCode()+
+    "\n\n"+
+    finalEnding.join("\n")+
+    "\n",
+    38
+  );
+
+  cursor.classList.add("hidden");
+  wishArea.classList.add("hidden");
+  secondWishButton.classList.add("hidden");
+  processing=false;
+});
 
 /* ---------- SECOND WISH ---------- */
 
-secondWishButton.addEventListener(
-  "click",
-  async () => {
+secondWishButton.addEventListener("click",async()=>{
+  if(processing||wishNumber!==1)return;
 
-    if(
-      processing ||
-      wishNumber !== 1
-    ){
-      return;
-    }
+  processing=true;
+  wishNumber=2;
 
-    processing = true;
-    wishNumber = 2;
+  secondWishButton.disabled=true;
+  secondWishButton.classList.add("hidden");
 
-    secondWishButton.disabled = true;
+  clearOutput();
+  subtleFlicker();
 
-    secondWishButton.classList.add(
-      "hidden"
-    );
+  await typeText(
+    randomUnseen("returnOpenings",returnOpenings)+"\n",
+    46
+  );
 
-    clearOutput();
-    subtleFlicker();
+  await sleep(550);
 
-    await typeText(
-      randomUnseen(
-        "returnOpenings",
-        returnOpenings
-      ) +
-      "\n",
-      46
-    );
+  await typeText(
+    "\n"+
+    randomUnseen("greedWarnings",greedWarnings)+
+    "\n",
+    38
+  );
 
-    await sleep(550);
+  await sleep(750);
 
-    await typeText(
-      "\n" +
-      randomUnseen(
-        "greedWarnings",
-        greedWarnings
-      ) +
-      "\n",
-      38
-    );
+  await typeText(
+    "\n"+
+    randomUnseen("finalWishNotices",finalWishNotices)+
+    "\n",
+    44
+  );
 
-    await sleep(750);
+  await sleep(600);
 
-    await typeText(
-      "\n" +
-      randomUnseen(
-        "finalWishNotices",
-        finalWishNotices
-      ) +
-      "\n",
-      44
-    );
+  cursor.classList.add("hidden");
 
-    await sleep(600);
+  wish.value="";
+  wish.disabled=false;
+  wish.placeholder="Write your second and final wish here...";
 
-    cursor.classList.add("hidden");
+  seal.disabled=false;
+  seal.textContent="SEAL MY FINAL WISH";
 
-    wish.value = "";
-    wish.disabled = false;
+  wishArea.classList.remove("hidden");
 
-    wish.placeholder =
-      "Write your second and final wish here...";
-
-    seal.disabled = false;
-
-    seal.textContent =
-      "SEAL MY FINAL WISH";
-
-    wishArea.classList.remove("hidden");
-
-    /*
-      This selects an entirely new feather.
-      It cannot repeat the previous design.
-    */
-    launchFeather();
-
-    processing = false;
-
-    wish.focus();
-  }
-);
+  processing=false;
+  wish.focus();
+});
 
 start();
 </script>
