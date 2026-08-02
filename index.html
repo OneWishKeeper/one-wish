@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#000000">
 <title>One Wish</title>
 
 <style>
@@ -10,12 +11,13 @@
   --green:#7cff89;
   --dim:#4ca85a;
   --border:#173a1c;
-  --panel:#020702;
+  --panel:rgba(2,7,2,.88);
+  --sigil-background:none;
 }
 
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
+
+html,body{min-height:100%}
 
 body{
   margin:0;
@@ -27,12 +29,32 @@ body{
   place-items:center;
   padding:24px;
   overflow-x:hidden;
+  position:relative;
+  isolation:isolate;
 }
 
 body::before{
   content:"";
   position:fixed;
   inset:0;
+  z-index:-2;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,0,0,.60),rgba(0,0,0,.78)),
+    var(--sigil-background);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  opacity:.78;
+  transform:scale(1.04);
+  animation:sigilBreathe 12s ease-in-out infinite;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:30;
   pointer-events:none;
   opacity:.05;
   background:
@@ -49,9 +71,12 @@ main{
   width:min(760px,100%);
   border:1px solid var(--border);
   padding:24px;
-  box-shadow:0 0 30px rgba(124,255,137,.12);
+  box-shadow:0 0 30px rgba(124,255,137,.18);
   background:var(--panel);
+  backdrop-filter:blur(2px);
+  -webkit-backdrop-filter:blur(2px);
   position:relative;
+  z-index:1;
 }
 
 h1{
@@ -107,14 +132,8 @@ button{
   text-shadow:0 0 7px rgba(124,255,137,.25);
 }
 
-button:active{
-  transform:translateY(1px);
-}
-
-button:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-}
+button:active{transform:translateY(1px)}
+button:disabled{opacity:.45;cursor:not-allowed}
 
 .notice{
   font-size:12px;
@@ -122,17 +141,9 @@ button:disabled{
   color:var(--dim);
 }
 
-.hidden{
-  display:none!important;
-}
-
-.glitch{
-  animation:glitch .18s steps(2,end) 3;
-}
-
-.flicker{
-  animation:flicker .15s linear 2;
-}
+.hidden{display:none!important}
+.glitch{animation:glitch .18s steps(2,end) 3}
+.flicker{animation:flicker .15s linear 2}
 
 .rare{
   border-color:#7cff89;
@@ -160,6 +171,23 @@ button:disabled{
   0%,100%{opacity:1}
   35%{opacity:.72}
   60%{opacity:.9}
+}
+
+@keyframes sigilBreathe{
+  0%,100%{
+    opacity:.68;
+    transform:scale(1.04) rotate(0deg);
+  }
+  50%{
+    opacity:.88;
+    transform:scale(1.07) rotate(.25deg);
+  }
+}
+
+@media (max-width:600px){
+  body{padding:16px}
+  main{padding:20px}
+  h1{font-size:2rem}
 }
 </style>
 </head>
@@ -195,11 +223,8 @@ button:disabled{
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL =
-  "https://qchdhrxniqpwcwtxkrgz.supabase.co";
-
-const SUPABASE_KEY =
-  "sb_publishable_lYRHZV7dGb74UBYmfPTdbg_-RTlhzeO";
+const SUPABASE_URL = "https://qchdhrxniqpwcwtxkrgz.supabase.co";
+const SUPABASE_KEY = "sb_publishable_lYRHZV7dGb74UBYmfPTdbg_-RTlhzeO";
 
 const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
@@ -212,49 +237,123 @@ const panel = document.getElementById("panel");
 const wishArea = document.getElementById("wishArea");
 const seal = document.getElementById("seal");
 const wish = document.getElementById("wish");
-const secondWishButton =
-  document.getElementById("secondWishButton");
+const secondWishButton = document.getElementById("secondWishButton");
 
-const sleep = ms =>
-  new Promise(resolve => setTimeout(resolve, ms));
-
-const randomFrom = list =>
-  list[Math.floor(Math.random() * list.length)];
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+const randomFrom = list => list[Math.floor(Math.random() * list.length)];
 
 let wishNumber = 1;
 let processing = false;
+
+/* ---------------- RANDOM FULL-PAGE SIGILS ---------------- */
+
+const sigilDesigns = [
+`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
+<rect width="900" height="1600" fill="#000"/>
+<g fill="none" stroke="#39ff62" stroke-width="2" opacity=".28">
+<circle cx="450" cy="800" r="350"/><circle cx="450" cy="800" r="285"/><circle cx="450" cy="800" r="205"/>
+<path d="M450 390 L720 1020 L180 1020 Z"/><path d="M450 480 L640 930 L260 930 Z"/>
+<path d="M450 450 V1150"/><path d="M180 800 H720"/><path d="M245 560 L655 1040"/><path d="M655 560 L245 1040"/>
+</g>
+<g fill="#39ff62" opacity=".20" font-size="48" text-anchor="middle">
+<text x="450" y="250">△ ◯ ✦ ◇</text><text x="450" y="1370">◇ ✦ ◯ △</text>
+<text x="110" y="800">☽</text><text x="790" y="800">☉</text>
+</g></svg>`,
+
+`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
+<rect width="900" height="1600" fill="#000"/>
+<g fill="none" stroke="#56ff75" stroke-width="2" opacity=".27">
+<circle cx="450" cy="800" r="360"/><circle cx="450" cy="800" r="315"/>
+<path d="M450 400 L700 800 L450 1200 L200 800 Z"/>
+<path d="M450 505 L620 800 L450 1095 L280 800 Z"/>
+<circle cx="450" cy="800" r="115"/><path d="M335 800 H565"/><path d="M450 685 V915"/>
+<path d="M225 575 L675 1025"/><path d="M675 575 L225 1025"/>
+</g>
+<g fill="#56ff75" opacity=".18" font-size="42" text-anchor="middle">
+<text x="450" y="290">✧ ᚱ ᚾ ᛟ ✧</text><text x="450" y="1340">ᛟ ᚾ ᚱ</text>
+<text x="120" y="500">◇</text><text x="780" y="500">◇</text><text x="120" y="1120">◇</text><text x="780" y="1120">◇</text>
+</g></svg>`,
+
+`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
+<rect width="900" height="1600" fill="#000"/>
+<g fill="none" stroke="#47ff69" stroke-width="2" opacity=".28">
+<circle cx="450" cy="800" r="355"/>
+<path d="M450 420 C690 560 690 1040 450 1180"/><path d="M450 420 C210 560 210 1040 450 1180"/>
+<path d="M450 420 C560 630 560 970 450 1180"/><path d="M450 420 C340 630 340 970 450 1180"/>
+<path d="M230 800 H670"/><circle cx="450" cy="800" r="175"/><circle cx="450" cy="800" r="70"/>
+<path d="M450 625 L600 900 L300 900 Z"/>
+</g>
+<g fill="#47ff69" opacity=".18" font-size="46" text-anchor="middle">
+<text x="450" y="260">☽ ✦ ☉ ✦ ☾</text><text x="450" y="1370">☾ ✦ ☉ ✦ ☽</text>
+<text x="115" y="810">ᚨ</text><text x="785" y="810">ᛉ</text>
+</g></svg>`,
+
+`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
+<rect width="900" height="1600" fill="#000"/>
+<g fill="none" stroke="#61ff7c" stroke-width="2" opacity=".26">
+<circle cx="450" cy="800" r="365"/><circle cx="450" cy="800" r="245"/>
+<path d="M450 420 L590 700 L780 800 L590 900 L450 1180 L310 900 L120 800 L310 700 Z"/>
+<path d="M450 555 L530 720 L650 800 L530 880 L450 1045 L370 880 L250 800 L370 720 Z"/>
+<path d="M450 420 V1180"/><path d="M120 800 H780"/>
+</g>
+<g fill="#61ff7c" opacity=".17" font-size="42" text-anchor="middle">
+<text x="450" y="280">✦ THE PATH WATCHES ✦</text><text x="450" y="1340">✦ THE FEATHER WAITS ✦</text>
+<text x="110" y="520">△</text><text x="790" y="520">▽</text><text x="110" y="1100">▽</text><text x="790" y="1100">△</text>
+</g></svg>`,
+
+`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
+<rect width="900" height="1600" fill="#000"/>
+<g fill="none" stroke="#43ff68" stroke-width="2" opacity=".28">
+<circle cx="450" cy="800" r="360"/><circle cx="450" cy="800" r="300"/>
+<path d="M450 430 L690 1070 L210 1070 Z"/><path d="M450 1170 L690 530 L210 530 Z"/>
+<circle cx="450" cy="800" r="125"/><path d="M325 800 H575"/><path d="M450 675 V925"/>
+</g>
+<g fill="#43ff68" opacity=".18" font-size="44" text-anchor="middle">
+<text x="450" y="260">ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ</text><text x="450" y="1370">ᚲ ᚱ ᚨ ᚦ ᚢ ᚠ</text>
+<text x="120" y="800">☿</text><text x="780" y="800">♄</text>
+</g></svg>`
+];
+
+function chooseRandomSigilBackground(){
+  const chosenSigil = randomFrom(sigilDesigns);
+  const encodedSigil = encodeURIComponent(chosenSigil)
+    .replace(/'/g,"%27")
+    .replace(/"/g,"%22");
+
+  document.body.style.setProperty(
+    "--sigil-background",
+    `url("data:image/svg+xml;charset=UTF-8,${encodedSigil}")`
+  );
+}
+
+chooseRandomSigilBackground();
+
+/* ---------------- DATABASE ---------------- */
 
 async function saveWish(wishText){
   try{
     const { error } = await supabaseClient
       .from("wishes")
-      .insert({
-        wish_text:wishText
-      });
+      .insert({wish_text:wishText});
 
     if(error){
-      console.error("Wish submission failed:", error);
+      console.error("Wish submission failed:",error);
       return false;
     }
-
     return true;
   }catch(error){
-    console.error("Wish submission failed:", error);
+    console.error("Wish submission failed:",error);
     return false;
   }
 }
 
-async function typeText(text, speed = 32){
-  cursor.classList.remove("hidden");
+/* ---------------- DISPLAY HELPERS ---------------- */
 
+async function typeText(text,speed=32){
+  cursor.classList.remove("hidden");
   for(const character of text){
     output.textContent += character;
-
-    await sleep(
-      character === "\n"
-        ? 105
-        : speed
-    );
+    await sleep(character === "\n" ? 105 : speed);
   }
 }
 
@@ -268,7 +367,7 @@ function subtleFlicker(){
   panel.classList.add("flicker");
 }
 
-function occasionalGlitch(chance = 0.16){
+function occasionalGlitch(chance=.16){
   if(Math.random() < chance){
     output.classList.remove("glitch");
     void output.offsetWidth;
@@ -278,84 +377,46 @@ function occasionalGlitch(chance = 0.16){
 
 function shuffleList(list){
   const shuffled = [...list];
-
-  for(let i = shuffled.length - 1; i > 0; i--){
-    const randomIndex =
-      Math.floor(Math.random() * (i + 1));
-
-    [
-      shuffled[i],
-      shuffled[randomIndex]
-    ] = [
-      shuffled[randomIndex],
-      shuffled[i]
-    ];
+  for(let i=shuffled.length-1;i>0;i--){
+    const randomIndex = Math.floor(Math.random()*(i+1));
+    [shuffled[i],shuffled[randomIndex]]=[shuffled[randomIndex],shuffled[i]];
   }
-
   return shuffled;
 }
 
-function forgePhrases(
-  starters,
-  middles,
-  endings,
-  count = 250
-){
-  const phrases = [];
-
+function forgePhrases(starters,middles,endings,count=250){
+  const phrases=[];
   for(const starter of starters){
     for(const middle of middles){
       for(const ending of endings){
-        const phrase =
-          `${starter} ${middle}${ending}`
-            .replace(/\s+/g, " ")
-            .trim();
-
-        if(!phrases.includes(phrase)){
-          phrases.push(phrase);
-        }
+        const phrase=`${starter} ${middle}${ending}`.replace(/\s+/g," ").trim();
+        if(!phrases.includes(phrase)) phrases.push(phrase);
       }
     }
   }
-
-  return shuffleList(phrases).slice(0, count);
+  return shuffleList(phrases).slice(0,count);
 }
 
-function forgeLines(
-  firstLines,
-  secondLines,
-  thirdLines,
-  count = 250
-){
-  const phrases = [];
-
+function forgeLines(firstLines,secondLines,thirdLines,count=250){
+  const phrases=[];
   for(const first of firstLines){
     for(const second of secondLines){
       for(const third of thirdLines){
-        const phrase =
-          `${first}\n${second}\n${third}`;
-
-        if(!phrases.includes(phrase)){
-          phrases.push(phrase);
-        }
+        const phrase=`${first}\n${second}\n${third}`;
+        if(!phrases.includes(phrase)) phrases.push(phrase);
       }
     }
   }
-
-  return shuffleList(phrases).slice(0, count);
+  return shuffleList(phrases).slice(0,count);
 }
 
-/*
-  V3 gives the repaired version a fresh memory.
-  Old choices from the previous version will not interfere.
-*/
-const MEMORY_KEY = "oneWishSeenPhrasesV3";
+/* ---------------- LOCAL MEMORY ---------------- */
+
+const MEMORY_KEY="oneWishSeenPhrasesV4";
 
 function loadMemory(){
   try{
-    return JSON.parse(
-      localStorage.getItem(MEMORY_KEY)
-    ) || {};
+    return JSON.parse(localStorage.getItem(MEMORY_KEY)) || {};
   }catch{
     return {};
   }
@@ -363,134 +424,66 @@ function loadMemory(){
 
 function saveMemory(memory){
   try{
-    localStorage.setItem(
-      MEMORY_KEY,
-      JSON.stringify(memory)
-    );
-  }catch{
-    /*
-      The site still works if browser storage
-      is unavailable.
-    */
-  }
+    localStorage.setItem(MEMORY_KEY,JSON.stringify(memory));
+  }catch{}
 }
 
-function randomUnseen(category, list){
-  if(!Array.isArray(list) || list.length === 0){
-    return "";
+function randomUnseen(category,list){
+  if(!Array.isArray(list) || list.length===0) return "";
+
+  const memory=loadMemory();
+  const seen=Array.isArray(memory[category]) ? memory[category] : [];
+
+  let available=list
+    .map((item,index)=>({item,index}))
+    .filter(entry=>!seen.includes(entry.index));
+
+  if(available.length===0){
+    memory[category]=[];
+    available=list.map((item,index)=>({item,index}));
   }
 
-  const memory = loadMemory();
-
-  const seen =
-    Array.isArray(memory[category])
-      ? memory[category]
-      : [];
-
-  let available = list
-    .map((item, index) => ({
-      item,
-      index
-    }))
-    .filter(entry =>
-      !seen.includes(entry.index)
-    );
-
-  if(available.length === 0){
-    memory[category] = [];
-
-    available = list.map((item, index) => ({
-      item,
-      index
-    }));
-  }
-
-  const chosen = randomFrom(available);
-
-  const currentSeen =
-    Array.isArray(memory[category])
-      ? memory[category]
-      : [];
-
-  memory[category] = [
-    ...currentSeen,
-    chosen.index
-  ];
-
+  const chosen=randomFrom(available);
+  memory[category]=[...(memory[category]||[]),chosen.index];
   saveMemory(memory);
-
   return chosen.item;
 }
 
-const introMessages = [
-  [
-    "Connection established...",
-    "",
-    "The Feather watches.",
-    "The Hawk waits.",
-    "",
-    "You have been granted one wish.",
-    "Choose carefully.",
-    "Not every wish asks the same price."
-  ],
+/* ---------------- MESSAGE LIBRARIES ---------------- */
 
+const introMessages=[
   [
-    "A path has opened...",
-    "",
-    "Something beyond the page is listening.",
-    "The Feather has not yet fallen.",
-    "",
-    "One wish may now be written.",
-    "Do not waste what was given.",
-    "Some doors remember who opened them."
+    "Connection established...","","The Feather watches.","The Hawk waits.","",
+    "You have been granted one wish.","Choose carefully.","Not every wish asks the same price."
   ],
-
   [
-    "The signal has crossed...",
-    "",
-    "The black mirror remains still.",
-    "The Hawk has turned its eye toward you.",
-    "",
-    "You may place one wish before the Keeper.",
-    "Write only what you are prepared to release.",
-    "The silence will decide what follows."
+    "A path has opened...","","Something beyond the page is listening.","The Feather has not yet fallen.","",
+    "One wish may now be written.","Do not waste what was given.","Some doors remember who opened them."
   ],
-
   [
-    "The threshold is awake...",
-    "",
-    "The Feather waits between two worlds.",
-    "The old chamber has opened.",
-    "",
-    "One wish has been permitted.",
-    "Speak through ink, not through fear.",
-    "What is sealed cannot be called back unchanged."
+    "The signal has crossed...","","The black mirror remains still.","The Hawk has turned its eye toward you.","",
+    "You may place one wish before the Keeper.","Write only what you are prepared to release.","The silence will decide what follows."
+  ],
+  [
+    "The threshold is awake...","","The Feather waits between two worlds.","The old chamber has opened.","",
+    "One wish has been permitted.","Speak through ink, not through fear.","What is sealed cannot be called back unchanged."
   ]
 ];
 
-const receivingMessages = [
+const receivingMessages=[
   "Receiving...\nReading...\n",
-
   "The signal has been received...\nInterpreting the seal...\n",
-
   "The Feather is listening...\nThe words are crossing...\n",
-
   "The threshold is open...\nYour words are entering...\n",
-
   "The Hawk has turned...\nThe Keeper is reading...\n",
-
   "The ink has begun to move...\nThe chamber is listening...\n",
-
   "A message has entered...\nThe hidden ledger is opening...\n",
-
   "The silence has answered...\nYour request is being weighed...\n",
-
   "The Feather has taken the words...\nThe path is being examined...\n",
-
   "Something has awakened...\nThe wish is passing through...\n"
 ];
 
-const sealedMessages = [
+const sealedMessages=[
   "The Ink Has Dried.",
   "The Seal Has Closed.",
   "The Feather Has Taken Your Words.",
@@ -505,424 +498,242 @@ const sealedMessages = [
   "What Was Written Is Now Sealed."
 ];
 
-const firstOpenings = forgePhrases(
+const firstOpenings=forgePhrases(
   [
-    "Your wish",
-    "The message you sealed",
-    "The desire you carried",
-    "The request placed before the Feather",
-    "The vow hidden in your silence",
-    "The plea written beneath the watching Hawk",
-    "The secret you surrendered",
-    "The thing you dared to ask",
-    "The longing you named",
-    "The mark made by your hand"
+    "Your wish","The message you sealed","The desire you carried",
+    "The request placed before the Feather","The vow hidden in your silence",
+    "The plea written beneath the watching Hawk","The secret you surrendered",
+    "The thing you dared to ask","The longing you named","The mark made by your hand"
   ],
-
   [
-    "has crossed the threshold",
-    "has entered the old waiting place",
-    "has been received by the Feather",
-    "has awakened the silent chamber",
-    "has reached the Keeper",
-    "has passed beneath the Hawk's shadow",
-    "has entered the black mirror",
-    "has been written into the hidden ledger",
-    "has stirred what was resting",
-    "has found the door that was listening"
+    "has crossed the threshold","has entered the old waiting place",
+    "has been received by the Feather","has awakened the silent chamber",
+    "has reached the Keeper","has passed beneath the Hawk's shadow",
+    "has entered the black mirror","has been written into the hidden ledger",
+    "has stirred what was resting","has found the door that was listening"
   ],
-
   [
-    ".",
-    " at the appointed hour.",
-    " before the silence could close.",
-    " and the seal has held.",
-    " where no spoken word may follow."
+    "."," at the appointed hour."," before the silence could close.",
+    " and the seal has held."," where no spoken word may follow."
   ]
 );
 
-const firstHopeful = forgePhrases(
+const firstHopeful=forgePhrases(
   [
-    "A quiet change",
-    "An unseen hand",
-    "The first sign",
-    "A forgotten road",
-    "A door once hidden",
-    "The smallest mercy",
-    "A favorable turn",
-    "A distant answer",
-    "The thing you nearly abandoned",
-    "A chance thought lost to time"
+    "A quiet change","An unseen hand","The first sign","A forgotten road",
+    "A door once hidden","The smallest mercy","A favorable turn",
+    "A distant answer","The thing you nearly abandoned","A chance thought lost to time"
   ],
-
   [
-    "may already be moving toward you",
-    "may rise from an ordinary moment",
-    "may arrive wearing a familiar face",
-    "may reveal itself when you stop searching",
-    "may begin before you recognize it",
-    "may return with a different name",
-    "may open where the path once ended",
-    "may grow from what seems too small to matter",
-    "may stand waiting beyond the next refusal",
-    "may be nearer than your fear permits"
+    "may already be moving toward you","may rise from an ordinary moment",
+    "may arrive wearing a familiar face","may reveal itself when you stop searching",
+    "may begin before you recognize it","may return with a different name",
+    "may open where the path once ended","may grow from what seems too small to matter",
+    "may stand waiting beyond the next refusal","may be nearer than your fear permits"
   ],
-
   [
-    ".",
-    " if patience does not betray you.",
-    " before the next moon has forgotten your name.",
-    " when the balance is ready.",
-    " but it will not announce itself twice."
+    "."," if patience does not betray you."," before the next moon has forgotten your name.",
+    " when the balance is ready."," but it will not announce itself twice."
   ]
 );
 
-const firstMystery = forgePhrases(
+const firstMystery=forgePhrases(
   [
-    "Do not",
-    "Never",
-    "Take care not to",
-    "You would be wise not to",
-    "The old rule forbids you to",
-    "Until the first sign arrives, do not",
-    "While the Feather carries your wish, do not",
-    "Before the balance settles, do not",
-    "If the mirror feels changed, do not",
-    "When the Hawk returns, do not"
+    "Do not","Never","Take care not to","You would be wise not to",
+    "The old rule forbids you to","Until the first sign arrives, do not",
+    "While the Feather carries your wish, do not","Before the balance settles, do not",
+    "If the mirror feels changed, do not","When the Hawk returns, do not"
   ],
-
   [
-    "repeat the wish aloud",
-    "ask the silence what it heard",
-    "search for the Feather after midnight",
-    "mistake every accident for an answer",
-    "tell a stranger what was sealed",
-    "call upon the same desire again",
-    "follow any sign that asks for harm",
-    "open a door that was locked from within",
-    "laugh at the warning when it appears",
-    "touch what the dream tells you to leave untouched"
+    "repeat the wish aloud","ask the silence what it heard",
+    "search for the Feather after midnight","mistake every accident for an answer",
+    "tell a stranger what was sealed","call upon the same desire again",
+    "follow any sign that asks for harm","open a door that was locked from within",
+    "laugh at the warning when it appears","touch what the dream tells you to leave untouched"
   ],
-
   [
-    ".",
-    " until the hour has passed.",
-    " for some things answer when named twice.",
-    " because the second voice may not be yours.",
-    " unless you are prepared to be remembered."
+    "."," until the hour has passed."," for some things answer when named twice.",
+    " because the second voice may not be yours."," unless you are prepared to be remembered."
   ]
 );
 
-const firstClosings = forgePhrases(
+const firstClosings=forgePhrases(
   [
-    "Now",
-    "From this hour forward",
-    "Until the first sign",
-    "When you leave this place",
-    "As the seal darkens",
-    "While the Hawk watches",
-    "Before the next turning",
-    "As the Feather begins its journey",
-    "Until time speaks",
-    "From the moment the ink dries"
+    "Now","From this hour forward","Until the first sign","When you leave this place",
+    "As the seal darkens","While the Hawk watches","Before the next turning",
+    "As the Feather begins its journey","Until time speaks","From the moment the ink dries"
   ],
-
   [
-    "walk carefully",
-    "keep your silence",
-    "watch what changes",
-    "trust no answer that demands harm",
-    "leave the wish unspoken",
-    "remember what you offered",
-    "do not force the path",
-    "let the ordinary reveal itself",
-    "guard the first sign",
-    "wait without calling again"
+    "walk carefully","keep your silence","watch what changes",
+    "trust no answer that demands harm","leave the wish unspoken",
+    "remember what you offered","do not force the path",
+    "let the ordinary reveal itself","guard the first sign","wait without calling again"
   ],
-
   [
-    ".",
-    " and do not look back too quickly.",
-    " for the balance has begun to move.",
-    " because the waiting is part of the rite.",
-    " until the Feather chooses to return."
+    "."," and do not look back too quickly."," for the balance has begun to move.",
+    " because the waiting is part of the rite."," until the Feather chooses to return."
   ]
 );
 
-const secondOpenings = forgePhrases(
+const secondOpenings=forgePhrases(
   [
-    "Your second wish",
-    "The final request",
-    "The request you dared to offer again",
-    "The last plea",
-    "The second seal",
-    "The desire that followed the first",
-    "The choice you refused to leave unmade",
-    "The final line of ink",
-    "The second knock upon the door",
-    "The wish born after enough should have been enough"
+    "Your second wish","The final request","The request you dared to offer again",
+    "The last plea","The second seal","The desire that followed the first",
+    "The choice you refused to leave unmade","The final line of ink",
+    "The second knock upon the door","The wish born after enough should have been enough"
   ],
-
   [
-    "has crossed the threshold",
-    "has entered the deeper chamber",
-    "has been accepted by the silent ledger",
-    "has passed beneath the Hawk a second time",
-    "has awakened the final door",
-    "has reached the place where gifts become debts",
+    "has crossed the threshold","has entered the deeper chamber",
+    "has been accepted by the silent ledger","has passed beneath the Hawk a second time",
+    "has awakened the final door","has reached the place where gifts become debts",
     "has been heard by what waited behind the first answer",
-    "has entered the balance beside your first wish",
-    "has called the Feather back",
+    "has entered the balance beside your first wish","has called the Feather back",
     "has been marked where no third line may be written"
   ],
-
   [
-    ".",
-    " and the old law has noticed.",
-    " before mercy could close the gate.",
-    " with a price not yet named.",
-    " where the first wish can no longer stand alone."
+    "."," and the old law has noticed."," before mercy could close the gate.",
+    " with a price not yet named."," where the first wish can no longer stand alone."
   ]
 );
 
-const secondWarnings = forgePhrases(
+const secondWarnings=forgePhrases(
   [
-    "One wish was the gift;",
-    "The first wish carried hope;",
-    "You were offered enough;",
-    "The Feather answered once;",
-    "The first door opened freely;",
-    "The balance forgave the first asking;",
-    "A single wish belonged to mercy;",
-    "The first seal was given without accusation;",
-    "The Hawk permitted one desire;",
+    "One wish was the gift;","The first wish carried hope;","You were offered enough;",
+    "The Feather answered once;","The first door opened freely;",
+    "The balance forgave the first asking;","A single wish belonged to mercy;",
+    "The first seal was given without accusation;","The Hawk permitted one desire;",
     "The old rite allowed one request;"
   ],
-
   [
-    "the second belongs to your hunger",
-    "the second now carries your decision",
+    "the second belongs to your hunger","the second now carries your decision",
     "the second has entered the realm of consequence",
-    "the second may collect what the first promised",
-    "the second has awakened the debt",
-    "the second will be judged beside the first",
-    "the second has taught the silence your name",
+    "the second may collect what the first promised","the second has awakened the debt",
+    "the second will be judged beside the first","the second has taught the silence your name",
     "the second asks whether hope has become greed",
     "the second has moved the balance beyond kindness",
     "the second may return wearing the face of loss"
   ],
-
   [
-    ".",
-    " and nothing offered twice remains innocent.",
-    " though the cost may arrive gently.",
-    " because temptation rarely announces itself.",
-    " and the Keeper records both choices."
+    "."," and nothing offered twice remains innocent."," though the cost may arrive gently.",
+    " because temptation rarely announces itself."," and the Keeper records both choices."
   ]
 );
 
-const secondMystery = forgePhrases(
+const secondMystery=forgePhrases(
   [
-    "A familiar road",
-    "The next reflection",
-    "The first answer",
-    "A door you thought closed",
-    "The Hawk's returning shadow",
-    "The sound behind you",
-    "The ordinary thing nearest your hand",
-    "The promise you trust most",
-    "The place where you feel safest",
-    "The hour before sleep"
+    "A familiar road","The next reflection","The first answer","A door you thought closed",
+    "The Hawk's returning shadow","The sound behind you",
+    "The ordinary thing nearest your hand","The promise you trust most",
+    "The place where you feel safest","The hour before sleep"
   ],
-
   [
-    "may no longer lead where it once did",
-    "may carry the second sign",
-    "may arrive altered by this choice",
-    "may open without being touched",
-    "may ask you to remember tonight",
-    "may seem changed when nothing visible has moved",
-    "may become the messenger",
-    "may reveal the cost before the gift",
-    "may hold two echoes instead of one",
-    "may return your own words in another voice"
+    "may no longer lead where it once did","may carry the second sign",
+    "may arrive altered by this choice","may open without being touched",
+    "may ask you to remember tonight","may seem changed when nothing visible has moved",
+    "may become the messenger","may reveal the cost before the gift",
+    "may hold two echoes instead of one","may return your own words in another voice"
   ],
-
   [
-    ".",
-    " after you have stopped expecting it.",
-    " when the balance turns.",
-    " before the final waiting ends.",
-    " and you may not know which wish called it."
+    "."," after you have stopped expecting it."," when the balance turns.",
+    " before the final waiting ends."," and you may not know which wish called it."
   ]
 );
 
-const secondClosings = forgePhrases(
+const secondClosings=forgePhrases(
   [
-    "There will be",
-    "The old rite permits",
-    "The Feather will answer with",
-    "The sealed door allows",
-    "The Keeper records",
-    "The black mirror reflects",
-    "The final ledger accepts",
-    "The Hawk carries",
-    "The balance tolerates",
-    "The path grants"
+    "There will be","The old rite permits","The Feather will answer with",
+    "The sealed door allows","The Keeper records","The black mirror reflects",
+    "The final ledger accepts","The Hawk carries","The balance tolerates","The path grants"
   ],
-
   [
-    "no third wish",
-    "no further asking",
-    "no final correction",
-    "no return to innocence",
-    "no undoing of the second seal",
-    "no bargain after this one",
-    "no mercy hidden in a third request",
-    "no voice beyond the final answer",
-    "no path back to the first choice",
-    "no excuse once the ink has dried"
+    "no third wish","no further asking","no final correction","no return to innocence",
+    "no undoing of the second seal","no bargain after this one",
+    "no mercy hidden in a third request","no voice beyond the final answer",
+    "no path back to the first choice","no excuse once the ink has dried"
   ],
-
   [
-    ".",
-    " after tonight.",
-    " under any name.",
-    " no matter what follows.",
+    "."," after tonight."," under any name."," no matter what follows.",
     " and the silence is now in command."
   ]
 );
 
-const secondWishButtons = forgePhrases(
+const secondWishButtons=forgePhrases(
   [
-    "ONE WISH SHOULD HAVE BEEN ENOUGH...",
-    "THE FEATHER STILL LISTENS...",
-    "THE FIRST WAS A GIFT...",
-    "THE HAWK HAS NOT YET DEPARTED...",
-    "THE DOOR REMAINS OPEN...",
-    "THE SILENCE OFFERS ONE FINAL CHOICE...",
-    "SOME WALK AWAY NOW...",
-    "THE FIRST WISH HAS ALREADY BEEN SEALED...",
-    "ONE LAST REQUEST MAY CROSS THE THRESHOLD...",
-    "YOU HAVE BEEN GIVEN ENOUGH..."
+    "ONE WISH SHOULD HAVE BEEN ENOUGH...","THE FEATHER STILL LISTENS...",
+    "THE FIRST WAS A GIFT...","THE HAWK HAS NOT YET DEPARTED...",
+    "THE DOOR REMAINS OPEN...","THE SILENCE OFFERS ONE FINAL CHOICE...",
+    "SOME WALK AWAY NOW...","THE FIRST WISH HAS ALREADY BEEN SEALED...",
+    "ONE LAST REQUEST MAY CROSS THE THRESHOLD...","YOU HAVE BEEN GIVEN ENOUGH..."
   ],
-
   [
-    "WILL YOU ASK AGAIN",
-    "WILL YOU TEST THE BALANCE",
-    "WILL GREED SPEAK FOR YOU",
-    "WILL YOU DARE A SECOND SEAL",
-    "WILL YOU WALK AWAY",
-    "WILL YOU CALL THE FEATHER BACK",
-    "WILL YOU RISK WHAT THE FIRST WISH BEGAN",
-    "WILL YOU OPEN WHAT SHOULD REMAIN CLOSED",
-    "WILL YOU CHOOSE TEMPTATION",
+    "WILL YOU ASK AGAIN","WILL YOU TEST THE BALANCE","WILL GREED SPEAK FOR YOU",
+    "WILL YOU DARE A SECOND SEAL","WILL YOU WALK AWAY",
+    "WILL YOU CALL THE FEATHER BACK","WILL YOU RISK WHAT THE FIRST WISH BEGAN",
+    "WILL YOU OPEN WHAT SHOULD REMAIN CLOSED","WILL YOU CHOOSE TEMPTATION",
     "WILL YOU SPEAK ONE FINAL DESIRE"
   ],
-
   [
-    "?",
-    "... IF YOU DARE?",
-    "... BEFORE THE DOOR CLOSES?",
-    "... KNOWING THERE WILL BE NO THIRD?",
-    "... AND ACCEPT WHAT FOLLOWS?"
+    "?","... IF YOU DARE?","... BEFORE THE DOOR CLOSES?",
+    "... KNOWING THERE WILL BE NO THIRD?","... AND ACCEPT WHAT FOLLOWS?"
   ]
 );
 
-const greedWarnings = forgeLines(
+const greedWarnings=forgeLines(
   [
-    "You were given one wish.",
-    "The Feather answered you once.",
-    "One desire crossed the threshold.",
-    "The first seal was already accepted.",
-    "The Hawk had begun to turn away.",
-    "Enough was placed within your reach.",
-    "The old rite had already shown mercy.",
-    "The first door opened without demanding your name.",
-    "The silence had already heard your plea.",
-    "One wish had already altered the path."
+    "You were given one wish.","The Feather answered you once.",
+    "One desire crossed the threshold.","The first seal was already accepted.",
+    "The Hawk had begun to turn away.","Enough was placed within your reach.",
+    "The old rite had already shown mercy.","The first door opened without demanding your name.",
+    "The silence had already heard your plea.","One wish had already altered the path."
   ],
-
   [
-    "Yet you remained before the door.",
-    "Still, you called the Feather back.",
-    "Yet hope and hunger spoke together.",
-    "Still, you reached for what was not promised.",
-    "Yet the second voice inside you answered.",
-    "Still, you chose not to leave satisfied.",
-    "Yet curiosity overcame the warning.",
-    "Still, you asked the balance for more.",
-    "Yet your hand returned to the ink.",
-    "Still, the temptation was stronger than silence."
+    "Yet you remained before the door.","Still, you called the Feather back.",
+    "Yet hope and hunger spoke together.","Still, you reached for what was not promised.",
+    "Yet the second voice inside you answered.","Still, you chose not to leave satisfied.",
+    "Yet curiosity overcame the warning.","Still, you asked the balance for more.",
+    "Yet your hand returned to the ink.","Still, the temptation was stronger than silence."
   ],
-
   [
-    "May the second wish be worth what follows.",
-    "There will be no third request.",
-    "The balance will remember this choice.",
-    "Write only what you are willing to carry.",
-    "The second seal will not open gently.",
-    "After this, only consequences remain.",
-    "Choose carefully; the final door has teeth.",
-    "The Keeper has marked your return.",
-    "Nothing asked twice remains without a cost.",
-    "Speak now, and accept the answering silence."
+    "May the second wish be worth what follows.","There will be no third request.",
+    "The balance will remember this choice.","Write only what you are willing to carry.",
+    "The second seal will not open gently.","After this, only consequences remain.",
+    "Choose carefully; the final door has teeth.","The Keeper has marked your return.",
+    "Nothing asked twice remains without a cost.","Speak now, and accept the answering silence."
   ]
 );
 
-const returnOpenings = [
-  "You have chosen to return...",
-  "The Feather heard your footsteps again...",
-  "The Hawk had begun to leave...",
-  "The door was almost closed...",
-  "The silence did not expect your return...",
-  "You have called the Keeper back...",
-  "The first seal was not enough for you...",
-  "Your hand has returned to the ink...",
-  "The second path has opened...",
-  "The balance has noticed your return..."
+const returnOpenings=[
+  "You have chosen to return...","The Feather heard your footsteps again...",
+  "The Hawk had begun to leave...","The door was almost closed...",
+  "The silence did not expect your return...","You have called the Keeper back...",
+  "The first seal was not enough for you...","Your hand has returned to the ink...",
+  "The second path has opened...","The balance has noticed your return..."
 ];
 
-const finalWishNotices = [
-  "One final wish remains.",
-  "The final line is now yours.",
-  "A second and final wish may be written.",
-  "The last seal is waiting.",
-  "One final request may still cross.",
-  "The door will accept one last message.",
-  "The Feather permits one final offering.",
-  "The second wish is now before you.",
-  "One final desire may enter the ledger.",
-  "Write the final wish before the door closes."
+const finalWishNotices=[
+  "One final wish remains.","The final line is now yours.",
+  "A second and final wish may be written.","The last seal is waiting.",
+  "One final request may still cross.","The door will accept one last message.",
+  "The Feather permits one final offering.","The second wish is now before you.",
+  "One final desire may enter the ledger.","Write the final wish before the door closes."
 ];
 
-const challenges = forgeLines(
+const challenges=forgeLines(
   [
-    "Carry three pennies until sunset.",
-    "Place a glass of water beside your bed tonight.",
-    "Keep a small stone in your pocket for five hours.",
-    "Write one fear on a piece of paper.",
-    "Stand beneath the open sky for one quiet minute.",
-    "Carry a fallen leaf until nightfall.",
-    "Place one penny beneath a closed book.",
-    "Take ten slow steps before entering your home.",
+    "Carry three pennies until sunset.","Place a glass of water beside your bed tonight.",
+    "Keep a small stone in your pocket for five hours.","Write one fear on a piece of paper.",
+    "Stand beneath the open sky for one quiet minute.","Carry a fallen leaf until nightfall.",
+    "Place one penny beneath a closed book.","Take ten slow steps before entering your home.",
     "Keep one harmless object beside your bed tonight.",
     "Choose a familiar path and walk it in the opposite direction."
   ],
-
   [
-    "Do not explain the act to anyone.",
-    "Speak your wish to no one while the task remains unfinished.",
-    "Let silence accompany you.",
-    "Notice the first ordinary thing that feels unfamiliar.",
-    "Do not search for a sign.",
-    "If questioned, answer only that it is a promise.",
-    "Do not repeat the wish aloud.",
-    "Complete the task without asking what it means.",
-    "Let no one else choose the place.",
-    "Do not turn the act into a game."
+    "Do not explain the act to anyone.","Speak your wish to no one while the task remains unfinished.",
+    "Let silence accompany you.","Notice the first ordinary thing that feels unfamiliar.",
+    "Do not search for a sign.","If questioned, answer only that it is a promise.",
+    "Do not repeat the wish aloud.","Complete the task without asking what it means.",
+    "Let no one else choose the place.","Do not turn the act into a game."
   ],
-
   [
     "When the hour ends, leave one harmless token where another may find it.",
     "At sunrise, return the object to its proper place.",
@@ -937,110 +748,37 @@ const challenges = forgeLines(
   ]
 );
 
-const finalHeadings = [
-  "THE FINAL TASK",
-  "THE LAST INSTRUCTION",
-  "WHAT THE FEATHER REQUIRES",
-  "THE CLOSING RITE",
-  "BEFORE THE HAWK DEPARTS",
-  "THE FINAL MARK",
-  "THE TASK THAT REMAINS",
-  "THE KEEPER'S LAST REQUEST"
+const finalHeadings=[
+  "THE FINAL TASK","THE LAST INSTRUCTION","WHAT THE FEATHER REQUIRES",
+  "THE CLOSING RITE","BEFORE THE HAWK DEPARTS","THE FINAL MARK",
+  "THE TASK THAT REMAINS","THE KEEPER'S LAST REQUEST"
 ];
 
-const finalEndings = [
-  [
-    "The Feather has fallen silent.",
-    "There will be no third wish.",
-    "Hopefully you know what door you just opened."
-  ],
-
-  [
-    "The Hawk has carried the second seal away.",
-    "No third line will be accepted.",
-    "What follows now belongs to the path you chose."
-  ],
-
-  [
-    "The final page has been closed.",
-    "Do not return asking for another wish.",
-    "The balance has begun to remember."
-  ],
-
-  [
-    "The Feather will answer no further.",
-    "The door has closed behind your second wish.",
-    "Some choices are understood only after they are made."
-  ],
-
-  [
-    "The Keeper has ended the rite.",
-    "No third request exists here.",
-    "What was opened must now finish opening."
-  ],
-
-  [
-    "The Hawk has departed with both wishes.",
-    "The silence will not receive another.",
-    "Walk carefully until the first sign passes."
-  ],
-
-  [
-    "The final seal has darkened.",
-    "There is no path to a third wish.",
-    "You now carry whatever the second choice awakened."
-  ],
-
-  [
-    "The Feather has left the chamber.",
-    "The old law permits nothing further.",
-    "Do not mistake the silence for forgiveness."
-  ]
+const finalEndings=[
+  ["The Feather has fallen silent.","There will be no third wish.","Hopefully you know what door you just opened."],
+  ["The Hawk has carried the second seal away.","No third line will be accepted.","What follows now belongs to the path you chose."],
+  ["The final page has been closed.","Do not return asking for another wish.","The balance has begun to remember."],
+  ["The Feather will answer no further.","The door has closed behind your second wish.","Some choices are understood only after they are made."],
+  ["The Keeper has ended the rite.","No third request exists here.","What was opened must now finish opening."],
+  ["The Hawk has departed with both wishes.","The silence will not receive another.","Walk carefully until the first sign passes."],
+  ["The final seal has darkened.","There is no path to a third wish.","You now carry whatever the second choice awakened."],
+  ["The Feather has left the chamber.","The old law permits nothing further.","Do not mistake the silence for forgiveness."]
 ];
 
 function rareEvent(){
-  const roll =
-    Math.floor(Math.random() * 5000) + 1;
-
-  if(roll === 1){
-    return (
-      "RARE SIGN 1/5000\n" +
-      "The Keeper has noticed your return."
-    );
-  }
-
-  if(roll <= 5){
-    return (
-      "RARE SIGN 1/1000\n" +
-      "The Hawk has already visited the path ahead."
-    );
-  }
-
-  if(roll <= 10){
-    return (
-      "RARE SIGN 1/500\n" +
-      "The Feather refused to fall."
-    );
-  }
-
+  const roll=Math.floor(Math.random()*5000)+1;
+  if(roll===1) return "RARE SIGN 1/5000\nThe Keeper has noticed your return.";
+  if(roll<=5) return "RARE SIGN 1/1000\nThe Hawk has already visited the path ahead.";
+  if(roll<=10) return "RARE SIGN 1/500\nThe Feather refused to fall.";
   return "";
 }
 
-const wishThemes = [
+/* ---------------- WISH THEMES ---------------- */
+
+const wishThemes=[
   {
     key:"fortune",
-    words:[
-      "money",
-      "rich",
-      "wealth",
-      "cash",
-      "debt",
-      "rent",
-      "bill",
-      "financial",
-      "million",
-      "dollar"
-    ],
+    words:["money","rich","wealth","cash","debt","rent","bill","financial","million","dollar"],
     lines:[
       "The Feather now carries a desire tied to fortune.",
       "Your wish has entered the chamber where fortune changes hands.",
@@ -1054,20 +792,9 @@ const wishThemes = [
       "The silence has understood your request for financial change."
     ]
   },
-
   {
     key:"love",
-    words:[
-      "love",
-      "relationship",
-      "marriage",
-      "husband",
-      "wife",
-      "boyfriend",
-      "girlfriend",
-      "romance",
-      "partner"
-    ],
+    words:["love","relationship","marriage","husband","wife","boyfriend","girlfriend","romance","partner"],
     lines:[
       "The Feather now carries a desire of the heart.",
       "The Keeper has received a wish shaped by affection.",
@@ -1081,20 +808,9 @@ const wishThemes = [
       "The mirror now carries the reflection of your longing."
     ]
   },
-
   {
     key:"work",
-    words:[
-      "job",
-      "work",
-      "career",
-      "promotion",
-      "business",
-      "employment",
-      "forklift",
-      "company",
-      "boss"
-    ],
+    words:["job","work","career","promotion","business","employment","forklift","company","boss"],
     lines:[
       "The Feather now carries a desire tied to purpose and labor.",
       "The Keeper has received a request concerning the work ahead.",
@@ -1108,19 +824,9 @@ const wishThemes = [
       "Your wish now waits near an unopened door of opportunity."
     ]
   },
-
   {
     key:"home",
-    words:[
-      "home",
-      "house",
-      "apartment",
-      "move",
-      "moving",
-      "room",
-      "renting",
-      "property"
-    ],
+    words:["home","house","apartment","move","moving","room","renting","property"],
     lines:[
       "The Feather now carries a desire for shelter and belonging.",
       "The Keeper has received a wish concerning the place called home.",
@@ -1134,20 +840,9 @@ const wishThemes = [
       "Your request now waits beside a door not yet opened."
     ]
   },
-
   {
     key:"health",
-    words:[
-      "health",
-      "heal",
-      "healing",
-      "sick",
-      "pain",
-      "illness",
-      "recover",
-      "recovery",
-      "body"
-    ],
+    words:["health","heal","healing","sick","pain","illness","recover","recovery","body"],
     lines:[
       "The Feather now carries a desire for restoration.",
       "The Keeper has received a wish shaped by healing.",
@@ -1161,21 +856,9 @@ const wishThemes = [
       "The hidden ledger now holds a request for restoration."
     ]
   },
-
   {
     key:"family",
-    words:[
-      "family",
-      "daughter",
-      "son",
-      "mother",
-      "father",
-      "child",
-      "children",
-      "sister",
-      "brother",
-      "parent"
-    ],
+    words:["family","daughter","son","mother","father","child","children","sister","brother","parent"],
     lines:[
       "The Feather now carries a desire bound to family.",
       "The Keeper has received a wish tied to those closest to you.",
@@ -1189,20 +872,9 @@ const wishThemes = [
       "The hidden ledger now holds a desire tied to home and kin."
     ]
   },
-
   {
     key:"travel",
-    words:[
-      "travel",
-      "trip",
-      "flight",
-      "journey",
-      "puerto rico",
-      "vacation",
-      "island",
-      "road",
-      "relocate"
-    ],
+    words:["travel","trip","flight","journey","puerto rico","vacation","island","road","relocate"],
     lines:[
       "The Feather now carries a desire tied to the road ahead.",
       "The Keeper has received a wish concerning distance and passage.",
@@ -1216,20 +888,9 @@ const wishThemes = [
       "The hidden ledger now holds a request concerning departure."
     ]
   },
-
   {
     key:"peace",
-    words:[
-      "peace",
-      "calm",
-      "stress",
-      "fear",
-      "anxiety",
-      "quiet",
-      "safe",
-      "safety",
-      "relax"
-    ],
+    words:["peace","calm","stress","fear","anxiety","quiet","safe","safety","relax"],
     lines:[
       "The Feather now carries a desire for quiet within.",
       "The Keeper has received a wish shaped by the need for peace.",
@@ -1243,18 +904,9 @@ const wishThemes = [
       "The hidden ledger now holds a request for stillness."
     ]
   },
-
   {
     key:"vehicle",
-    words:[
-      "car",
-      "vehicle",
-      "truck",
-      "van",
-      "drive",
-      "driving",
-      "transportation"
-    ],
+    words:["car","vehicle","truck","van","drive","driving","transportation"],
     lines:[
       "The Feather now carries a desire tied to movement and passage.",
       "The Keeper has received a request concerning the road.",
@@ -1268,21 +920,9 @@ const wishThemes = [
       "The hidden ledger now holds a desire tied to the road ahead."
     ]
   },
-
   {
     key:"knowledge",
-    words:[
-      "school",
-      "education",
-      "college",
-      "test",
-      "exam",
-      "study",
-      "learn",
-      "knowledge",
-      "certificate",
-      "license"
-    ],
+    words:["school","education","college","test","exam","study","learn","knowledge","certificate","license"],
     lines:[
       "The Feather now carries a desire for knowledge and passage.",
       "Your wish has entered the chamber of lessons not yet learned.",
@@ -1298,7 +938,7 @@ const wishThemes = [
   }
 ];
 
-const generalThemeLines = [
+const generalThemeLines=[
   "The Feather now carries the shape of your desire.",
   "Your intention has entered the waiting place.",
   "The silence has understood enough.",
@@ -1322,271 +962,85 @@ const generalThemeLines = [
 ];
 
 function wishTheme(text){
-  const lower = text.toLowerCase();
+  const lower=text.toLowerCase();
 
   for(const theme of wishThemes){
-    const matched = theme.words.some(word =>
-      lower.includes(word)
-    );
-
-    if(matched){
-      return randomUnseen(
-        "theme_" + theme.key,
-        theme.lines
-      );
+    if(theme.words.some(word=>lower.includes(word))){
+      return randomUnseen("theme_"+theme.key,theme.lines);
     }
   }
 
-  return randomUnseen(
-    "generalThemes",
-    generalThemeLines
-  );
+  return randomUnseen("generalThemes",generalThemeLines);
 }
 
+/* ---------------- MESSAGE BUILDERS ---------------- */
+
 function makeJourneyCode(){
-  const letters =
-    "ABCDEFGHJKLMNPQRSTUVWXYZ";
+  const letters="ABCDEFGHJKLMNPQRSTUVWXYZ";
+  const words=["HAWK","FEATHER","MIRROR","INK","DOOR","SHADOW","ECHO","PATH","SEAL","MOON","LEDGER","THRESHOLD"];
 
-  const words = [
-    "HAWK",
-    "FEATHER",
-    "MIRROR",
-    "INK",
-    "DOOR",
-    "SHADOW",
-    "ECHO",
-    "PATH",
-    "SEAL",
-    "MOON",
-    "LEDGER",
-    "THRESHOLD"
-  ];
-
-  const firstLetter =
-    letters[Math.floor(
-      Math.random() * letters.length
-    )];
-
-  const number =
-    String(
-      Math.floor(Math.random() * 900) + 100
-    );
-
-  const codeWord = randomFrom(words);
-
-  return `${firstLetter}${number}-${codeWord}`;
+  const firstLetter=letters[Math.floor(Math.random()*letters.length)];
+  const number=String(Math.floor(Math.random()*900)+100);
+  return `${firstLetter}${number}-${randomFrom(words)}`;
 }
 
 function firstWishMessage(wishText){
-  const opening =
-    randomUnseen(
-      "firstOpenings",
-      firstOpenings
-    );
+  const opening=randomUnseen("firstOpenings",firstOpenings);
+  const theme=wishTheme(wishText);
+  const hopeful=randomUnseen("firstHopeful",firstHopeful);
+  const mystery=randomUnseen("firstMystery",firstMystery);
+  const closing=randomUnseen("firstClosings",firstClosings);
 
-  const theme =
-    wishTheme(wishText);
-
-  const hopeful =
-    randomUnseen(
-      "firstHopeful",
-      firstHopeful
-    );
-
-  const mystery =
-    randomUnseen(
-      "firstMystery",
-      firstMystery
-    );
-
-  const closing =
-    randomUnseen(
-      "firstClosings",
-      firstClosings
-    );
-
-  const templates = [
-    [
-      opening,
-      theme,
-      hopeful,
-      mystery,
-      closing
-    ],
-
-    [
-      opening,
-      hopeful,
-      "",
-      theme,
-      closing,
-      mystery
-    ],
-
-    [
-      theme,
-      "",
-      opening,
-      mystery,
-      "",
-      hopeful,
-      closing
-    ],
-
-    [
-      opening,
-      "",
-      mystery,
-      theme,
-      hopeful,
-      "",
-      closing
-    ],
-
-    [
-      hopeful,
-      opening,
-      "",
-      theme,
-      mystery,
-      closing
-    ],
-
-    [
-      opening,
-      theme,
-      "",
-      closing,
-      mystery,
-      hopeful
-    ]
+  const templates=[
+    [opening,theme,hopeful,mystery,closing],
+    [opening,hopeful,"",theme,closing,mystery],
+    [theme,"",opening,mystery,"",hopeful,closing],
+    [opening,"",mystery,theme,hopeful,"",closing],
+    [hopeful,opening,"",theme,mystery,closing],
+    [opening,theme,"",closing,mystery,hopeful]
   ];
 
   return randomFrom(templates).join("\n");
 }
 
 function secondWishMessage(wishText){
-  const opening =
-    randomUnseen(
-      "secondOpenings",
-      secondOpenings
-    );
+  const opening=randomUnseen("secondOpenings",secondOpenings);
+  const theme=wishTheme(wishText);
+  const warning=randomUnseen("secondWarnings",secondWarnings);
+  const mystery=randomUnseen("secondMystery",secondMystery);
+  const closing=randomUnseen("secondClosings",secondClosings);
 
-  const theme =
-    wishTheme(wishText);
-
-  const warning =
-    randomUnseen(
-      "secondWarnings",
-      secondWarnings
-    );
-
-  const mystery =
-    randomUnseen(
-      "secondMystery",
-      secondMystery
-    );
-
-  const closing =
-    randomUnseen(
-      "secondClosings",
-      secondClosings
-    );
-
-  const templates = [
-    [
-      opening,
-      theme,
-      warning,
-      mystery,
-      closing
-    ],
-
-    [
-      warning,
-      "",
-      opening,
-      theme,
-      mystery,
-      "",
-      closing
-    ],
-
-    [
-      opening,
-      mystery,
-      "",
-      warning,
-      theme,
-      closing
-    ],
-
-    [
-      theme,
-      opening,
-      "",
-      warning,
-      closing,
-      mystery
-    ],
-
-    [
-      opening,
-      warning,
-      "",
-      mystery,
-      theme,
-      closing
-    ],
-
-    [
-      warning,
-      opening,
-      theme,
-      "",
-      closing,
-      mystery
-    ]
+  const templates=[
+    [opening,theme,warning,mystery,closing],
+    [warning,"",opening,theme,mystery,"",closing],
+    [opening,mystery,"",warning,theme,closing],
+    [theme,opening,"",warning,closing,mystery],
+    [opening,warning,"",mystery,theme,closing],
+    [warning,opening,theme,"",closing,mystery]
   ];
 
   return randomFrom(templates).join("\n");
 }
 
 async function displayProcessing(){
-  const receiving =
-    randomUnseen(
-      "receivingMessages",
-      receivingMessages
-    );
+  const receiving=randomUnseen("receivingMessages",receivingMessages);
+  const sealed=randomUnseen("sealedMessages",sealedMessages);
 
-  const sealed =
-    randomUnseen(
-      "sealedMessages",
-      sealedMessages
-    );
-
-  await typeText(receiving, 46);
+  await typeText(receiving,46);
   await sleep(500);
-
-  await typeText(
-    "\n" + sealed + "\n",
-    54
-  );
-
+  await typeText("\n"+sealed+"\n",54);
   await sleep(700);
 }
+
+/* ---------------- START SITE ---------------- */
 
 async function start(){
   await sleep(650);
 
-  const selectedIntro =
-    randomUnseen(
-      "introMessages",
-      introMessages
-    );
+  const selectedIntro=randomUnseen("introMessages",introMessages);
 
   for(const line of selectedIntro){
-    await typeText(line + "\n");
+    await typeText(line+"\n");
     await sleep(270);
   }
 
@@ -1595,38 +1049,32 @@ async function start(){
   wish.focus();
 }
 
-seal.addEventListener("click", async () => {
-  if(processing){
-    return;
-  }
+/* ---------------- FIRST AND SECOND WISH ---------------- */
 
-  const wishText = wish.value.trim();
+seal.addEventListener("click",async()=>{
+  if(processing) return;
+
+  const wishText=wish.value.trim();
 
   if(!wishText){
-    wish.placeholder =
-      wishNumber === 1
-        ? "A wish must first be written..."
-        : "Your second wish must first be written...";
-
+    wish.placeholder=wishNumber===1
+      ? "A wish must first be written..."
+      : "Your second wish must first be written...";
     wish.focus();
     return;
   }
 
-  processing = true;
-  seal.disabled = true;
-  wish.disabled = true;
+  processing=true;
+  seal.disabled=true;
+  wish.disabled=true;
 
-  const wishSaved =
-    await saveWish(wishText);
+  const wishSaved=await saveWish(wishText);
 
   if(!wishSaved){
-    processing = false;
-    seal.disabled = false;
-    wish.disabled = false;
-
-    wish.placeholder =
-      "The connection could not receive your wish. Please try again...";
-
+    processing=false;
+    seal.disabled=false;
+    wish.disabled=false;
+    wish.placeholder="The connection could not receive your wish. Please try again...";
     wish.focus();
     return;
   }
@@ -1636,191 +1084,86 @@ seal.addEventListener("click", async () => {
 
   clearOutput();
   subtleFlicker();
-
   await displayProcessing();
-
   occasionalGlitch(.22);
 
-  if(wishNumber === 1){
-    const firstMessage =
-      firstWishMessage(wishText);
-
-    await typeText(
-      "\n" + firstMessage + "\n",
-      34
-    );
-
+  if(wishNumber===1){
+    await typeText("\n"+firstWishMessage(wishText)+"\n",34);
     await sleep(650);
 
-    const rare = rareEvent();
-
+    const rare=rareEvent();
     if(rare){
       panel.classList.add("rare");
-
-      await typeText(
-        "\n" + rare + "\n",
-        42
-      );
+      await typeText("\n"+rare+"\n",42);
     }
 
     cursor.classList.add("hidden");
-
-    secondWishButton.textContent =
-      randomUnseen(
-        "secondWishButtons",
-        secondWishButtons
-      );
-
-    secondWishButton.disabled = false;
-
-    secondWishButton.classList.remove(
-      "hidden"
-    );
-
-    processing = false;
+    secondWishButton.textContent=randomUnseen("secondWishButtons",secondWishButtons);
+    secondWishButton.disabled=false;
+    secondWishButton.classList.remove("hidden");
+    processing=false;
     return;
   }
 
-  const secondMessage =
-    secondWishMessage(wishText);
-
-  await typeText(
-    "\n" + secondMessage + "\n",
-    34
-  );
-
+  await typeText("\n"+secondWishMessage(wishText)+"\n",34);
   await sleep(700);
 
-  const rare = rareEvent();
-
+  const rare=rareEvent();
   if(rare){
     panel.classList.add("rare");
-
-    await typeText(
-      "\n" + rare + "\n",
-      42
-    );
-
+    await typeText("\n"+rare+"\n",42);
     await sleep(500);
   }
 
-  const challenge =
-    randomUnseen(
-      "challenges",
-      challenges
-    );
-
-  const finalHeading =
-    randomUnseen(
-      "finalHeadings",
-      finalHeadings
-    );
-
-  const finalEnding =
-    randomUnseen(
-      "finalEndings",
-      finalEndings
-    );
-
-  const journeyCode =
-    makeJourneyCode();
+  const challenge=randomUnseen("challenges",challenges);
+  const finalHeading=randomUnseen("finalHeadings",finalHeadings);
+  const finalEnding=randomUnseen("finalEndings",finalEndings);
+  const journeyCode=makeJourneyCode();
 
   await typeText(
-    "\n" +
-    finalHeading +
-    "\n\n" +
-    challenge +
-    "\n\n" +
-    "Journey Feather Code: " +
-    journeyCode +
-    "\n\n" +
-    finalEnding.join("\n") +
-    "\n",
+    "\n"+finalHeading+"\n\n"+
+    challenge+"\n\n"+
+    "Journey Feather Code: "+journeyCode+"\n\n"+
+    finalEnding.join("\n")+"\n",
     38
   );
 
   cursor.classList.add("hidden");
   secondWishButton.classList.add("hidden");
   wishArea.classList.add("hidden");
-  processing = false;
+  processing=false;
 });
 
-secondWishButton.addEventListener(
-  "click",
-  async () => {
-    if(processing || wishNumber !== 1){
-      return;
-    }
+secondWishButton.addEventListener("click",async()=>{
+  if(processing || wishNumber!==1) return;
 
-    processing = true;
-    wishNumber = 2;
+  processing=true;
+  wishNumber=2;
 
-    secondWishButton.disabled = true;
+  secondWishButton.disabled=true;
+  secondWishButton.classList.add("hidden");
+  clearOutput();
+  subtleFlicker();
 
-    secondWishButton.classList.add(
-      "hidden"
-    );
+  await typeText(randomUnseen("returnOpenings",returnOpenings)+"\n",46);
+  await sleep(550);
 
-    clearOutput();
-    subtleFlicker();
+  await typeText("\n"+randomUnseen("greedWarnings",greedWarnings)+"\n",38);
+  await sleep(750);
 
-    const returnOpening =
-      randomUnseen(
-        "returnOpenings",
-        returnOpenings
-      );
+  await typeText("\n"+randomUnseen("finalWishNotices",finalWishNotices)+"\n",44);
+  await sleep(600);
 
-    await typeText(
-      returnOpening + "\n",
-      46
-    );
-
-    await sleep(550);
-
-    const greedWarning =
-      randomUnseen(
-        "greedWarnings",
-        greedWarnings
-      );
-
-    await typeText(
-      "\n" + greedWarning + "\n",
-      38
-    );
-
-    await sleep(750);
-
-    const finalNotice =
-      randomUnseen(
-        "finalWishNotices",
-        finalWishNotices
-      );
-
-    await typeText(
-      "\n" + finalNotice + "\n",
-      44
-    );
-
-    await sleep(600);
-
-    cursor.classList.add("hidden");
-
-    wish.value = "";
-    wish.disabled = false;
-
-    wish.placeholder =
-      "Write your second and final wish here...";
-
-    seal.disabled = false;
-    seal.textContent =
-      "SEAL MY FINAL WISH";
-
-    wishArea.classList.remove("hidden");
-
-    processing = false;
-    wish.focus();
-  }
-);
+  cursor.classList.add("hidden");
+  wish.value="";
+  wish.disabled=false;
+  wish.placeholder="Write your second and final wish here...";
+  seal.disabled=false;
+  seal.textContent="SEAL MY FINAL WISH";
+  wishArea.classList.remove("hidden");
+  processing=false;
+  wish.focus();
+});
 
 start();
 </script>
