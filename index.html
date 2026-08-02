@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000000">
 <title>One Wish</title>
 
@@ -11,7 +11,6 @@
   --green:#7cff89;
   --green-soft:#4ca85a;
   --green-dark:#1f7a3a;
-  --black:#000;
 }
 
 *{box-sizing:border-box}
@@ -31,8 +30,6 @@ body{
     radial-gradient(circle at 50% 35%,rgba(20,70,28,.16),transparent 42%),
     #000;
 }
-
-/* ---------- MAIN PAGE ---------- */
 
 #page{
   position:relative;
@@ -78,13 +75,8 @@ h1{
   animation:cursorBlink .85s steps(1,end) infinite;
 }
 
-#wishArea{
-  margin-top:18px;
-}
-
-#wishWrap{
-  position:relative;
-}
+#wishArea{margin-top:18px}
+#wishWrap{position:relative}
 
 textarea{
   width:100%;
@@ -100,11 +92,6 @@ textarea{
   box-shadow:
     0 0 18px rgba(124,255,137,.11),
     inset 0 0 20px rgba(0,0,0,.75);
-  transition:
-    border-color .25s ease,
-    box-shadow .25s ease,
-    opacity .5s ease,
-    filter .5s ease;
 }
 
 textarea:focus{
@@ -114,13 +101,8 @@ textarea:focus{
     inset 0 0 20px rgba(0,0,0,.75);
 }
 
-textarea.ink-awake{
-  animation:inkGlow .9s ease-in-out infinite alternate;
-}
-
-textarea.ink-dissolve{
-  animation:inkDissolve 1.55s ease forwards;
-}
+textarea.ink-awake{animation:inkGlow .9s ease-in-out infinite alternate}
+textarea.ink-dissolve{animation:inkDissolve 1.55s ease forwards}
 
 button{
   display:block;
@@ -157,8 +139,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
     0 0 30px rgba(124,255,137,.48)!important;
 }
 
-/* ---------- SLOW ROTATING SIGIL ---------- */
-
+/* ROTATING SIGIL */
 #sigilLayer{
   position:fixed;
   inset:-16vmax;
@@ -168,14 +149,9 @@ button:disabled{opacity:.45;cursor:not-allowed}
   filter:drop-shadow(0 0 14px rgba(31,122,58,.26));
   animation:sigilRotate 220s linear infinite;
 }
+#sigilLayer svg{width:100%;height:100%}
 
-#sigilLayer svg{
-  width:100%;
-  height:100%;
-}
-
-/* ---------- MAGIC DUST ---------- */
-
+/* PARTICLES */
 #particleCanvas{
   position:fixed;
   inset:0;
@@ -185,8 +161,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
   pointer-events:none;
 }
 
-/* ---------- HAWK EYES ---------- */
-
+/* EYES */
 #watchingEyes{
   position:fixed;
   left:50%;
@@ -199,7 +174,6 @@ button:disabled{opacity:.45;cursor:not-allowed}
   pointer-events:none;
   filter:drop-shadow(0 0 10px rgba(124,255,137,.8));
 }
-
 .eye{
   position:absolute;
   top:8px;
@@ -212,58 +186,58 @@ button:disabled{opacity:.45;cursor:not-allowed}
     0 0 8px rgba(124,255,137,.85),
     0 0 22px rgba(124,255,137,.35);
 }
-
 .eye.left{left:18px;transform:rotate(4deg)}
 .eye.right{right:18px;transform:rotate(-4deg)}
+#watchingEyes.show{animation:eyesAppear 5.6s ease-in-out forwards}
+#watchingEyes.blink .eye{animation:eyeBlink .22s linear 1}
 
-#watchingEyes.show{
-  animation:eyesAppear 5.6s ease-in-out forwards;
-}
-
-#watchingEyes.blink .eye{
-  animation:eyeBlink .22s linear 1;
-}
-
-/* ---------- GLOWING FEATHER ---------- */
-
+/* REALISTIC RANDOM FEATHER */
 #feather{
   position:fixed;
   left:50%;
-  top:-180px;
+  top:-230px;
   z-index:7;
-  width:clamp(58px,11vw,92px);
-  height:190px;
+  width:clamp(74px,13vw,112px);
+  height:auto;
   transform:translateX(-50%) rotate(-14deg);
   opacity:0;
   pointer-events:none;
+  overflow:visible;
   filter:
-    drop-shadow(0 0 9px rgba(124,255,137,.82))
-    drop-shadow(0 0 24px rgba(124,255,137,.35));
+    drop-shadow(0 0 8px rgba(224,255,230,.85))
+    drop-shadow(0 0 18px rgba(124,255,137,.7))
+    drop-shadow(0 0 38px rgba(124,255,137,.28));
 }
 
-#feather path.main{
-  fill:url(#featherGradient);
-  stroke:#7cff89;
-  stroke-width:2.5;
+#feather .feather-body{
+  fill:url(#featherGradientA);
+  stroke:rgba(220,255,228,.78);
+  stroke-width:1.25;
 }
 
-#feather path.vein{
+#feather .shaft{
   fill:none;
-  stroke:#d7ffe0;
-  stroke-width:3;
-  opacity:.78;
+  stroke:url(#shaftGradient);
+  stroke-width:4.4;
+  stroke-linecap:round;
 }
 
-#feather.drift{
-  animation:featherDrift 8.5s ease-in-out forwards;
+#feather .barb{
+  fill:none;
+  stroke:rgba(218,255,226,.72);
+  stroke-width:2;
+  stroke-linecap:round;
 }
 
-#feather.accept{
-  animation:featherAccept 1.8s ease-in forwards;
+#feather .barb.dark{
+  stroke:rgba(91,158,102,.72);
+  stroke-width:1.65;
 }
 
-/* ---------- MIST ---------- */
+#feather.drift{animation:featherDrift 8.5s ease-in-out forwards}
+#feather.accept{animation:featherAccept 1.8s ease-in forwards}
 
+/* MIST */
 #mist{
   position:fixed;
   left:0;
@@ -274,38 +248,19 @@ button:disabled{opacity:.45;cursor:not-allowed}
   pointer-events:none;
   overflow:hidden;
 }
-
 .mistCloud{
   position:absolute;
   bottom:0;
   width:65vw;
   height:150px;
   border-radius:50%;
-  background:
-    radial-gradient(ellipse at center,
-      rgba(62,151,78,.2) 0,
-      rgba(31,122,58,.12) 38%,
-      rgba(0,0,0,0) 72%);
+  background:radial-gradient(ellipse at center,rgba(62,151,78,.2) 0,rgba(31,122,58,.12) 38%,rgba(0,0,0,0) 72%);
   filter:blur(17px);
   opacity:.55;
 }
-
-.mistCloud.one{
-  left:-24vw;
-  animation:mistMoveOne 28s ease-in-out infinite alternate;
-}
-
-.mistCloud.two{
-  right:-20vw;
-  animation:mistMoveTwo 34s ease-in-out infinite alternate;
-}
-
-.mistCloud.three{
-  left:18vw;
-  width:78vw;
-  opacity:.32;
-  animation:mistMoveThree 42s ease-in-out infinite alternate;
-}
+.mistCloud.one{left:-24vw;animation:mistMoveOne 28s ease-in-out infinite alternate}
+.mistCloud.two{right:-20vw;animation:mistMoveTwo 34s ease-in-out infinite alternate}
+.mistCloud.three{left:18vw;width:78vw;opacity:.32;animation:mistMoveThree 42s ease-in-out infinite alternate}
 
 #mistSymbol{
   position:absolute;
@@ -314,17 +269,12 @@ button:disabled{opacity:.45;cursor:not-allowed}
   transform:translateX(-50%) scale(.75);
   color:rgba(124,255,137,.52);
   font-size:58px;
-  letter-spacing:.18em;
   opacity:0;
   filter:blur(1px) drop-shadow(0 0 12px rgba(124,255,137,.42));
 }
+#mistSymbol.show{animation:mistSymbolForm 4.8s ease-in-out forwards}
 
-#mistSymbol.show{
-  animation:mistSymbolForm 4.8s ease-in-out forwards;
-}
-
-/* ---------- HAWK SHADOW ---------- */
-
+/* HAWK SHADOW */
 #hawkShadow{
   position:fixed;
   top:13%;
@@ -337,7 +287,6 @@ button:disabled{opacity:.45;cursor:not-allowed}
   pointer-events:none;
   filter:blur(8px);
 }
-
 #hawkShadow::before,
 #hawkShadow::after{
   content:"";
@@ -348,17 +297,8 @@ button:disabled{opacity:.45;cursor:not-allowed}
   background:rgba(0,0,0,.86);
   border-radius:85% 10% 85% 20%;
 }
-
-#hawkShadow::before{
-  left:0;
-  transform:rotate(-14deg);
-}
-
-#hawkShadow::after{
-  right:0;
-  transform:scaleX(-1) rotate(-14deg);
-}
-
+#hawkShadow::before{left:0;transform:rotate(-14deg)}
+#hawkShadow::after{right:0;transform:scaleX(-1) rotate(-14deg)}
 #hawkShadow .body{
   position:absolute;
   left:43%;
@@ -368,13 +308,9 @@ button:disabled{opacity:.45;cursor:not-allowed}
   border-radius:55% 55% 40% 40%;
   background:rgba(0,0,0,.9);
 }
+#hawkShadow.fly{animation:hawkShadowPass 5.2s linear forwards}
 
-#hawkShadow.fly{
-  animation:hawkShadowPass 5.2s linear forwards;
-}
-
-/* ---------- MIRROR CRACK ---------- */
-
+/* CRACK */
 #mirrorCrack{
   position:fixed;
   right:5vw;
@@ -386,7 +322,6 @@ button:disabled{opacity:.45;cursor:not-allowed}
   pointer-events:none;
   filter:drop-shadow(0 0 6px rgba(124,255,137,.45));
 }
-
 #mirrorCrack path{
   fill:none;
   stroke:rgba(124,255,137,.56);
@@ -394,12 +329,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
   stroke-linecap:round;
   stroke-linejoin:round;
 }
-
-#mirrorCrack.reveal{
-  animation:crackReveal 2.3s ease forwards;
-}
-
-/* ---------- SCREEN SHADE / SCANLINES ---------- */
+#mirrorCrack.reveal{animation:crackReveal 2.3s ease forwards}
 
 #scanlines{
   position:fixed;
@@ -407,212 +337,65 @@ button:disabled{opacity:.45;cursor:not-allowed}
   z-index:50;
   pointer-events:none;
   opacity:.045;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 3px,
-      rgba(124,255,137,.18) 4px
-    );
+  background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(124,255,137,.18) 4px);
 }
 
-/* ---------- KEYFRAMES ---------- */
-
-@keyframes cursorBlink{
-  0%,45%{opacity:1}
-  46%,100%{opacity:0}
-}
-
-@keyframes sigilRotate{
-  from{transform:rotate(0deg) scale(1)}
-  to{transform:rotate(360deg) scale(1)}
-}
-
+@keyframes cursorBlink{0%,45%{opacity:1}46%,100%{opacity:0}}
+@keyframes sigilRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes inkGlow{
-  from{
-    color:#7cff89;
-    text-shadow:0 0 4px rgba(124,255,137,.35);
-    box-shadow:
-      0 0 16px rgba(124,255,137,.16),
-      inset 0 0 20px rgba(0,0,0,.75);
-  }
-  to{
-    color:#d8ffde;
-    text-shadow:
-      0 0 6px rgba(124,255,137,.9),
-      0 0 18px rgba(124,255,137,.4);
-    box-shadow:
-      0 0 28px rgba(124,255,137,.35),
-      inset 0 0 22px rgba(20,85,30,.18);
-  }
+  from{color:#7cff89;text-shadow:0 0 4px rgba(124,255,137,.35)}
+  to{color:#d8ffde;text-shadow:0 0 6px rgba(124,255,137,.9),0 0 18px rgba(124,255,137,.4)}
 }
-
 @keyframes inkDissolve{
-  0%{
-    opacity:1;
-    filter:blur(0);
-    transform:translateY(0);
-  }
-  55%{
-    opacity:.65;
-    filter:blur(2px);
-  }
-  100%{
-    opacity:0;
-    filter:blur(11px);
-    transform:translateY(-26px) scale(.985);
-  }
+  0%{opacity:1;filter:blur(0);transform:translateY(0)}
+  55%{opacity:.65;filter:blur(2px)}
+  100%{opacity:0;filter:blur(11px);transform:translateY(-26px) scale(.985)}
 }
-
 @keyframes featherDrift{
-  0%{
-    top:-190px;
-    opacity:0;
-    transform:translateX(-50%) rotate(-20deg) scale(.82);
-  }
+  0%{top:-240px;opacity:0;transform:translateX(-50%) rotate(-25deg) scale(.78)}
   8%{opacity:1}
-  35%{
-    transform:translateX(-18%) rotate(18deg) scale(.95);
-  }
-  66%{
-    transform:translateX(-82%) rotate(-12deg) scale(1);
-  }
-  100%{
-    top:23vh;
-    opacity:.95;
-    transform:translateX(-50%) rotate(8deg) scale(1);
-  }
+  35%{transform:translateX(-20%) rotate(19deg) scale(.94)}
+  66%{transform:translateX(-80%) rotate(-12deg) scale(1)}
+  100%{top:23vh;opacity:.96;transform:translateX(-50%) rotate(7deg) scale(1)}
 }
-
 @keyframes featherAccept{
-  0%{
-    opacity:.95;
-    top:23vh;
-    transform:translateX(-50%) rotate(8deg) scale(1);
-    filter:
-      drop-shadow(0 0 10px rgba(124,255,137,.85))
-      drop-shadow(0 0 24px rgba(124,255,137,.38));
-  }
-  42%{
-    opacity:1;
-    transform:translateX(-50%) rotate(-5deg) scale(1.12);
-    filter:
-      drop-shadow(0 0 18px rgba(212,255,221,1))
-      drop-shadow(0 0 45px rgba(124,255,137,.85));
-  }
-  100%{
-    top:-220px;
-    opacity:0;
-    transform:translateX(-50%) rotate(26deg) scale(.65);
-  }
+  0%{opacity:.96;top:23vh;transform:translateX(-50%) rotate(7deg) scale(1)}
+  42%{opacity:1;transform:translateX(-50%) rotate(-5deg) scale(1.14);filter:drop-shadow(0 0 18px #e8ffec) drop-shadow(0 0 50px rgba(124,255,137,.95))}
+  100%{top:-240px;opacity:0;transform:translateX(-50%) rotate(28deg) scale(.62)}
 }
-
-@keyframes eyesAppear{
-  0%{opacity:0}
-  18%{opacity:.85}
-  70%{opacity:.85}
-  100%{opacity:0}
-}
-
-@keyframes eyeBlink{
-  0%,100%{transform:scaleY(1)}
-  50%{transform:scaleY(.06)}
-}
-
-@keyframes mistMoveOne{
-  from{transform:translateX(0) scale(1)}
-  to{transform:translateX(52vw) scale(1.12)}
-}
-
-@keyframes mistMoveTwo{
-  from{transform:translateX(0) scale(1.05)}
-  to{transform:translateX(-54vw) scale(.92)}
-}
-
-@keyframes mistMoveThree{
-  from{transform:translateX(-18vw)}
-  to{transform:translateX(20vw)}
-}
-
+@keyframes eyesAppear{0%{opacity:0}18%{opacity:.85}70%{opacity:.85}100%{opacity:0}}
+@keyframes eyeBlink{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.06)}}
+@keyframes mistMoveOne{from{transform:translateX(0)}to{transform:translateX(52vw) scale(1.12)}}
+@keyframes mistMoveTwo{from{transform:translateX(0) scale(1.05)}to{transform:translateX(-54vw) scale(.92)}}
+@keyframes mistMoveThree{from{transform:translateX(-18vw)}to{transform:translateX(20vw)}}
 @keyframes mistSymbolForm{
   0%{opacity:0;filter:blur(16px);transform:translateX(-50%) scale(.55)}
   38%{opacity:.58;filter:blur(2px);transform:translateX(-50%) scale(1)}
   72%{opacity:.42}
   100%{opacity:0;filter:blur(13px);transform:translateX(-50%) scale(1.2)}
 }
-
 @keyframes hawkShadowPass{
-  0%{
-    left:-45vw;
-    opacity:0;
-    transform:translateY(20px) scale(.75) rotate(-2deg);
-  }
+  0%{left:-45vw;opacity:0;transform:translateY(20px) scale(.75) rotate(-2deg)}
   12%{opacity:.62}
   50%{opacity:.4}
   88%{opacity:.28}
-  100%{
-    left:115vw;
-    opacity:0;
-    transform:translateY(-18px) scale(1.05) rotate(3deg);
-  }
+  100%{left:115vw;opacity:0;transform:translateY(-18px) scale(1.05) rotate(3deg)}
 }
-
-@keyframes crackReveal{
-  0%{opacity:0;transform:scale(.9)}
-  35%{opacity:.8;transform:scale(1.02)}
-  100%{opacity:.48;transform:scale(1)}
-}
-
-@keyframes glitch{
-  0%{transform:translate(0)}
-  33%{transform:translate(1px,-1px)}
-  66%{transform:translate(-1px,1px)}
-  100%{transform:translate(0)}
-}
-
-@keyframes flicker{
-  0%,100%{opacity:1}
-  35%{opacity:.72}
-  60%{opacity:.9}
-}
+@keyframes crackReveal{0%{opacity:0;transform:scale(.9)}35%{opacity:.8;transform:scale(1.02)}100%{opacity:.48;transform:scale(1)}}
+@keyframes glitch{0%{transform:translate(0)}33%{transform:translate(1px,-1px)}66%{transform:translate(-1px,1px)}100%{transform:translate(0)}}
+@keyframes flicker{0%,100%{opacity:1}35%{opacity:.72}60%{opacity:.9}}
 
 @media(max-width:600px){
-  #page{
-    width:98vw;
-    padding:16px 12px 170px;
-  }
-
-  h1{
-    font-size:36px;
-  }
-
-  #output{
-    min-height:285px;
-    font-size:19px;
-  }
-
-  #watchingEyes{
-    top:12%;
-  }
-
-  #mirrorCrack{
-    width:130px;
-    height:190px;
-    right:1vw;
-    top:12vh;
-  }
-
-  #hawkShadow{
-    top:18%;
-    min-width:230px;
-    height:140px;
-  }
+  #page{width:98vw;padding:16px 12px 170px}
+  h1{font-size:36px}
+  #output{min-height:285px;font-size:19px}
+  #watchingEyes{top:12%}
+  #mirrorCrack{width:130px;height:190px;right:1vw;top:12vh}
+  #hawkShadow{top:18%;min-width:230px;height:140px}
 }
 
 @media(prefers-reduced-motion:reduce){
-  *,
-  *::before,
-  *::after{
+  *,*::before,*::after{
     animation-duration:.001ms!important;
     animation-iteration-count:1!important;
     scroll-behavior:auto!important;
@@ -654,18 +437,47 @@ button:disabled{opacity:.45;cursor:not-allowed}
   <span class="eye right"></span>
 </div>
 
-<svg id="feather" viewBox="0 0 120 260" aria-hidden="true">
+<svg id="feather" viewBox="0 0 150 320" aria-hidden="true">
   <defs>
-    <linearGradient id="featherGradient" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#e3ffe8"/>
-      <stop offset=".35" stop-color="#7cff89"/>
-      <stop offset=".66" stop-color="#3c7047"/>
-      <stop offset="1" stop-color="#071008"/>
+    <linearGradient id="featherGradientA" x1="0" y1="0" x2="1" y2="1">
+      <stop id="featherStop1" offset="0" stop-color="#effff2"/>
+      <stop id="featherStop2" offset=".28" stop-color="#b4ffc0"/>
+      <stop id="featherStop3" offset=".58" stop-color="#4d9b5d"/>
+      <stop id="featherStop4" offset="1" stop-color="#071108"/>
+    </linearGradient>
+    <linearGradient id="shaftGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4fff6"/>
+      <stop offset=".55" stop-color="#9ff0aa"/>
+      <stop offset="1" stop-color="#426d49"/>
     </linearGradient>
   </defs>
-  <path class="main" d="M70 8 C27 38 15 103 34 162 C45 195 49 222 52 252 C58 216 68 186 86 156 C112 112 108 49 70 8 Z"/>
-  <path class="vein" d="M57 241 C61 179 67 123 79 54"/>
-  <path class="vein" d="M64 181 L35 151 M67 151 L92 125 M70 123 L39 98 M74 93 L97 71 M77 66 L53 48"/>
+
+  <path id="featherBody" class="feather-body"
+    d="M91 10
+       C59 21 34 52 24 89
+       C16 120 20 149 35 174
+       C47 194 53 221 54 250
+       C68 230 80 209 91 185
+       C109 146 127 94 118 55
+       C114 35 104 18 91 10 Z"/>
+
+  <path id="featherShaft" class="shaft"
+    d="M52 302 C59 242 69 190 82 137 C91 101 99 66 105 35"/>
+
+  <g id="featherBarbs">
+    <path class="barb" d="M79 150 C58 143 40 132 26 119"/>
+    <path class="barb dark" d="M76 163 C57 159 43 153 31 145"/>
+    <path class="barb" d="M73 178 C54 179 42 176 34 171"/>
+    <path class="barb dark" d="M69 194 C55 199 46 200 39 199"/>
+    <path class="barb" d="M65 211 C54 220 47 224 42 226"/>
+    <path class="barb dark" d="M62 230 C55 238 51 244 48 250"/>
+
+    <path class="barb" d="M83 141 C101 130 113 118 122 104"/>
+    <path class="barb dark" d="M87 124 C103 111 113 99 120 86"/>
+    <path class="barb" d="M91 106 C106 91 114 78 118 65"/>
+    <path class="barb dark" d="M95 88 C107 74 113 62 115 50"/>
+    <path class="barb" d="M99 69 C107 58 111 48 112 39"/>
+  </g>
 </svg>
 
 <div id="mist" aria-hidden="true">
@@ -675,9 +487,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
   <div id="mistSymbol">✦</div>
 </div>
 
-<div id="hawkShadow" aria-hidden="true">
-  <span class="body"></span>
-</div>
+<div id="hawkShadow" aria-hidden="true"><span class="body"></span></div>
 
 <svg id="mirrorCrack" viewBox="0 0 180 240" aria-hidden="true">
   <path d="M92 12 L89 52 L105 72 L91 96 L100 121 L82 143 L88 171 L71 198 L74 232"/>
@@ -700,11 +510,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 
   <section id="wishArea" class="hidden">
     <div id="wishWrap">
-      <textarea
-        id="wish"
-        maxlength="700"
-        placeholder="Write your wish here..."
-      ></textarea>
+      <textarea id="wish" maxlength="700" placeholder="Write your wish here..."></textarea>
     </div>
 
     <button id="seal">SEAL MY WISH</button>
@@ -726,10 +532,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 const SUPABASE_URL="https://qchdhrxniqpwcwtxkrgz.supabase.co";
 const SUPABASE_KEY="sb_publishable_lYRHZV7dGb74UBYmfPTdbg_-RTlhzeO";
 
-const supabaseClient=window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 const output=document.getElementById("output");
 const cursor=document.getElementById("cursor");
@@ -740,6 +543,14 @@ const wish=document.getElementById("wish");
 const secondWishButton=document.getElementById("secondWishButton");
 
 const feather=document.getElementById("feather");
+const featherBody=document.getElementById("featherBody");
+const featherShaft=document.getElementById("featherShaft");
+const featherBarbs=document.getElementById("featherBarbs");
+const featherStop1=document.getElementById("featherStop1");
+const featherStop2=document.getElementById("featherStop2");
+const featherStop3=document.getElementById("featherStop3");
+const featherStop4=document.getElementById("featherStop4");
+
 const watchingEyes=document.getElementById("watchingEyes");
 const hawkShadow=document.getElementById("hawkShadow");
 const mistSymbol=document.getElementById("mistSymbol");
@@ -751,21 +562,68 @@ const randomFrom=list=>list[Math.floor(Math.random()*list.length)];
 let wishNumber=1;
 let processing=false;
 
-/* ---------- SAVE WISH ---------- */
+/* RANDOM FEATHER DESIGNS */
+const featherDesigns=[
+  {
+    body:"M91 10 C59 21 34 52 24 89 C16 120 20 149 35 174 C47 194 53 221 54 250 C68 230 80 209 91 185 C109 146 127 94 118 55 C114 35 104 18 91 10 Z",
+    shaft:"M52 302 C59 242 69 190 82 137 C91 101 99 66 105 35",
+    scaleX:1,
+    colors:["#effff2","#b4ffc0","#4d9b5d","#071108"]
+  },
+  {
+    body:"M82 8 C51 24 27 59 22 99 C18 133 27 161 43 181 C55 197 61 220 61 248 C73 230 83 211 92 191 C108 155 123 111 119 71 C116 40 101 16 82 8 Z",
+    shaft:"M57 304 C62 252 70 207 80 165 C89 126 97 86 102 42",
+    scaleX:.9,
+    colors:["#ffffff","#c8ffd0","#5faa6d","#061007"]
+  },
+  {
+    body:"M96 13 C67 16 43 38 29 72 C17 102 16 131 29 158 C40 181 48 211 49 246 C64 227 78 204 91 176 C111 134 130 82 116 43 C111 28 104 17 96 13 Z",
+    shaft:"M48 306 C56 246 66 192 79 141 C89 100 98 66 105 35",
+    scaleX:1.08,
+    colors:["#eaffee","#9fffb1","#3e8c4f","#030b04"]
+  },
+  {
+    body:"M86 12 C56 28 37 57 30 91 C23 123 28 151 41 173 C52 192 57 220 56 249 C69 230 80 208 89 186 C105 149 119 102 115 66 C112 40 101 18 86 12 Z",
+    shaft:"M54 304 C60 246 68 199 79 153 C87 118 94 83 99 46",
+    scaleX:.82,
+    colors:["#f4fff6","#d5ffda","#6db77a","#081209"]
+  }
+];
+
+let lastFeatherIndex=-1;
+
+function chooseNewFeather(){
+  let index=Math.floor(Math.random()*featherDesigns.length);
+
+  if(featherDesigns.length>1){
+    while(index===lastFeatherIndex){
+      index=Math.floor(Math.random()*featherDesigns.length);
+    }
+  }
+
+  lastFeatherIndex=index;
+  const design=featherDesigns[index];
+
+  featherBody.setAttribute("d",design.body);
+  featherShaft.setAttribute("d",design.shaft);
+  featherBarbs.setAttribute("transform",`scale(${design.scaleX} 1)`);
+
+  featherStop1.setAttribute("stop-color",design.colors[0]);
+  featherStop2.setAttribute("stop-color",design.colors[1]);
+  featherStop3.setAttribute("stop-color",design.colors[2]);
+  featherStop4.setAttribute("stop-color",design.colors[3]);
+}
 
 async function saveWish(wishText){
   try{
     const {error}=await supabaseClient
       .from("wishes")
-      .insert({
-        wish_text:wishText
-      });
+      .insert({wish_text:wishText});
 
     if(error){
       console.error("Wish submission failed:",error);
       return false;
     }
-
     return true;
   }catch(error){
     console.error("Wish submission failed:",error);
@@ -773,82 +631,64 @@ async function saveWish(wishText){
   }
 }
 
-/* ---------- VISUAL EFFECTS ---------- */
-
 function launchFeather(){
-  feather.classList.remove("accept");
+  chooseNewFeather();
+  feather.classList.remove("accept","drift");
+  void feather.offsetWidth;
   feather.classList.add("drift");
 }
 
 function acceptWishWithFeather(){
-  feather.classList.remove("drift");
-  feather.classList.remove("accept");
+  feather.classList.remove("drift","accept");
   void feather.offsetWidth;
   feather.classList.add("accept");
 }
 
 function showWatchingEyes(){
   if(processing)return;
-
   watchingEyes.classList.remove("show","blink");
   void watchingEyes.offsetWidth;
   watchingEyes.classList.add("show");
 
-  setTimeout(()=>{
-    watchingEyes.classList.add("blink");
-  },1600);
-
-  setTimeout(()=>{
-    watchingEyes.classList.remove("blink");
-  },1900);
-
-  setTimeout(()=>{
-    watchingEyes.classList.add("blink");
-  },3300);
-
-  setTimeout(()=>{
-    watchingEyes.classList.remove("blink");
-  },3550);
+  setTimeout(()=>watchingEyes.classList.add("blink"),1600);
+  setTimeout(()=>watchingEyes.classList.remove("blink"),1900);
+  setTimeout(()=>watchingEyes.classList.add("blink"),3300);
+  setTimeout(()=>watchingEyes.classList.remove("blink"),3550);
 }
 
 function scheduleEyes(){
-  const delay=13000+Math.random()*18000;
   setTimeout(()=>{
     showWatchingEyes();
     scheduleEyes();
-  },delay);
+  },13000+Math.random()*18000);
 }
 
 function passHawkShadow(){
   if(processing)return;
-
   hawkShadow.classList.remove("fly");
   void hawkShadow.offsetWidth;
   hawkShadow.classList.add("fly");
 }
 
 function scheduleHawkShadow(){
-  const delay=35000+Math.random()*55000;
   setTimeout(()=>{
     passHawkShadow();
     scheduleHawkShadow();
-  },delay);
+  },35000+Math.random()*55000);
 }
 
 function formMistSymbol(){
-  const symbols=["✦","☽","◇","ᚱ","ᛟ","𓅃"];
-  mistSymbol.textContent=randomFrom(symbols);
+  mistSymbol.textContent=randomFrom(["✦","☽","◇","ᚱ","ᛟ","𓅃"]);
   mistSymbol.classList.remove("show");
   void mistSymbol.offsetWidth;
   mistSymbol.classList.add("show");
 }
 
 function scheduleMistSymbol(){
-  const delay=18000+Math.random()*28000;
   setTimeout(()=>{
     formMistSymbol();
     scheduleMistSymbol();
-  },delay);
+  },18000+Math.random()*28000);
 }
 
 function revealMirrorCrack(){
@@ -866,8 +706,7 @@ async function dissolveInk(){
   wish.classList.remove("ink-dissolve");
 }
 
-/* ---------- PARTICLES ---------- */
-
+/* PARTICLES */
 const canvas=document.getElementById("particleCanvas");
 const context=canvas.getContext("2d");
 let particles=[];
@@ -882,8 +721,6 @@ function resizeCanvas(){
 }
 
 function createParticle(){
-  const targetChance=Math.random()<.08;
-
   return{
     x:Math.random()*window.innerWidth,
     y:window.innerHeight+Math.random()*80,
@@ -892,7 +729,7 @@ function createParticle(){
     drift:(Math.random()-.5)*.35,
     alpha:.15+Math.random()*.55,
     pulse:Math.random()*Math.PI*2,
-    targetChance
+    targetChance:Math.random()<.08
   };
 }
 
@@ -902,7 +739,6 @@ function resetParticle(particle){
 
 function animateParticles(){
   context.clearRect(0,0,window.innerWidth,window.innerHeight);
-
   const box=wish.getBoundingClientRect();
 
   for(const particle of particles){
@@ -930,7 +766,6 @@ function animateParticles(){
     }
 
     const glow=particle.alpha*(.7+.3*Math.sin(particle.pulse));
-
     context.beginPath();
     context.arc(particle.x,particle.y,particle.radius,0,Math.PI*2);
     context.fillStyle=`rgba(124,255,137,${glow})`;
@@ -945,27 +780,25 @@ function animateParticles(){
 
 function startParticles(){
   resizeCanvas();
-  const count=Math.min(90,Math.max(38,Math.floor(window.innerWidth/14)));
-  particles=Array.from({length:count},createParticle);
+  particles=Array.from(
+    {length:Math.min(90,Math.max(38,Math.floor(window.innerWidth/14)))},
+    createParticle
+  );
   animateParticles();
 }
 
 window.addEventListener("resize",resizeCanvas);
 
-/* ---------- DISPLAY HELPERS ---------- */
-
+/* TEXT HELPERS */
 async function typeText(text,speed=32){
   cursor.classList.remove("hidden");
-
   for(const character of text){
     output.textContent+=character;
     await sleep(character==="\n"?100:speed);
   }
 }
 
-function clearOutput(){
-  output.textContent="";
-}
+function clearOutput(){output.textContent=""}
 
 function subtleFlicker(){
   page.classList.remove("flicker");
@@ -983,69 +816,50 @@ function occasionalGlitch(chance=.16){
 
 function shuffleList(list){
   const copy=[...list];
-
   for(let i=copy.length-1;i>0;i--){
     const j=Math.floor(Math.random()*(i+1));
     [copy[i],copy[j]]=[copy[j],copy[i]];
   }
-
   return copy;
 }
 
 function forgePhrases(starters,middles,endings,count=250){
   const phrases=[];
-
   for(const starter of starters){
     for(const middle of middles){
       for(const ending of endings){
-        const phrase=`${starter} ${middle}${ending}`
-          .replace(/\s+/g," ")
-          .trim();
-
-        if(!phrases.includes(phrase)){
-          phrases.push(phrase);
-        }
+        const phrase=`${starter} ${middle}${ending}`.replace(/\s+/g," ").trim();
+        if(!phrases.includes(phrase))phrases.push(phrase);
       }
     }
   }
-
   return shuffleList(phrases).slice(0,count);
 }
 
 function forgeLines(firstLines,secondLines,thirdLines,count=250){
   const phrases=[];
-
   for(const first of firstLines){
     for(const second of secondLines){
       for(const third of thirdLines){
         const phrase=`${first}\n${second}\n${third}`;
-
-        if(!phrases.includes(phrase)){
-          phrases.push(phrase);
-        }
+        if(!phrases.includes(phrase))phrases.push(phrase);
       }
     }
   }
-
   return shuffleList(phrases).slice(0,count);
 }
 
-/* ---------- LOCAL MEMORY ---------- */
-
-const MEMORY_KEY="oneWishSeenPhrasesV7";
+/* LOCAL MEMORY */
+const MEMORY_KEY="oneWishSeenPhrasesV8";
 
 function loadMemory(){
-  try{
-    return JSON.parse(localStorage.getItem(MEMORY_KEY))||{};
-  }catch{
-    return {};
-  }
+  try{return JSON.parse(localStorage.getItem(MEMORY_KEY))||{}}
+  catch{return {}}
 }
 
 function saveMemory(memory){
-  try{
-    localStorage.setItem(MEMORY_KEY,JSON.stringify(memory));
-  }catch{}
+  try{localStorage.setItem(MEMORY_KEY,JSON.stringify(memory))}
+  catch{}
 }
 
 function randomUnseen(category,list){
@@ -1064,59 +878,17 @@ function randomUnseen(category,list){
   }
 
   const chosen=randomFrom(available);
-
-  memory[category]=[
-    ...(memory[category]||[]),
-    chosen.index
-  ];
-
+  memory[category]=[...(memory[category]||[]),chosen.index];
   saveMemory(memory);
   return chosen.item;
 }
 
-/* ---------- MESSAGE LIBRARIES ---------- */
-
+/* MESSAGE LIBRARIES */
 const introMessages=[
-  [
-    "Connection established...",
-    "",
-    "The Feather watches.",
-    "The Hawk waits.",
-    "",
-    "You have been granted one wish.",
-    "Choose carefully.",
-    "Not every wish asks the same price."
-  ],
-  [
-    "A path has opened...",
-    "",
-    "Something beyond the page is listening.",
-    "The Feather has not yet fallen.",
-    "",
-    "One wish may now be written.",
-    "Do not waste what was given.",
-    "Some doors remember who opened them."
-  ],
-  [
-    "The signal has crossed...",
-    "",
-    "The black mirror remains still.",
-    "The Hawk has turned its eye toward you.",
-    "",
-    "You may place one wish before the Keeper.",
-    "Write only what you are prepared to release.",
-    "The silence will decide what follows."
-  ],
-  [
-    "The threshold is awake...",
-    "",
-    "The Feather waits between two worlds.",
-    "The old chamber has opened.",
-    "",
-    "One wish has been permitted.",
-    "Speak through ink, not through fear.",
-    "What is sealed cannot be called back unchanged."
-  ]
+  ["Connection established...","","The Feather watches.","The Hawk waits.","","You have been granted one wish.","Choose carefully.","Not every wish asks the same price."],
+  ["A path has opened...","","Something beyond the page is listening.","The Feather has not yet fallen.","","One wish may now be written.","Do not waste what was given.","Some doors remember who opened them."],
+  ["The signal has crossed...","","The black mirror remains still.","The Hawk has turned its eye toward you.","","You may place one wish before the Keeper.","Write only what you are prepared to release.","The silence will decide what follows."],
+  ["The threshold is awake...","","The Feather waits between two worlds.","The old chamber has opened.","","One wish has been permitted.","Speak through ink, not through fear.","What is sealed cannot be called back unchanged."]
 ];
 
 const receivingMessages=[
@@ -1125,9 +897,7 @@ const receivingMessages=[
   "The Feather is listening...\nThe words are crossing...\n",
   "The threshold is open...\nYour words are entering...\n",
   "The Hawk has turned...\nThe Keeper is reading...\n",
-  "The ink has begun to move...\nThe chamber is listening...\n",
-  "A message has entered...\nThe hidden ledger is opening...\n",
-  "The silence has answered...\nYour request is being weighed...\n"
+  "The ink has begun to move...\nThe chamber is listening...\n"
 ];
 
 const sealedMessages=[
@@ -1136,642 +906,170 @@ const sealedMessages=[
   "The Feather Has Taken Your Words.",
   "The Threshold Has Accepted the Offering.",
   "The Ledger Has Been Marked.",
-  "The Hawk Has Heard Enough.",
-  "The Words Can No Longer Be Recalled.",
   "The Wish Has Left Your Hands."
 ];
 
 const firstOpenings=forgePhrases(
-  [
-    "Your wish",
-    "The message you sealed",
-    "The desire you carried",
-    "The request placed before the Feather",
-    "The vow hidden in your silence",
-    "The secret you surrendered",
-    "The thing you dared to ask",
-    "The longing you named"
-  ],
-  [
-    "has crossed the threshold",
-    "has entered the old waiting place",
-    "has been received by the Feather",
-    "has awakened the silent chamber",
-    "has reached the Keeper",
-    "has entered the black mirror",
-    "has been written into the hidden ledger",
-    "has found the door that was listening"
-  ],
-  [
-    ".",
-    " at the appointed hour.",
-    " before the silence could close.",
-    " and the seal has held.",
-    " where no spoken word may follow."
-  ]
+  ["Your wish","The message you sealed","The desire you carried","The secret you surrendered","The thing you dared to ask"],
+  ["has crossed the threshold","has entered the old waiting place","has reached the Keeper","has entered the black mirror","has found the door that was listening"],
+  ["."," at the appointed hour."," before the silence could close."," and the seal has held."]
 );
 
 const firstHopeful=forgePhrases(
-  [
-    "A quiet change",
-    "An unseen hand",
-    "The first sign",
-    "A forgotten road",
-    "A door once hidden",
-    "The smallest mercy",
-    "A favorable turn",
-    "A distant answer"
-  ],
-  [
-    "may already be moving toward you",
-    "may rise from an ordinary moment",
-    "may arrive wearing a familiar face",
-    "may reveal itself when you stop searching",
-    "may begin before you recognize it",
-    "may return with a different name",
-    "may open where the path once ended",
-    "may be nearer than your fear permits"
-  ],
-  [
-    ".",
-    " if patience does not betray you.",
-    " when the balance is ready.",
-    " but it will not announce itself twice."
-  ]
+  ["A quiet change","An unseen hand","The first sign","A forgotten road","A door once hidden"],
+  ["may already be moving toward you","may rise from an ordinary moment","may reveal itself when you stop searching","may begin before you recognize it","may be nearer than your fear permits"],
+  ["."," if patience does not betray you."," when the balance is ready."," but it will not announce itself twice."]
 );
 
 const firstMystery=forgePhrases(
-  [
-    "Do not",
-    "Never",
-    "Take care not to",
-    "You would be wise not to",
-    "Until the first sign arrives, do not",
-    "While the Feather carries your wish, do not",
-    "Before the balance settles, do not",
-    "When the Hawk returns, do not"
-  ],
-  [
-    "repeat the wish aloud",
-    "ask the silence what it heard",
-    "search for the Feather after midnight",
-    "mistake every accident for an answer",
-    "tell a stranger what was sealed",
-    "call upon the same desire again",
-    "follow any sign that asks for harm",
-    "laugh at the warning when it appears"
-  ],
-  [
-    ".",
-    " until the hour has passed.",
-    " for some things answer when named twice.",
-    " because the second voice may not be yours.",
-    " unless you are prepared to be remembered."
-  ]
+  ["Do not","Never","Take care not to","Until the first sign arrives, do not","When the Hawk returns, do not"],
+  ["repeat the wish aloud","ask the silence what it heard","mistake every accident for an answer","tell a stranger what was sealed","follow any sign that asks for harm"],
+  ["."," until the hour has passed."," for some things answer when named twice."," unless you are prepared to be remembered."]
 );
 
 const firstClosings=forgePhrases(
-  [
-    "Now",
-    "From this hour forward",
-    "Until the first sign",
-    "When you leave this place",
-    "As the seal darkens",
-    "While the Hawk watches",
-    "As the Feather begins its journey",
-    "From the moment the ink dries"
-  ],
-  [
-    "walk carefully",
-    "keep your silence",
-    "watch what changes",
-    "trust no answer that demands harm",
-    "leave the wish unspoken",
-    "remember what you offered",
-    "do not force the path",
-    "wait without calling again"
-  ],
-  [
-    ".",
-    " and do not look back too quickly.",
-    " for the balance has begun to move.",
-    " because the waiting is part of the rite.",
-    " until the Feather chooses to return."
-  ]
+  ["Now","From this hour forward","Until the first sign","When you leave this place","From the moment the ink dries"],
+  ["walk carefully","keep your silence","watch what changes","trust no answer that demands harm","wait without calling again"],
+  ["."," and do not look back too quickly."," for the balance has begun to move."," until the Feather chooses to return."]
 );
 
 const secondOpenings=forgePhrases(
-  [
-    "Your second wish",
-    "The final request",
-    "The last plea",
-    "The second seal",
-    "The desire that followed the first",
-    "The final line of ink",
-    "The second knock upon the door",
-    "The wish born after enough should have been enough"
-  ],
-  [
-    "has crossed the threshold",
-    "has entered the deeper chamber",
-    "has been accepted by the silent ledger",
-    "has awakened the final door",
-    "has reached the place where gifts become debts",
-    "has entered the balance beside your first wish",
-    "has called the Feather back",
-    "has been marked where no third line may be written"
-  ],
-  [
-    ".",
-    " and the old law has noticed.",
-    " before mercy could close the gate.",
-    " with a price not yet named.",
-    " where the first wish can no longer stand alone."
-  ]
+  ["Your second wish","The final request","The last plea","The second seal","The final line of ink"],
+  ["has crossed the threshold","has entered the deeper chamber","has awakened the final door","has reached the place where gifts become debts","has been marked where no third line may be written"],
+  ["."," and the old law has noticed."," with a price not yet named."]
 );
 
 const secondWarnings=forgePhrases(
-  [
-    "One wish was the gift;",
-    "The first wish carried hope;",
-    "You were offered enough;",
-    "The Feather answered once;",
-    "The first door opened freely;",
-    "A single wish belonged to mercy;",
-    "The Hawk permitted one desire;",
-    "The old rite allowed one request;"
-  ],
-  [
-    "the second belongs to your hunger",
-    "the second now carries your decision",
-    "the second has entered the realm of consequence",
-    "the second may collect what the first promised",
-    "the second has awakened the debt",
-    "the second asks whether hope has become greed",
-    "the second has moved the balance beyond kindness",
-    "the second may return wearing the face of loss"
-  ],
-  [
-    ".",
-    " and nothing offered twice remains innocent.",
-    " though the cost may arrive gently.",
-    " because temptation rarely announces itself.",
-    " and the Keeper records both choices."
-  ]
+  ["One wish was the gift;","The first wish carried hope;","You were offered enough;","The Feather answered once;"],
+  ["the second belongs to your hunger","the second has entered the realm of consequence","the second has awakened the debt","the second asks whether hope has become greed"],
+  ["."," and nothing offered twice remains innocent."," because temptation rarely announces itself."]
 );
 
 const secondMystery=forgePhrases(
-  [
-    "A familiar road",
-    "The next reflection",
-    "The first answer",
-    "A door you thought closed",
-    "The Hawk's returning shadow",
-    "The sound behind you",
-    "The promise you trust most",
-    "The hour before sleep"
-  ],
-  [
-    "may no longer lead where it once did",
-    "may carry the second sign",
-    "may arrive altered by this choice",
-    "may open without being touched",
-    "may ask you to remember tonight",
-    "may reveal the cost before the gift",
-    "may hold two echoes instead of one",
-    "may return your own words in another voice"
-  ],
-  [
-    ".",
-    " after you have stopped expecting it.",
-    " when the balance turns.",
-    " before the final waiting ends.",
-    " and you may not know which wish called it."
-  ]
+  ["A familiar road","The next reflection","The first answer","The Hawk's returning shadow"],
+  ["may no longer lead where it once did","may carry the second sign","may reveal the cost before the gift","may return your own words in another voice"],
+  ["."," after you have stopped expecting it."," when the balance turns."]
 );
 
 const secondClosings=forgePhrases(
-  [
-    "There will be",
-    "The old rite permits",
-    "The Feather will answer with",
-    "The sealed door allows",
-    "The Keeper records",
-    "The final ledger accepts",
-    "The Hawk carries",
-    "The path grants"
-  ],
-  [
-    "no third wish",
-    "no further asking",
-    "no final correction",
-    "no undoing of the second seal",
-    "no bargain after this one",
-    "no mercy hidden in a third request",
-    "no path back to the first choice",
-    "no excuse once the ink has dried"
-  ],
-  [
-    ".",
-    " after tonight.",
-    " under any name.",
-    " no matter what follows.",
-    " and the silence is now in command."
-  ]
+  ["There will be","The old rite permits","The final ledger accepts","The path grants"],
+  ["no third wish","no further asking","no final correction","no bargain after this one"],
+  ["."," after tonight."," under any name."," no matter what follows."]
 );
 
 const secondWishButtons=forgePhrases(
-  [
-    "ONE WISH SHOULD HAVE BEEN ENOUGH...",
-    "THE FEATHER STILL LISTENS...",
-    "THE FIRST WAS A GIFT...",
-    "THE HAWK HAS NOT YET DEPARTED...",
-    "THE DOOR REMAINS OPEN...",
-    "THE SILENCE OFFERS ONE FINAL CHOICE...",
-    "SOME WALK AWAY NOW...",
-    "YOU HAVE BEEN GIVEN ENOUGH..."
-  ],
-  [
-    "WILL YOU ASK AGAIN",
-    "WILL YOU TEST THE BALANCE",
-    "WILL GREED SPEAK FOR YOU",
-    "WILL YOU DARE A SECOND SEAL",
-    "WILL YOU WALK AWAY",
-    "WILL YOU CALL THE FEATHER BACK",
-    "WILL YOU CHOOSE TEMPTATION",
-    "WILL YOU SPEAK ONE FINAL DESIRE"
-  ],
-  [
-    "?",
-    "... IF YOU DARE?",
-    "... BEFORE THE DOOR CLOSES?",
-    "... KNOWING THERE WILL BE NO THIRD?",
-    "... AND ACCEPT WHAT FOLLOWS?"
-  ]
+  ["ONE WISH SHOULD HAVE BEEN ENOUGH...","THE FEATHER STILL LISTENS...","THE FIRST WAS A GIFT...","THE DOOR REMAINS OPEN..."],
+  ["WILL YOU ASK AGAIN","WILL YOU TEST THE BALANCE","WILL YOU DARE A SECOND SEAL","WILL YOU CHOOSE TEMPTATION"],
+  ["?","... IF YOU DARE?","... KNOWING THERE WILL BE NO THIRD?"]
 );
 
 const greedWarnings=forgeLines(
-  [
-    "You were given one wish.",
-    "The Feather answered you once.",
-    "One desire crossed the threshold.",
-    "The first seal was already accepted.",
-    "The Hawk had begun to turn away.",
-    "Enough was placed within your reach.",
-    "The old rite had already shown mercy.",
-    "The silence had already heard your plea."
-  ],
-  [
-    "Yet you remained before the door.",
-    "Still, you called the Feather back.",
-    "Yet hope and hunger spoke together.",
-    "Still, you reached for what was not promised.",
-    "Yet curiosity overcame the warning.",
-    "Still, you asked the balance for more.",
-    "Yet your hand returned to the ink.",
-    "Still, the temptation was stronger than silence."
-  ],
-  [
-    "May the second wish be worth what follows.",
-    "There will be no third request.",
-    "The balance will remember this choice.",
-    "Write only what you are willing to carry.",
-    "The second seal will not open gently.",
-    "After this, only consequences remain.",
-    "Nothing asked twice remains without a cost.",
-    "Speak now, and accept the answering silence."
-  ]
+  ["You were given one wish.","The Feather answered you once.","The first seal was already accepted.","Enough was placed within your reach."],
+  ["Yet you remained before the door.","Still, you called the Feather back.","Yet curiosity overcame the warning.","Still, you asked the balance for more."],
+  ["May the second wish be worth what follows.","There will be no third request.","The balance will remember this choice.","After this, only consequences remain."]
 );
 
 const returnOpenings=[
   "You have chosen to return...",
   "The Feather heard your footsteps again...",
-  "The Hawk had begun to leave...",
   "The door was almost closed...",
-  "The silence did not expect your return...",
-  "You have called the Keeper back...",
-  "The first seal was not enough for you...",
-  "The second path has opened..."
+  "The silence did not expect your return..."
 ];
 
 const finalWishNotices=[
   "One final wish remains.",
   "The final line is now yours.",
   "A second and final wish may be written.",
-  "The last seal is waiting.",
-  "One final request may still cross.",
-  "The door will accept one last message.",
-  "The Feather permits one final offering.",
   "Write the final wish before the door closes."
 ];
 
 const challenges=forgeLines(
-  [
-    "Carry three pennies until sunset.",
-    "Place a glass of water beside your bed tonight.",
-    "Keep a small stone in your pocket for five hours.",
-    "Write one fear on a piece of paper.",
-    "Stand beneath the open sky for one quiet minute.",
-    "Carry a fallen leaf until nightfall.",
-    "Place one penny beneath a closed book.",
-    "Take ten slow steps before entering your home."
-  ],
-  [
-    "Do not explain the act to anyone.",
-    "Speak your wish to no one while the task remains unfinished.",
-    "Let silence accompany you.",
-    "Notice the first ordinary thing that feels unfamiliar.",
-    "Do not search for a sign.",
-    "Do not repeat the wish aloud.",
-    "Complete the task without asking what it means.",
-    "Do not turn the act into a game."
-  ],
-  [
-    "When the hour ends, leave one harmless token where another may find it.",
-    "At sunrise, return the object to its proper place.",
-    "Before darkness settles, return what you carried to the earth.",
-    "Afterward, wash your hands and leave the thought behind.",
-    "When finished, walk away without looking back.",
-    "At the appointed time, give one small kindness without announcing it.",
-    "Before sleep, name one thing you are willing to protect.",
-    "When complete, say nothing and continue with your day."
-  ]
+  ["Carry three pennies until sunset.","Place a glass of water beside your bed tonight.","Keep a small stone in your pocket for five hours.","Stand beneath the open sky for one quiet minute."],
+  ["Do not explain the act to anyone.","Let silence accompany you.","Do not search for a sign.","Do not repeat the wish aloud."],
+  ["When finished, walk away without looking back.","At sunrise, return the object to its proper place.","Before sleep, name one thing you are willing to protect.","When complete, say nothing and continue with your day."]
 );
 
 const finalHeadings=[
   "THE FINAL TASK",
   "THE LAST INSTRUCTION",
   "WHAT THE FEATHER REQUIRES",
-  "THE CLOSING RITE",
-  "BEFORE THE HAWK DEPARTS",
-  "THE FINAL MARK",
-  "THE TASK THAT REMAINS",
-  "THE KEEPER'S LAST REQUEST"
+  "THE CLOSING RITE"
 ];
 
 const finalEndings=[
-  [
-    "The Feather has fallen silent.",
-    "There will be no third wish.",
-    "Hopefully you know what door you just opened."
-  ],
-  [
-    "The Hawk has carried the second seal away.",
-    "No third line will be accepted.",
-    "What follows now belongs to the path you chose."
-  ],
-  [
-    "The final page has been closed.",
-    "Do not return asking for another wish.",
-    "The balance has begun to remember."
-  ],
-  [
-    "The Feather will answer no further.",
-    "The door has closed behind your second wish.",
-    "Some choices are understood only after they are made."
-  ],
-  [
-    "The Keeper has ended the rite.",
-    "No third request exists here.",
-    "What was opened must now finish opening."
-  ],
-  [
-    "The final seal has darkened.",
-    "There is no path to a third wish.",
-    "You now carry whatever the second choice awakened."
-  ]
+  ["The Feather has fallen silent.","There will be no third wish.","Hopefully you know what door you just opened."],
+  ["The final page has been closed.","Do not return asking for another wish.","The balance has begun to remember."],
+  ["The Keeper has ended the rite.","No third request exists here.","What was opened must now finish opening."]
 ];
 
 function rareEvent(){
   const roll=Math.floor(Math.random()*5000)+1;
-
-  if(roll===1){
-    return "RARE SIGN 1/5000\nThe Keeper has noticed your return.";
-  }
-
-  if(roll<=5){
-    return "RARE SIGN 1/1000\nThe Hawk has already visited the path ahead.";
-  }
-
-  if(roll<=10){
-    return "RARE SIGN 1/500\nThe Feather refused to fall.";
-  }
-
+  if(roll===1)return "RARE SIGN 1/5000\nThe Keeper has noticed your return.";
+  if(roll<=5)return "RARE SIGN 1/1000\nThe Hawk has already visited the path ahead.";
+  if(roll<=10)return "RARE SIGN 1/500\nThe Feather refused to fall.";
   return "";
 }
 
-/* ---------- WISH THEMES ---------- */
-
 const wishThemes=[
-  {
-    key:"fortune",
-    words:["money","rich","wealth","cash","debt","rent","bill","financial","million","dollar"],
-    lines:[
-      "The Feather now carries a desire tied to fortune.",
-      "Your wish has entered the chamber where fortune changes hands.",
-      "The Keeper has recognized a request shaped by need and abundance.",
-      "The hidden ledger now holds a desire connected to wealth.",
-      "The Hawk carries your request toward uncertain fortune."
-    ]
-  },
-  {
-    key:"love",
-    words:["love","relationship","marriage","husband","wife","boyfriend","girlfriend","romance","partner"],
-    lines:[
-      "The Feather now carries a desire of the heart.",
-      "The Keeper has received a wish shaped by affection.",
-      "Your request now travels through the chamber of bonds.",
-      "The Hawk carries a desire tied to love and companionship.",
-      "The seal has taken the outline of someone held close."
-    ]
-  },
-  {
-    key:"work",
-    words:["job","work","career","promotion","business","employment","forklift","company","boss"],
-    lines:[
-      "The Feather now carries a desire tied to purpose and labor.",
-      "The Keeper has received a request concerning the work ahead.",
-      "Your wish now travels beside doors of opportunity.",
-      "The Hawk carries a desire shaped by effort and ambition.",
-      "The hidden ledger has recorded a request for a new path of work."
-    ]
-  },
-  {
-    key:"home",
-    words:["home","house","apartment","move","moving","room","renting","property"],
-    lines:[
-      "The Feather now carries a desire for shelter and belonging.",
-      "The Keeper has received a wish concerning the place called home.",
-      "Your request now travels toward an uncertain doorway.",
-      "The Hawk carries a desire for safety and belonging.",
-      "The hidden ledger has recorded a wish tied to shelter."
-    ]
-  },
-  {
-    key:"health",
-    words:["health","heal","healing","sick","pain","illness","recover","recovery","body"],
-    lines:[
-      "The Feather now carries a desire for restoration.",
-      "The Keeper has received a wish shaped by healing.",
-      "Your request now rests in the chamber of recovery.",
-      "The Hawk carries a desire for strength to return.",
-      "The seal has accepted a wish concerning the body."
-    ]
-  },
-  {
-    key:"family",
-    words:["family","daughter","son","mother","father","child","children","sister","brother","parent"],
-    lines:[
-      "The Feather now carries a desire bound to family.",
-      "The Keeper has received a wish tied to those closest to you.",
-      "Your request now travels beside the bonds of blood and memory.",
-      "The Hawk carries a desire shaped by family.",
-      "The seal has accepted a wish concerning someone you protect."
-    ]
-  },
-  {
-    key:"travel",
-    words:["travel","trip","flight","journey","puerto rico","vacation","island","road","relocate"],
-    lines:[
-      "The Feather now carries a desire tied to the road ahead.",
-      "The Keeper has received a wish concerning distance and passage.",
-      "Your request now travels toward another horizon.",
-      "The Hawk carries a desire shaped by movement.",
-      "The seal has accepted a wish concerning the journey ahead."
-    ]
-  },
-  {
-    key:"peace",
-    words:["peace","calm","stress","fear","anxiety","quiet","safe","safety","relax"],
-    lines:[
-      "The Feather now carries a desire for quiet within.",
-      "The Keeper has received a wish shaped by the need for peace.",
-      "Your request now rests where fear begins to loosen.",
-      "The Hawk carries a desire for stillness.",
-      "The seal has accepted a wish concerning inner quiet."
-    ]
-  },
-  {
-    key:"vehicle",
-    words:["car","vehicle","truck","van","drive","driving","transportation"],
-    lines:[
-      "The Feather now carries a desire tied to movement and passage.",
-      "The Keeper has received a request concerning the road.",
-      "Your wish now travels beside wheels not yet turning.",
-      "The Hawk carries a desire shaped by movement.",
-      "The seal has accepted a request concerning transportation."
-    ]
-  },
-  {
-    key:"knowledge",
-    words:["school","education","college","test","exam","study","learn","knowledge","certificate","license"],
-    lines:[
-      "The Feather now carries a desire for knowledge and passage.",
-      "Your wish has entered the chamber of lessons not yet learned.",
-      "The Hawk carries your request toward an unopened path.",
-      "The Keeper has recognized a wish shaped by learning.",
-      "The ink now holds a desire to cross another threshold."
-    ]
-  }
+  {key:"fortune",words:["money","rich","wealth","cash","debt","rent","bill","financial","million","dollar"],lines:["The Feather now carries a desire tied to fortune.","Your wish has entered the chamber where fortune changes hands."]},
+  {key:"love",words:["love","relationship","marriage","husband","wife","boyfriend","girlfriend","romance","partner"],lines:["The Feather now carries a desire of the heart.","The Keeper has received a wish shaped by affection."]},
+  {key:"work",words:["job","work","career","promotion","business","employment","company","boss"],lines:["The Feather now carries a desire tied to purpose and labor.","Your wish now travels beside doors of opportunity."]},
+  {key:"home",words:["home","house","apartment","move","moving","room","renting","property"],lines:["The Feather now carries a desire for shelter and belonging.","Your request now travels toward an uncertain doorway."]},
+  {key:"health",words:["health","heal","healing","sick","pain","illness","recover","recovery","body"],lines:["The Feather now carries a desire for restoration.","Your request now rests in the chamber of recovery."]},
+  {key:"family",words:["family","daughter","son","mother","father","child","children","sister","brother","parent"],lines:["The Feather now carries a desire bound to family.","The seal has accepted a wish concerning someone you protect."]},
+  {key:"travel",words:["travel","trip","flight","journey","vacation","island","road","relocate"],lines:["The Feather now carries a desire tied to the road ahead.","Your request now travels toward another horizon."]},
+  {key:"peace",words:["peace","calm","stress","fear","anxiety","quiet","safe","safety","relax"],lines:["The Feather now carries a desire for quiet within.","Your request now rests where fear begins to loosen."]}
 ];
 
 const generalThemeLines=[
   "The Feather now carries the shape of your desire.",
   "Your intention has entered the waiting place.",
   "The silence has understood enough.",
-  "The path has accepted what you could not leave unspoken.",
-  "The Keeper has weighed the shape of your longing.",
-  "Your desire now rests beneath the Hawk's shadow.",
-  "The mirror has taken the outline of your hope.",
-  "Your wish now belongs partly to the road ahead."
+  "The path has accepted what you could not leave unspoken."
 ];
 
 function wishTheme(text){
   const lower=text.toLowerCase();
-
   for(const theme of wishThemes){
     if(theme.words.some(word=>lower.includes(word))){
       return randomUnseen("theme_"+theme.key,theme.lines);
     }
   }
-
   return randomUnseen("generalThemes",generalThemeLines);
 }
 
-/* ---------- MESSAGE BUILDERS ---------- */
-
 function makeJourneyCode(){
   const letters="ABCDEFGHJKLMNPQRSTUVWXYZ";
-  const words=[
-    "HAWK",
-    "FEATHER",
-    "MIRROR",
-    "INK",
-    "DOOR",
-    "SHADOW",
-    "ECHO",
-    "PATH",
-    "SEAL",
-    "MOON",
-    "LEDGER",
-    "THRESHOLD"
-  ];
-
-  const firstLetter=letters[Math.floor(Math.random()*letters.length)];
-  const number=String(Math.floor(Math.random()*900)+100);
-
-  return `${firstLetter}${number}-${randomFrom(words)}`;
+  const words=["HAWK","FEATHER","MIRROR","INK","DOOR","SHADOW","ECHO","PATH","SEAL","MOON"];
+  return `${randomFrom(letters.split(""))}${Math.floor(Math.random()*900)+100}-${randomFrom(words)}`;
 }
 
 function firstWishMessage(wishText){
-  const opening=randomUnseen("firstOpenings",firstOpenings);
-  const theme=wishTheme(wishText);
-  const hopeful=randomUnseen("firstHopeful",firstHopeful);
-  const mystery=randomUnseen("firstMystery",firstMystery);
-  const closing=randomUnseen("firstClosings",firstClosings);
-
-  const templates=[
-    [opening,theme,hopeful,mystery,closing],
-    [opening,hopeful,"",theme,closing,mystery],
-    [theme,"",opening,mystery,"",hopeful,closing],
-    [opening,"",mystery,theme,hopeful,"",closing],
-    [hopeful,opening,"",theme,mystery,closing],
-    [opening,theme,"",closing,mystery,hopeful]
-  ];
-
-  return randomFrom(templates).join("\n");
+  return [
+    randomUnseen("firstOpenings",firstOpenings),
+    wishTheme(wishText),
+    randomUnseen("firstHopeful",firstHopeful),
+    randomUnseen("firstMystery",firstMystery),
+    randomUnseen("firstClosings",firstClosings)
+  ].join("\n");
 }
 
 function secondWishMessage(wishText){
-  const opening=randomUnseen("secondOpenings",secondOpenings);
-  const theme=wishTheme(wishText);
-  const warning=randomUnseen("secondWarnings",secondWarnings);
-  const mystery=randomUnseen("secondMystery",secondMystery);
-  const closing=randomUnseen("secondClosings",secondClosings);
-
-  const templates=[
-    [opening,theme,warning,mystery,closing],
-    [warning,"",opening,theme,mystery,"",closing],
-    [opening,mystery,"",warning,theme,closing],
-    [theme,opening,"",warning,closing,mystery],
-    [opening,warning,"",mystery,theme,closing],
-    [warning,opening,theme,"",closing,mystery]
-  ];
-
-  return randomFrom(templates).join("\n");
+  return [
+    randomUnseen("secondOpenings",secondOpenings),
+    wishTheme(wishText),
+    randomUnseen("secondWarnings",secondWarnings),
+    randomUnseen("secondMystery",secondMystery),
+    randomUnseen("secondClosings",secondClosings)
+  ].join("\n");
 }
 
 async function displayProcessing(){
-  const receiving=randomUnseen("receivingMessages",receivingMessages);
-  const sealed=randomUnseen("sealedMessages",sealedMessages);
-
-  await typeText(receiving,46);
+  await typeText(randomUnseen("receivingMessages",receivingMessages),46);
   await sleep(500);
-  await typeText("\n"+sealed+"\n",54);
+  await typeText("\n"+randomUnseen("sealedMessages",sealedMessages)+"\n",54);
   await sleep(700);
 }
-
-/* ---------- START SITE ---------- */
 
 async function start(){
   startParticles();
@@ -1783,7 +1081,6 @@ async function start(){
   await sleep(650);
 
   const selectedIntro=randomUnseen("introMessages",introMessages);
-
   for(const line of selectedIntro){
     await typeText(line+"\n");
     await sleep(270);
@@ -1793,8 +1090,6 @@ async function start(){
   wishArea.classList.remove("hidden");
   wish.focus();
 }
-
-/* ---------- FIRST AND SECOND WISH ---------- */
 
 seal.addEventListener("click",async()=>{
   if(processing)return;
@@ -1840,19 +1135,13 @@ seal.addEventListener("click",async()=>{
     await sleep(650);
 
     const rare=rareEvent();
-
     if(rare){
       output.classList.add("rare");
       await typeText("\n"+rare+"\n",42);
     }
 
     cursor.classList.add("hidden");
-
-    secondWishButton.textContent=randomUnseen(
-      "secondWishButtons",
-      secondWishButtons
-    );
-
+    secondWishButton.textContent=randomUnseen("secondWishButtons",secondWishButtons);
     secondWishButton.disabled=false;
     secondWishButton.classList.remove("hidden");
     processing=false;
@@ -1863,31 +1152,23 @@ seal.addEventListener("click",async()=>{
   await sleep(700);
 
   const rare=rareEvent();
-
   if(rare){
     output.classList.add("rare");
     await typeText("\n"+rare+"\n",42);
     await sleep(500);
   }
 
-  const challenge=randomUnseen("challenges",challenges);
-  const finalHeading=randomUnseen("finalHeadings",finalHeadings);
-  const finalEnding=randomUnseen("finalEndings",finalEndings);
-  const journeyCode=makeJourneyCode();
-
   revealMirrorCrack();
 
   await typeText(
-    "\n"+finalHeading+"\n\n"+
-    challenge+"\n\n"+
-    "Journey Feather Code: "+journeyCode+"\n\n"+
-    finalEnding.join("\n")+"\n",
+    "\n"+randomUnseen("finalHeadings",finalHeadings)+"\n\n"+
+    randomUnseen("challenges",challenges)+"\n\n"+
+    "Journey Feather Code: "+makeJourneyCode()+"\n\n"+
+    randomUnseen("finalEndings",finalEndings).join("\n")+"\n",
     38
   );
 
   cursor.classList.add("hidden");
-  secondWishButton.classList.add("hidden");
-  wishArea.classList.add("hidden");
   processing=false;
 });
 
@@ -1896,36 +1177,20 @@ secondWishButton.addEventListener("click",async()=>{
 
   processing=true;
   wishNumber=2;
-
   secondWishButton.disabled=true;
   secondWishButton.classList.add("hidden");
 
   clearOutput();
   subtleFlicker();
 
-  await typeText(
-    randomUnseen("returnOpenings",returnOpenings)+"\n",
-    46
-  );
-
+  await typeText(randomUnseen("returnOpenings",returnOpenings)+"\n",46);
   await sleep(550);
-
-  await typeText(
-    "\n"+randomUnseen("greedWarnings",greedWarnings)+"\n",
-    38
-  );
-
+  await typeText("\n"+randomUnseen("greedWarnings",greedWarnings)+"\n",38);
   await sleep(750);
-
-  await typeText(
-    "\n"+randomUnseen("finalWishNotices",finalWishNotices)+"\n",
-    44
-  );
-
+  await typeText("\n"+randomUnseen("finalWishNotices",finalWishNotices)+"\n",44);
   await sleep(600);
 
   cursor.classList.add("hidden");
-
   wish.value="";
   wish.disabled=false;
   wish.placeholder="Write your second and final wish here...";
@@ -1941,6 +1206,5 @@ secondWishButton.addEventListener("click",async()=>{
 
 start();
 </script>
-
 </body>
 </html>
