@@ -1,122 +1,188 @@
 const SUPABASE_URL = "https://qchdhrxniqpwcwtxkrgz.supabase.co";
 const SUPABASE_KEY = "sb_publishable_lYRHZV7dGb74UBYmfPTdbg_-RTlhzeO";
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+document.addEventListener("DOMContentLoaded", () => {
+  const output = document.getElementById("output");
+  const cursor = document.getElementById("cursor");
+  const wishArea = document.getElementById("wishArea");
+  const secondWishButton = document.getElementById("secondWishButton");
+  const seal = document.getElementById("seal");
+  const wish = document.getElementById("wish");
 
-const output = document.getElementById("output");
-const cursor = document.getElementById("cursor");
-const wishArea = document.getElementById("wishArea");
-const final = document.getElementById("final");
-const seal = document.getElementById("seal");
-const wish = document.getElementById("wish");
+  if (!output || !cursor || !wishArea || !seal || !wish) {
+    console.error("A required One Wish page element is missing.");
+    return;
+  }
 
-const intro = [
-  "Connection established...",
-  "",
-  "The Feather watches.",
-  "The Hawk waits.",
-  "",
-  "You have been granted one wish.",
-  "Choose carefully.",
-  "Not every wish asks the same price."
-];
+  if (!window.supabase) {
+    console.error("The Supabase library did not load.");
 
-const messages = [
-  "The Feather Has Fallen.\nThe Hawk Has Taken Flight.\nEvery wish leaves something behind.",
-  "The Ink Remembers What the Hand Forgets.\nThe balance has been marked.",
-  "The Hawk Circled Once.\nIt Did Not Circle Twice.\nNothing crosses the threshold unchanged.",
-  "One Feather Was Given.\nOne Was Taken.\nNo wish travels alone.",
-  "The Wind Changed Before the Feather Touched the Ground.\nFor what is given, something must be surrendered.",
-  "The Mirror Closed Before It Answered.\nEvery gift leaves an empty place.",
-  "The Seal Was Accepted Without Question.\nThe price is never named before the journey begins."
-];
+    output.textContent =
+      "The connection was interrupted.\nThe page could not awaken.";
 
-const sleep = (milliseconds) =>
-  new Promise((resolve) => setTimeout(resolve, milliseconds));
+    cursor.style.display = "none";
+    return;
+  }
 
-async function saveWish(wishText) {
-  const { error } = await supabaseClient
-    .from("wishes")
-    .insert({
-      wish_text: wishText
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  const intro = [
+    "Connection established...",
+    "",
+    "The Feather watches.",
+    "The Hawk waits.",
+    "",
+    "You have been granted one wish.",
+    "Choose carefully.",
+    "Not every wish asks the same price."
+  ];
+
+  const messages = [
+    "The Feather Has Fallen.\nThe Hawk Has Taken Flight.\nEvery wish leaves something behind.",
+
+    "The Ink Remembers What the Hand Forgets.\nThe balance has been marked.",
+
+    "The Hawk Circled Once.\nIt Did Not Circle Twice.\nNothing crosses the threshold unchanged.",
+
+    "One Feather Was Given.\nOne Was Taken.\nNo wish travels alone.",
+
+    "The Wind Changed Before the Feather Touched the Ground.\nFor what is given, something must be surrendered.",
+
+    "The Mirror Closed Before It Answered.\nEvery gift leaves an empty place.",
+
+    "The Seal Was Accepted Without Question.\nThe price is never named before the journey begins."
+  ];
+
+  const sleep = (milliseconds) =>
+    new Promise((resolve) => {
+      setTimeout(resolve, milliseconds);
     });
 
-  if (error) {
-    console.error("Wish submission failed:", error);
-    return false;
+  async function saveWish(wishText) {
+    try {
+      const { error } = await supabaseClient
+        .from("wishes")
+        .insert([
+          {
+            text: wishText
+          }
+        ]);
+
+      if (error) {
+        console.error("Wish submission failed:", error);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Unexpected wish submission error:", error);
+      return false;
+    }
   }
 
-  return true;
-}
+  async function typeText(text, speed = 34) {
+    for (const character of text) {
+      output.textContent += character;
 
-async function typeText(text, speed = 34) {
-  for (const character of text) {
-    output.textContent += character;
-    await sleep(character === "\n" ? 180 : speed);
-  }
-}
-
-async function start() {
-  await sleep(900);
-
-  for (const line of intro) {
-    await typeText(line + "\n");
-    await sleep(420);
+      if (character === "\n") {
+        await sleep(180);
+      } else {
+        await sleep(speed);
+      }
+    }
   }
 
-  cursor.style.display = "none";
-  wishArea.classList.remove("hidden");
-  wish.focus();
-}
+  async function start() {
+    output.textContent = "";
+    cursor.style.display = "inline-block";
+    wishArea.classList.add("hidden");
 
-seal.addEventListener("click", async () => {
-  const wishText = wish.value.trim();
+    if (secondWishButton) {
+      secondWishButton.classList.add("hidden");
+    }
 
-  if (!wishText) {
-    wish.placeholder = "A wish must first be written...";
+    await sleep(900);
+
+    for (const line of intro) {
+      await typeText(line + "\n");
+      await sleep(420);
+    }
+
+    cursor.style.display = "none";
+    wishArea.classList.remove("hidden");
+
     wish.focus();
-    return;
   }
 
-  seal.disabled = true;
-  wish.disabled = true;
+  seal.addEventListener("click", async () => {
+    const wishText = wish.value.trim();
 
-  const wishSaved = await saveWish(wishText);
+    if (!wishText) {
+      wish.placeholder = "A wish must first be written...";
+      wish.focus();
+      return;
+    }
 
-  if (!wishSaved) {
-    wish.placeholder = "The connection could not receive your wish. Try again...";
-    seal.disabled = false;
-    wish.disabled = false;
-    wish.focus();
-    return;
-  }
+    seal.disabled = true;
+    wish.disabled = true;
+    seal.textContent = "SEALING...";
 
-  wishArea.classList.add("hidden");
-  output.textContent = "";
-  cursor.style.display = "inline-block";
+    const wishSaved = await saveWish(wishText);
 
-  await typeText("Receiving...\n", 48);
-  await sleep(650);
+    if (!wishSaved) {
+      wish.placeholder =
+        "The connection could not receive your wish. Try again...";
 
-  await typeText("Reading...\n", 48);
-  await sleep(800);
+      seal.disabled = false;
+      wish.disabled = false;
+      seal.textContent = "SEAL MY WISH";
+      wish.focus();
+      return;
+    }
 
-  await typeText("\nThe Ink Has Dried.\n", 62);
-  await sleep(1000);
+    wishArea.classList.add("hidden");
+    output.textContent = "";
+    cursor.style.display = "inline-block";
 
-  const chosenMessage =
-    messages[Math.floor(Math.random() * messages.length)];
+    await typeText("Receiving...\n", 48);
+    await sleep(650);
 
-  output.classList.add("glitch");
-  await typeText("\n" + chosenMessage + "\n", 42);
-  output.classList.remove("glitch");
+    await typeText("Reading...\n", 48);
+    await sleep(800);
 
-  await sleep(1100);
-  cursor.style.display = "none";
-  final.classList.remove("hidden");
+    await typeText("\nThe Ink Has Dried.\n", 62);
+    await sleep(1000);
+
+    const chosenMessage =
+      messages[Math.floor(Math.random() * messages.length)];
+
+    output.classList.add("glitch");
+
+    await typeText(
+      "\n" + chosenMessage + "\n",
+      42
+    );
+
+    output.classList.remove("glitch");
+
+    await sleep(1100);
+
+    cursor.style.display = "none";
+
+    if (secondWishButton) {
+      secondWishButton.classList.remove("hidden");
+    }
+  });
+
+  start().catch((error) => {
+    console.error("One Wish startup error:", error);
+
+    output.textContent =
+      "The connection was interrupted.\nThe page could not awaken.";
+
+    cursor.style.display = "none";
+  });
 });
-
-start();
