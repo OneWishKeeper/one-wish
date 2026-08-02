@@ -222,11 +222,39 @@ button:disabled{opacity:.45;cursor:not-allowed}
     font-size:19px;
   }
 }
+
+/* HAWK MESSENGER */
+#hawkStage{position:relative;width:100%;height:clamp(120px,22vw,220px);margin-bottom:-28px;pointer-events:none;z-index:8}
+#hawk{position:absolute;left:50%;top:4px;width:clamp(170px,34vw,340px);max-height:220px;object-fit:contain;transform:translate(-180vw,-60px) scale(.82);opacity:0;cursor:pointer;pointer-events:auto;user-select:none;-webkit-user-drag:none;filter:brightness(1.18) contrast(1.12) drop-shadow(0 0 6px rgba(124,255,137,.52)) drop-shadow(0 0 20px rgba(32,122,58,.36));z-index:10}
+#hawk.fly-in{animation:hawkFlyIn 3.2s cubic-bezier(.18,.72,.3,1) forwards}
+#hawk.perched{opacity:1;transform:translate(-50%,0) scale(1);animation:hawkWatch 4.8s ease-in-out infinite}
+#hawk.startled{animation:hawkStartle .46s ease-in-out 2}
+#hawk.fly-away{animation:hawkFlyAway 2.6s cubic-bezier(.35,.05,.7,.45) forwards}
+#featherMessenger{position:absolute;left:50%;top:78px;width:clamp(56px,11vw,92px);transform:translate(-50%,-30px) rotate(-18deg);opacity:0;pointer-events:none;filter:brightness(1.25) drop-shadow(0 0 7px rgba(124,255,137,.68)) drop-shadow(0 0 18px rgba(46,145,72,.52));z-index:9}
+#featherMessenger.drop{animation:featherDrop 2.25s ease-in forwards}
+#featherMessenger.lift{animation:featherLift 1.05s ease-in forwards}
+.hawk-hint{text-align:center;font-size:11px;color:rgba(124,255,137,.52);margin:-8px 0 15px;letter-spacing:.06em;opacity:0;transition:opacity .8s ease}
+.hawk-hint.visible{opacity:1}
+@keyframes hawkFlyIn{0%{opacity:0;transform:translate(-170vw,-80px) rotate(-9deg) scale(.72)}32%{opacity:1}76%{transform:translate(-42%,-20px) rotate(3deg) scale(1.08)}100%{opacity:1;transform:translate(-50%,0) rotate(0) scale(1)}}
+@keyframes hawkWatch{0%,100%{transform:translate(-50%,0) rotate(0deg)}32%{transform:translate(-50%,2px) rotate(-1deg)}58%{transform:translate(-50%,-2px) rotate(1deg)}76%{transform:translate(-50%,1px) rotate(0deg)}}
+@keyframes hawkStartle{0%,100%{transform:translate(-50%,0) scale(1)}50%{transform:translate(-50%,-8px) scale(1.055) rotate(-1deg)}}
+@keyframes hawkFlyAway{0%{opacity:1;transform:translate(-50%,0) rotate(0) scale(1)}22%{transform:translate(-48%,-24px) rotate(-5deg) scale(1.08)}100%{opacity:0;transform:translate(145vw,-230px) rotate(12deg) scale(.62)}}
+@keyframes featherDrop{0%{opacity:0;transform:translate(-50%,-35px) rotate(-22deg)}15%{opacity:1}55%{transform:translate(-34%,72px) rotate(18deg)}100%{opacity:1;transform:translate(-50%,145px) rotate(-8deg)}}
+@keyframes featherLift{0%{opacity:1;transform:translate(-50%,145px) rotate(-8deg)}100%{opacity:0;transform:translate(-50%,-18px) rotate(28deg) scale(.72)}}
+@media(max-width:600px){#hawkStage{height:150px;margin-bottom:-12px}#hawk{width:230px}#featherMessenger{top:70px;width:68px}}
+
 </style>
 </head>
 
 <body>
 <main id="panel">
+
+  <div id="hawkStage">
+    <img id="hawk" src="hawk-fly-1.png" alt="A dark hawk watching over the wish">
+    <img id="featherMessenger" src="feather.png" alt="">
+  </div>
+  <p id="hawkHint" class="hawk-hint">Touch the hawk if you dare.</p>
+
   <h1>ONE WISH</h1>
 
   <div>
@@ -252,6 +280,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
     ONE WISH REMAINS... IF YOU DARE
   </button>
 </main>
+<audio id="hawkSound" src="hawk-sound.wav" preload="auto"></audio>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -271,12 +300,63 @@ const wishArea = document.getElementById("wishArea");
 const seal = document.getElementById("seal");
 const wish = document.getElementById("wish");
 const secondWishButton = document.getElementById("secondWishButton");
+const hawk = document.getElementById("hawk");
+const featherMessenger = document.getElementById("featherMessenger");
+const hawkSound = document.getElementById("hawkSound");
+const hawkHint = document.getElementById("hawkHint");
+let hawkSoundReady = true;
+let hawkHasDeparted = false;
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const randomFrom = list => list[Math.floor(Math.random() * list.length)];
 
 let wishNumber = 1;
 let processing = false;
+
+const hawkFrames={fly1:"hawk-fly-1.png",fly2:"hawk-fly-2.png",land:"hawk-land.png",watchLeft:"hawk-watch-left.png",watchRight:"hawk-watch-right.png",perch:"hawk-perch.png",grab:"hawk-grab.png"};
+
+function playHawkSound(){
+  if(!hawkSoundReady||!hawkSound)return;
+  hawkSoundReady=false;
+  hawkSound.currentTime=0;
+  hawkSound.play().catch(()=>{});
+  hawk.classList.add("startled");
+  setTimeout(()=>hawk.classList.remove("startled"),950);
+  setTimeout(()=>{hawkSoundReady=true},2200);
+}
+function changeHawkFrame(src){hawk.src=src}
+async function beginHawkArrival(){
+  changeHawkFrame(hawkFrames.fly1);
+  hawk.classList.add("fly-in");
+  await sleep(900);changeHawkFrame(hawkFrames.fly2);
+  await sleep(1200);changeHawkFrame(hawkFrames.land);
+  await sleep(1100);
+  hawk.classList.remove("fly-in");
+  hawk.classList.add("perched");
+  changeHawkFrame(hawkFrames.perch);
+  featherMessenger.classList.add("drop");
+  hawkHint.classList.add("visible");
+  setInterval(()=>{
+    if(hawkHasDeparted||processing)return;
+    changeHawkFrame(Math.random()<.5?hawkFrames.watchLeft:hawkFrames.watchRight);
+    setTimeout(()=>{if(!hawkHasDeparted)changeHawkFrame(hawkFrames.perch)},900);
+  },4300);
+}
+async function hawkCarryWishAway(){
+  if(hawkHasDeparted)return;
+  hawkHasDeparted=true;
+  hawkHint.classList.remove("visible");
+  playHawkSound();
+  changeHawkFrame(hawkFrames.grab);
+  featherMessenger.classList.remove("drop");
+  featherMessenger.classList.add("lift");
+  await sleep(850);
+  hawk.classList.remove("perched");
+  hawk.classList.add("fly-away");
+  await sleep(2450);
+}
+hawk.addEventListener("click",playHawkSound);
+hawk.addEventListener("touchend",e=>{e.preventDefault();playHawkSound()},{passive:false});
 
 /* ---------------- RANDOM FULL-PAGE SIGILS ---------------- */
 
@@ -1068,7 +1148,8 @@ async function displayProcessing(){
 /* ---------------- START SITE ---------------- */
 
 async function start(){
-  await sleep(650);
+  beginHawkArrival();
+  await sleep(900);
 
   const selectedIntro=randomUnseen("introMessages",introMessages);
 
@@ -1114,6 +1195,10 @@ seal.addEventListener("click",async()=>{
 
   wishArea.classList.add("hidden");
   secondWishButton.classList.add("hidden");
+
+  if(wishNumber===1){
+    await hawkCarryWishAway();
+  }
 
   clearOutput();
   subtleFlicker();
