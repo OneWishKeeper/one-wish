@@ -36,17 +36,18 @@ body{
 body::before{
   content:"";
   position:fixed;
-  inset:0;
+  inset:-5%;
   z-index:-2;
   pointer-events:none;
   background-image:
-    linear-gradient(rgba(0,0,0,.60),rgba(0,0,0,.78)),
+    linear-gradient(rgba(0,0,0,.28),rgba(0,0,0,.48)),
     var(--sigil-background);
-  background-size:cover;
+  background-size:115% 115%;
   background-position:center;
   background-repeat:no-repeat;
-  opacity:.78;
-  transform:scale(1.04);
+  opacity:.98;
+  transform:scale(1.08);
+  filter:drop-shadow(0 0 10px rgba(124,255,137,.28));
   animation:sigilBreathe 12s ease-in-out infinite;
 }
 
@@ -68,27 +69,33 @@ body::after{
 }
 
 main{
-  width:min(760px,100%);
-  border:1px solid var(--border);
-  padding:24px;
-  box-shadow:0 0 30px rgba(124,255,137,.18);
-  background:var(--panel);
-  backdrop-filter:blur(2px);
-  -webkit-backdrop-filter:blur(2px);
+  width:min(1000px,94vw);
+  min-height:360px;
+  border:1px solid rgba(124,255,137,.34);
+  padding:clamp(24px,4vw,44px);
+  box-shadow:
+    0 0 36px rgba(124,255,137,.22),
+    inset 0 0 28px rgba(124,255,137,.035);
+  background:rgba(2,7,2,.78);
+  backdrop-filter:blur(1px);
+  -webkit-backdrop-filter:blur(1px);
   position:relative;
   z-index:1;
 }
 
 h1{
   text-align:center;
+  font-size:clamp(30px,5vw,54px);
   letter-spacing:.15em;
-  text-shadow:0 0 12px rgba(124,255,137,.35);
+  text-shadow:0 0 15px rgba(124,255,137,.48);
 }
 
 #output{
   white-space:pre-wrap;
-  line-height:1.6;
-  min-height:220px;
+  line-height:1.65;
+  min-height:240px;
+  font-size:clamp(17px,2.2vw,23px);
+  text-shadow:0 0 8px rgba(124,255,137,.18);
 }
 
 #cursor{
@@ -175,19 +182,26 @@ button:disabled{opacity:.45;cursor:not-allowed}
 
 @keyframes sigilBreathe{
   0%,100%{
-    opacity:.68;
-    transform:scale(1.04) rotate(0deg);
+    opacity:.90;
+    transform:scale(1.08) rotate(0deg);
   }
   50%{
-    opacity:.88;
-    transform:scale(1.07) rotate(.25deg);
+    opacity:1;
+    transform:scale(1.12) rotate(.35deg);
   }
 }
 
 @media (max-width:600px){
-  body{padding:16px}
-  main{padding:20px}
-  h1{font-size:2rem}
+  body{padding:12px}
+  main{
+    width:96vw;
+    min-height:420px;
+    padding:22px;
+  }
+  #output{
+    min-height:280px;
+    font-size:18px;
+  }
 }
 </style>
 </head>
@@ -250,65 +264,65 @@ let processing = false;
 const sigilDesigns = [
 `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
 <rect width="900" height="1600" fill="#000"/>
-<g fill="none" stroke="#39ff62" stroke-width="2" opacity=".28">
+<g fill="none" stroke="#39ff62" stroke-width="3" opacity=".52">
 <circle cx="450" cy="800" r="350"/><circle cx="450" cy="800" r="285"/><circle cx="450" cy="800" r="205"/>
 <path d="M450 390 L720 1020 L180 1020 Z"/><path d="M450 480 L640 930 L260 930 Z"/>
 <path d="M450 450 V1150"/><path d="M180 800 H720"/><path d="M245 560 L655 1040"/><path d="M655 560 L245 1040"/>
 </g>
-<g fill="#39ff62" opacity=".20" font-size="48" text-anchor="middle">
+<g fill="#39ff62" opacity=".38" font-size="48" text-anchor="middle">
 <text x="450" y="250">△ ◯ ✦ ◇</text><text x="450" y="1370">◇ ✦ ◯ △</text>
 <text x="110" y="800">☽</text><text x="790" y="800">☉</text>
 </g></svg>`,
 
 `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
 <rect width="900" height="1600" fill="#000"/>
-<g fill="none" stroke="#56ff75" stroke-width="2" opacity=".27">
+<g fill="none" stroke="#56ff75" stroke-width="3" opacity=".50">
 <circle cx="450" cy="800" r="360"/><circle cx="450" cy="800" r="315"/>
 <path d="M450 400 L700 800 L450 1200 L200 800 Z"/>
 <path d="M450 505 L620 800 L450 1095 L280 800 Z"/>
 <circle cx="450" cy="800" r="115"/><path d="M335 800 H565"/><path d="M450 685 V915"/>
 <path d="M225 575 L675 1025"/><path d="M675 575 L225 1025"/>
 </g>
-<g fill="#56ff75" opacity=".18" font-size="42" text-anchor="middle">
+<g fill="#56ff75" opacity=".36" font-size="42" text-anchor="middle">
 <text x="450" y="290">✧ ᚱ ᚾ ᛟ ✧</text><text x="450" y="1340">ᛟ ᚾ ᚱ</text>
 <text x="120" y="500">◇</text><text x="780" y="500">◇</text><text x="120" y="1120">◇</text><text x="780" y="1120">◇</text>
 </g></svg>`,
 
 `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
 <rect width="900" height="1600" fill="#000"/>
-<g fill="none" stroke="#47ff69" stroke-width="2" opacity=".28">
+<g fill="none" stroke="#47ff69" stroke-width="3" opacity=".52">
 <circle cx="450" cy="800" r="355"/>
 <path d="M450 420 C690 560 690 1040 450 1180"/><path d="M450 420 C210 560 210 1040 450 1180"/>
 <path d="M450 420 C560 630 560 970 450 1180"/><path d="M450 420 C340 630 340 970 450 1180"/>
 <path d="M230 800 H670"/><circle cx="450" cy="800" r="175"/><circle cx="450" cy="800" r="70"/>
 <path d="M450 625 L600 900 L300 900 Z"/>
 </g>
-<g fill="#47ff69" opacity=".18" font-size="46" text-anchor="middle">
+<g fill="#47ff69" opacity=".36" font-size="46" text-anchor="middle">
 <text x="450" y="260">☽ ✦ ☉ ✦ ☾</text><text x="450" y="1370">☾ ✦ ☉ ✦ ☽</text>
 <text x="115" y="810">ᚨ</text><text x="785" y="810">ᛉ</text>
 </g></svg>`,
 
 `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
 <rect width="900" height="1600" fill="#000"/>
-<g fill="none" stroke="#61ff7c" stroke-width="2" opacity=".26">
+<g fill="none" stroke="#61ff7c" stroke-width="3" opacity=".48">
 <circle cx="450" cy="800" r="365"/><circle cx="450" cy="800" r="245"/>
 <path d="M450 420 L590 700 L780 800 L590 900 L450 1180 L310 900 L120 800 L310 700 Z"/>
 <path d="M450 555 L530 720 L650 800 L530 880 L450 1045 L370 880 L250 800 L370 720 Z"/>
 <path d="M450 420 V1180"/><path d="M120 800 H780"/>
 </g>
-<g fill="#61ff7c" opacity=".17" font-size="42" text-anchor="middle">
+<g fill="#61ff7c" opacity=".34" font-size="42" text-anchor="middle">
 <text x="450" y="280">✦ THE PATH WATCHES ✦</text><text x="450" y="1340">✦ THE FEATHER WAITS ✦</text>
 <text x="110" y="520">△</text><text x="790" y="520">▽</text><text x="110" y="1100">▽</text><text x="790" y="1100">△</text>
 </g></svg>`,
 
 `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
 <rect width="900" height="1600" fill="#000"/>
-<g fill="none" stroke="#43ff68" stroke-width="2" opacity=".28">
+<g fill="none" stroke="#43ff68" stroke-width="3" opacity=".52">
 <circle cx="450" cy="800" r="360"/><circle cx="450" cy="800" r="300"/>
 <path d="M450 430 L690 1070 L210 1070 Z"/><path d="M450 1170 L690 530 L210 530 Z"/>
 <circle cx="450" cy="800" r="125"/><path d="M325 800 H575"/><path d="M450 675 V925"/>
 </g>
-<g fill="#43ff68" opacity=".18" font-size="44" text-anchor="middle">
+<g fill="#43ff68" opacity=".36" font-size="44" text-anchor="middle">
 <text x="450" y="260">ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ</text><text x="450" y="1370">ᚲ ᚱ ᚨ ᚦ ᚢ ᚠ</text>
 <text x="120" y="800">☿</text><text x="780" y="800">♄</text>
 </g></svg>`
