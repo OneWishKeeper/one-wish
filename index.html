@@ -5,170 +5,1595 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000000">
 <title>One Wish</title>
+
 <style>
-:root{--g:#7cff89;--gd:#4ca85a;--gold:#d3b36a;--paper:#c8ba91}
-*{box-sizing:border-box}html,body{min-height:100%;margin:0;background:#000}
-body{color:var(--g);font-family:"Courier New",monospace;overflow-x:hidden;background:radial-gradient(circle at 50% 35%,rgba(20,70,28,.16),transparent 42%),#000}
-.hidden{display:none!important}#page{position:relative;z-index:10;width:min(980px,96vw);min-height:100vh;margin:auto;padding:30px 16px 160px}
-h1{text-align:center;font-size:clamp(36px,8vw,62px);letter-spacing:.16em;text-shadow:0 0 18px rgba(124,255,137,.7)}
-#output{min-height:250px;white-space:pre-wrap;line-height:1.7;font-size:clamp(18px,4.3vw,24px);font-weight:700}
-#cursor{display:inline-block;width:9px;height:1.05em;margin-left:3px;vertical-align:-2px;background:var(--g);animation:blink .85s steps(1,end) infinite}
-.panel{margin-top:22px;padding:22px;border:1px solid rgba(124,255,137,.45);background:rgba(0,0,0,.78)}
-textarea{width:100%;min-height:140px;padding:15px;resize:vertical;color:var(--g);background:#000;border:1px solid rgba(124,255,137,.68);font:inherit}
-button{display:block;width:100%;margin-top:14px;padding:15px;color:var(--g);background:#000;border:1px solid var(--g);font:700 16px "Courier New",monospace;cursor:pointer}
-button:disabled{opacity:.45}.notice{color:var(--gd);font-size:12px;line-height:1.55}.warning{color:#c3ccc3;line-height:1.75;white-space:pre-wrap}
-#sigil{position:fixed;inset:-15vmax;z-index:0;pointer-events:none;opacity:.4;animation:spin 220s linear infinite}#sigil svg{width:100%;height:100%}
-#dust{position:fixed;inset:0;z-index:2;pointer-events:none}#scan{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.045;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(124,255,137,.18) 4px)}
-#lesserKey{margin-top:28px;padding:22px;border:1px solid rgba(211,179,106,.48);background:#050403}
-#lesserKey h2{color:#f0d58b;text-align:center;font-size:clamp(28px,7vw,52px)}.book-subtitle{text-align:center;color:var(--paper);font:17px Georgia,serif}
-.tabs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0}.tab{border-color:var(--gold);color:#e4c978}.tab.active{color:#050505;background:var(--gold)}
-.book-panel{display:none}.book-panel.active{display:block}.book-copy{color:var(--paper);font:17px/1.75 Georgia,serif}.book-copy h3{color:#f0d58b;font-family:"Courier New",monospace}
-#search{width:100%;padding:14px;margin-bottom:14px;color:#f0d58b;background:#050503;border:1px solid var(--gold);font:inherit}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.card{padding:14px;border:1px solid rgba(211,179,106,.3);background:#110d05;cursor:pointer}.card h3{margin:0 0 8px;color:#f0d58b}.card p{margin:0;color:var(--paper);font:14px/1.55 Georgia,serif}.rank{color:#a89560!important;font-family:"Courier New",monospace!important}
-#detail{margin-top:18px;padding:18px;border:1px solid var(--gold);background:#080603}#detail h3{color:#f0d58b}#detailText{color:var(--paper);font:16px/1.75 Georgia,serif;white-space:pre-wrap}
-.story-note{margin-top:18px;padding:12px;border-left:3px solid #1f7a3a;color:#738d76;font-size:11px;line-height:1.55}
-@keyframes blink{0%,45%{opacity:1}46%,100%{opacity:0}}@keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:600px){.tabs{grid-template-columns:1fr}#page{width:98vw;padding:16px 12px 140px}}
+:root{
+  --g:#7cff89;
+  --gd:#4ca85a;
+  --gold:#d3b36a;
+  --paper:#c8ba91;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  min-height:100%;
+  margin:0;
+  background:#000;
+}
+
+body{
+  color:var(--g);
+  font-family:"Courier New",monospace;
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(20,70,28,.16),transparent 42%),
+    #000;
+}
+
+.hidden{display:none!important}
+
+#page{
+  position:relative;
+  z-index:10;
+  width:min(980px,96vw);
+  min-height:100vh;
+  margin:auto;
+  padding:30px 16px 160px;
+}
+
+h1{
+  text-align:center;
+  font-size:clamp(36px,8vw,62px);
+  letter-spacing:.16em;
+  text-shadow:0 0 18px rgba(124,255,137,.7);
+}
+
+#output{
+  min-height:250px;
+  white-space:pre-wrap;
+  line-height:1.7;
+  font-size:clamp(18px,4.3vw,24px);
+  font-weight:700;
+}
+
+#cursor{
+  display:inline-block;
+  width:9px;
+  height:1.05em;
+  margin-left:3px;
+  vertical-align:-2px;
+  background:var(--g);
+  animation:blink .85s steps(1,end) infinite;
+}
+
+.panel{
+  margin-top:22px;
+  padding:22px;
+  border:1px solid rgba(124,255,137,.45);
+  background:rgba(0,0,0,.78);
+}
+
+textarea{
+  width:100%;
+  min-height:140px;
+  padding:15px;
+  resize:vertical;
+  color:var(--g);
+  background:#000;
+  border:1px solid rgba(124,255,137,.68);
+  font:inherit;
+}
+
+button{
+  display:block;
+  width:100%;
+  margin-top:14px;
+  padding:15px;
+  color:var(--g);
+  background:#000;
+  border:1px solid var(--g);
+  font:700 16px "Courier New",monospace;
+  cursor:pointer;
+}
+
+button:disabled{opacity:.45}
+
+.notice{
+  color:var(--gd);
+  font-size:12px;
+  line-height:1.55;
+}
+
+.warning{
+  color:#c3ccc3;
+  line-height:1.75;
+  white-space:pre-wrap;
+}
+
+#sigil{
+  position:fixed;
+  inset:-15vmax;
+  z-index:0;
+  pointer-events:none;
+  opacity:.4;
+  animation:spin 220s linear infinite;
+}
+
+#sigil svg{
+  width:100%;
+  height:100%;
+}
+
+#dust{
+  position:fixed;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+}
+
+#scan{
+  position:fixed;
+  inset:0;
+  z-index:50;
+  pointer-events:none;
+  opacity:.045;
+  background:repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 3px,
+    rgba(124,255,137,.18) 4px
+  );
+}
+
+#lesserKey{
+  margin-top:28px;
+  padding:22px;
+  border:1px solid rgba(211,179,106,.48);
+  background:#050403;
+}
+
+#lesserKey h2{
+  color:#f0d58b;
+  text-align:center;
+  font-size:clamp(28px,7vw,52px);
+}
+
+.book-subtitle{
+  text-align:center;
+  color:var(--paper);
+  font:17px Georgia,serif;
+}
+
+.tabs{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin:18px 0;
+}
+
+.tab{
+  border-color:var(--gold);
+  color:#e4c978;
+}
+
+.tab.active{
+  color:#050505;
+  background:var(--gold);
+}
+
+.book-panel{display:none}
+
+.book-panel.active{display:block}
+
+.book-copy{
+  color:var(--paper);
+  font:17px/1.75 Georgia,serif;
+}
+
+.book-copy h3{
+  color:#f0d58b;
+  font-family:"Courier New",monospace;
+}
+
+#search{
+  width:100%;
+  padding:14px;
+  margin-bottom:14px;
+  color:#f0d58b;
+  background:#050503;
+  border:1px solid var(--gold);
+  font:inherit;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px;
+}
+
+.card{
+  padding:14px;
+  border:1px solid rgba(211,179,106,.3);
+  background:#110d05;
+  cursor:pointer;
+}
+
+.card h3{
+  margin:0 0 8px;
+  color:#f0d58b;
+}
+
+.card p{
+  margin:0;
+  color:var(--paper);
+  font:14px/1.55 Georgia,serif;
+}
+
+.rank{
+  color:#a89560!important;
+  font-family:"Courier New",monospace!important;
+}
+
+#detail{
+  margin-top:18px;
+  padding:18px;
+  border:1px solid var(--gold);
+  background:#080603;
+}
+
+#detail h3{color:#f0d58b}
+
+#detailText{
+  color:var(--paper);
+  font:16px/1.75 Georgia,serif;
+  white-space:pre-wrap;
+}
+
+.story-note{
+  margin-top:18px;
+  padding:12px;
+  border-left:3px solid #1f7a3a;
+  color:#738d76;
+  font-size:11px;
+  line-height:1.55;
+}
+
+@keyframes blink{
+  0%,45%{opacity:1}
+  46%,100%{opacity:0}
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+@media(max-width:600px){
+  .tabs{grid-template-columns:1fr}
+  #page{
+    width:98vw;
+    padding:16px 12px 140px;
+  }
+}
 </style>
 </head>
+
 <body>
-<div id="sigil" aria-hidden="true"><svg viewBox="0 0 1200 1200"><g fill="none" stroke="#1f7a3a" stroke-width="4"><circle cx="600" cy="600" r="430"/><circle cx="600" cy="600" r="355"/><circle cx="600" cy="600" r="270"/><circle cx="600" cy="600" r="125"/><path d="M600 160 L980 820 L220 820 Z"/><path d="M600 1040 L980 380 L220 380 Z"/><path d="M600 170 V1030"/><path d="M170 600 H1030"/><path d="M295 295 L905 905"/><path d="M905 295 L295 905"/></g></svg></div>
-<canvas id="dust"></canvas><div id="scan"></div>
+
+<div id="sigil" aria-hidden="true">
+<svg viewBox="0 0 1200 1200">
+<g fill="none" stroke="#1f7a3a" stroke-width="4">
+<circle cx="600" cy="600" r="430"/>
+<circle cx="600" cy="600" r="355"/>
+<circle cx="600" cy="600" r="270"/>
+<circle cx="600" cy="600" r="125"/>
+<path d="M600 160 L980 820 L220 820 Z"/>
+<path d="M600 1040 L980 380 L220 380 Z"/>
+<path d="M600 170 V1030"/>
+<path d="M170 600 H1030"/>
+<path d="M295 295 L905 905"/>
+<path d="M905 295 L295 905"/>
+</g>
+</svg>
+</div>
+
+<canvas id="dust"></canvas>
+<div id="scan"></div>
+
 <main id="page">
+
 <h1>ONE WISH</h1>
-<div><span id="output"></span><span id="cursor"></span></div>
+
+<div>
+  <span id="output"></span>
+  <span id="cursor"></span>
+</div>
 
 <section id="firstArea" class="panel hidden">
-<textarea id="firstWish" maxlength="700" placeholder="Write your wish here..."></textarea>
+<textarea
+  id="firstWish"
+  maxlength="700"
+  placeholder="Write your wish here..."></textarea>
+
 <button id="sealFirst">SEAL MY WISH</button>
-<p class="notice">Submit only the words of your wish. Do not include your name, email, phone number, location, or other personal information.</p>
+
+<p class="notice">
+Submit only the words of your wish.
+Do not include your name, email, phone number, location,
+or other personal information.
+</p>
 </section>
 
-<button id="secondButton" class="hidden">ONE WISH REMAINS... IF YOU DARE</button>
+<button id="secondButton" class="hidden">
+ONE WISH REMAINS... IF YOU DARE
+</button>
 
 <section id="secondArea" class="panel hidden">
+
 <h2>THE SECOND WISH</h2>
+
 <p id="greedWarning" class="warning"></p>
-<textarea id="secondWish" maxlength="700" placeholder="Write the second wish here..."></textarea>
-<button id="sealSecond">SEAL THE SECOND WISH</button>
-<p class="notice">There will be no third wish.</p>
-<button id="lesserKeyButton" style="border-color:#d3b36a;color:#f0d58b">ENTER THE LESSER KEY</button>
+
+<textarea
+  id="secondWish"
+  maxlength="700"
+  placeholder="Write the second wish here..."></textarea>
+
+<button id="sealSecond">
+SEAL THE SECOND WISH
+</button>
+
+<p class="notice">
+There will be no third wish.
+</p>
+
+<button
+  id="lesserKeyButton"
+  style="border-color:#d3b36a;color:#f0d58b">
+ENTER THE LESSER KEY
+</button>
+
 </section>
 
 <section id="finalPage" class="panel hidden">
+
 <h2>THE JOURNEY HAS BEEN MARKED</h2>
+
 <p id="finalMessage" class="warning"></p>
+
 <p id="journeyCode" class="warning"></p>
-<p class="notice">Keep the code. It belongs only to this journey.</p>
-<p class="story-note">One Wish is an interactive fictional-horror experience. Its warnings, rituals, curses, and supernatural claims are part of the story.</p>
+
+<p class="notice">
+Keep the code. It belongs only to this journey.
+</p>
+
+<p class="story-note">
+One Wish is an interactive fictional-horror experience.
+Its warnings, rituals, curses, and supernatural claims are part of the story.
+</p>
+
 </section>
 
 <section id="lesserKey" class="hidden">
+
 <h2>THE LESSER KEY OF SOLOMON</h2>
-<p class="book-subtitle">Goetia, the Book of Evil Spirits</p>
+
+<p class="book-subtitle">
+Goetia, the Book of Evil Spirits
+</p>
+
 <div class="tabs">
 <button class="tab active" data-panel="introPanel">INTRODUCTION</button>
 <button class="tab" data-panel="spiritsPanel">72 SPIRITS</button>
 <button class="tab" data-panel="archivePanel">ARCHIVE</button>
 <button class="tab" data-panel="closePanel">CLOSE THE BOOK</button>
 </div>
+
 <article id="introPanel" class="book-panel active book-copy">
+
 <h3>The Lesser Key Of King Solomon</h3>
-<p>ΕΠΙΚΑΛΟΥΜΑΙ ΣΕ ΤΟΝ ΕΝ ΤΩ ΚΕΝΕΩ ΠΝΕΥΜΑΤΙ, ΔΕΙΝΟΝ, ΑΟΡΑΤΟΝ, ΠΑΝΤΟΚΡΑΤΟΡΑ.</p>
-<p>ΕΠΟΝΟΜΑΣΘΗΣ Ο ΠΑΝΤΑ ΡΗΣΣΩΝ ΚΑΙ ΜΗ ΝΙΚΩΜΕΝΟΣ.</p>
-<p>This reading section is contained entirely inside the One Wish website. It does not send visitors to another book website.</p>
+
+<p>
+ΕΠΙΚΑΛΟΥΜΑΙ ΣΕ ΤΟΝ ΕΝ ΤΩ ΚΕΝΕΩ ΠΝΕΥΜΑΤΙ,
+ΔΕΙΝΟΝ, ΑΟΡΑΤΟΝ, ΠΑΝΤΟΚΡΑΤΟΡΑ.
+</p>
+
+<p>
+ΕΠΟΝΟΜΑΣΘΗΣ Ο ΠΑΝΤΑ ΡΗΣΣΩΝ ΚΑΙ ΜΗ ΝΙΚΩΜΕΝΟΣ.
+</p>
+
+<p>
+This reading section is contained entirely inside the One Wish website.
+</p>
+
 </article>
+
 <article id="spiritsPanel" class="book-panel">
-<input id="search" type="search" placeholder="Search by number, name, rank, appearance, or subject...">
+
+<input
+  id="search"
+  type="search"
+  placeholder="Search by number, name, rank, appearance, or subject...">
+
 <div id="grid" class="grid"></div>
-<div id="detail" class="hidden" tabindex="-1"><h3 id="detailTitle"></h3><div id="detailText"></div></div>
+
+<div id="detail" class="hidden" tabindex="-1">
+<h3 id="detailTitle"></h3>
+<div id="detailText"></div>
+</div>
+
 </article>
+
 <article id="archivePanel" class="book-panel book-copy">
+
 <h3>About This Book</h3>
-<p>The Lesser Key is traditionally divided into Goetia, Theurgia-Goetia, Ars Paulina, Ars Almadel, and Ars Notoria.</p>
-<p>Select any numbered name to open its description without leaving this page.</p>
+
+<p>
+The Lesser Key is traditionally divided into Goetia,
+Theurgia-Goetia, Ars Paulina, Ars Almadel, and Ars Notoria.
+</p>
+
+<p>
+Select any numbered name to open its description without leaving this page.
+</p>
+
 </article>
+
 <article id="closePanel" class="book-panel book-copy">
+
 <h3>Close the Lesser Key</h3>
-<button id="closeBook" style="border-color:#d3b36a;color:#f0d58b">CLOSE THE LESSER KEY</button>
+
+<button
+  id="closeBook"
+  style="border-color:#d3b36a;color:#f0d58b">
+CLOSE THE LESSER KEY
+</button>
+
 </article>
+
 </section>
+
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-const SUPABASE_URL="https://qchdhrxniqpwcwtxkrgz.supabase.co";
-const SUPABASE_KEY="sb_publishable_lYRHZV7dGb74UBYmfPTdbg_-RTlhzeO";
-const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const spirits=[{"number": 1, "name": "Bael", "rank": "King", "appearance": "Cat, toad, man, or all three at once.", "subjects": "Invisibility, command, hiddenness, and strategy."}, {"number": 2, "name": "Agares", "rank": "Duke", "appearance": "An elderly rider upon a crocodile carrying a goshawk.", "subjects": "Languages, movement, runaways, dignity, and earthquakes."}, {"number": 3, "name": "Vassago", "rank": "Prince", "appearance": "Appearance varies by edition.", "subjects": "Past and future events, hidden things, and lost things."}, {"number": 4, "name": "Samigina, or Gamigin", "rank": "Marquis", "appearance": "A small horse or ass, later changing into human form.", "subjects": "Liberal sciences and accounts of the dead."}, {"number": 5, "name": "Marbas", "rank": "President", "appearance": "A great lion, later appearing in human shape.", "subjects": "Secrets, mechanical arts, transformation, disease, and healing."}, {"number": 6, "name": "Valefor", "rank": "Duke", "appearance": "A lion with an ass's head.", "subjects": "Familiarity, loyalty, temptation, and theft."}, {"number": 7, "name": "Amon", "rank": "Marquis", "appearance": "A wolf with a serpent's tail, or a raven-headed man.", "subjects": "Past and future events, disputes, and reconciliation."}, {"number": 8, "name": "Barbatos", "rank": "Duke", "appearance": "A woodland figure accompanied by kings and companies.", "subjects": "Animal voices, hidden treasure, and reconciliation."}, {"number": 9, "name": "Paimon", "rank": "King", "appearance": "A crowned rider upon a dromedary with a musical procession.", "subjects": "Arts, sciences, secrets, dignity, command, and knowledge."}, {"number": 10, "name": "Buer", "rank": "President", "appearance": "Often shown as a wheel-like figure with multiple legs.", "subjects": "Philosophy, logic, herbs, plants, healing, and familiars."}, {"number": 11, "name": "Gusion", "rank": "Duke", "appearance": "Described as a Xenopilus in some texts.", "subjects": "Past, present, future, answers, honor, and reconciliation."}, {"number": 12, "name": "Sitri", "rank": "Prince", "appearance": "Leopard-headed with gryphon wings, later appearing in human form.", "subjects": "Attraction, desire, and concealed feelings."}, {"number": 13, "name": "Beleth", "rank": "King", "appearance": "A terrible king riding a pale horse amid music.", "subjects": "Love, attraction, strong emotion, and imposing presence."}, {"number": 14, "name": "Leraje, or Leraikha", "rank": "Marquis", "appearance": "An archer clad in green carrying a bow and quiver.", "subjects": "Battles, contests, conflict, and wounds."}, {"number": 15, "name": "Eligos", "rank": "Duke", "appearance": "A knight carrying a lance, ensign, and serpent.", "subjects": "War, strategy, hidden things, the future, and favor."}, {"number": 16, "name": "Zepar", "rank": "Duke", "appearance": "A soldier dressed in red armor.", "subjects": "Attraction and relationships."}, {"number": 17, "name": "Botis", "rank": "President and Earl", "appearance": "A viper, later a horned man carrying a sword.", "subjects": "Past and future events and reconciliation."}, {"number": 18, "name": "Bathin", "rank": "Duke", "appearance": "A strong man with a serpent's tail riding a pale horse.", "subjects": "Herbs, precious stones, travel, and swift movement."}, {"number": 19, "name": "Sallos", "rank": "Duke", "appearance": "A peaceful soldier riding a crocodile.", "subjects": "Affection, attraction, and relationships."}, {"number": 20, "name": "Purson", "rank": "King", "appearance": "A lion-faced man riding a bear and carrying a viper.", "subjects": "Hidden treasure, secrets, and past, present, and future."}, {"number": 21, "name": "Marax", "rank": "Earl and President", "appearance": "A great bull with a man's face.", "subjects": "Astronomy, liberal sciences, herbs, stones, and familiars."}, {"number": 22, "name": "Ipos", "rank": "Earl and Prince", "appearance": "An angelic figure with lion, goose, and hare features.", "subjects": "Past, present, future, wit, and courage."}, {"number": 23, "name": "Aim", "rank": "Duke", "appearance": "A three-headed man riding a viper and carrying a firebrand.", "subjects": "Wit, private matters, and destructive fire in the old account."}, {"number": 24, "name": "Naberius", "rank": "Marquis", "appearance": "A black crane with a hoarse voice.", "subjects": "Arts, sciences, rhetoric, dignity, and honor."}, {"number": 25, "name": "Glasya-Labolas", "rank": "President and Earl", "appearance": "A winged dog.", "subjects": "Arts, sciences, invisibility lore, conflict, and foreknowledge."}, {"number": 26, "name": "Bune, or Bimé", "rank": "Duke", "appearance": "A three-headed dragon.", "subjects": "Wealth, eloquence, wisdom, the dead, and answers."}, {"number": 27, "name": "Ronové", "rank": "Marquis and Earl", "appearance": "A monstrous figure.", "subjects": "Rhetoric, languages, servants, friendship, and favor."}, {"number": 28, "name": "Berith", "rank": "Duke", "appearance": "A crowned soldier in red riding a red horse.", "subjects": "Past, present, future, dignity, alchemy, and reputation."}, {"number": 29, "name": "Astaroth", "rank": "Duke", "appearance": "A winged figure riding a dragon and carrying a viper.", "subjects": "Secrets, history, sciences, and past, present, and future."}, {"number": 30, "name": "Forneus", "rank": "Marquis", "appearance": "A great sea monster.", "subjects": "Rhetoric, languages, reputation, friendship, and favor."}, {"number": 31, "name": "Foras", "rank": "President", "appearance": "A strong man in human shape.", "subjects": "Logic, ethics, herbs, stones, treasure, and lost property."}, {"number": 32, "name": "Asmoday", "rank": "King", "appearance": "A three-headed figure riding a dragon and carrying a lance.", "subjects": "Arithmetic, astronomy, geometry, crafts, secrets, and treasure."}, {"number": 33, "name": "Gaap", "rank": "President and Prince", "appearance": "A human figure going before four kings.", "subjects": "Philosophy, movement, love, hatred, and future events."}, {"number": 34, "name": "Furfur", "rank": "Earl", "appearance": "A winged hart with a fiery tail.", "subjects": "Storms, love, secrets, and truthful answers under constraint."}, {"number": 35, "name": "Marchosias", "rank": "Marquis", "appearance": "A winged wolf with a serpent's tail.", "subjects": "Courage, combat, loyalty, and strength."}, {"number": 36, "name": "Stolas, or Stolos", "rank": "Prince", "appearance": "A mighty raven or owl, later appearing as a man.", "subjects": "Astronomy, herbs, and precious stones."}, {"number": 37, "name": "Phenex", "rank": "Marquis", "appearance": "A phoenix with the voice of a child.", "subjects": "Poetry, songs, sciences, and artistic expression."}, {"number": 38, "name": "Halphas, or Malthus", "rank": "Earl", "appearance": "A stock-dove with a hoarse voice.", "subjects": "Towers, weapons, fortifications, and military preparation."}, {"number": 39, "name": "Malphas", "rank": "President", "appearance": "A crow, later appearing in human shape.", "subjects": "Building, strategy, enemies' thoughts, and familiars."}, {"number": 40, "name": "Raum", "rank": "Earl", "appearance": "A crow, later appearing as a man.", "subjects": "Treasure, cities, dignity, future events, and reconciliation."}, {"number": 41, "name": "Focalor", "rank": "Duke", "appearance": "A winged man.", "subjects": "Winds, seas, ships, and danger in the traditional account."}, {"number": 42, "name": "Vepar", "rank": "Duke", "appearance": "A mermaid.", "subjects": "Waters, ships, storms, and wounds in the traditional account."}, {"number": 43, "name": "Sabnock", "rank": "Marquis", "appearance": "An armored soldier with a lion's head.", "subjects": "Towers, fortifications, armor, and affliction lore."}, {"number": 44, "name": "Shax", "rank": "Marquis", "appearance": "A stock-dove with a hoarse and subtle voice.", "subjects": "Theft, concealment, perception, hidden things, and retrieval."}, {"number": 45, "name": "Viné", "rank": "King and Earl", "appearance": "A lion riding a black horse and carrying a viper.", "subjects": "Hidden things, storms, fortifications, and future events."}, {"number": 46, "name": "Bifrons", "rank": "Earl", "appearance": "A monstrous figure, later appearing as a man.", "subjects": "Astrology, geometry, stones, woods, graves, and lights."}, {"number": 47, "name": "Uvall, Vual, or Voval", "rank": "Duke", "appearance": "A dromedary, later appearing in human shape.", "subjects": "Love, friendship, and past, present, and future."}, {"number": 48, "name": "Haagenti", "rank": "President", "appearance": "A winged bull, later appearing in human shape.", "subjects": "Wisdom, instruction, and symbolic transformation."}, {"number": 49, "name": "Crocell", "rank": "Duke", "appearance": "An angelic figure.", "subjects": "Geometry, liberal sciences, hidden matters, water, and baths."}, {"number": 50, "name": "Furcas", "rank": "Knight", "appearance": "An elderly rider carrying a sharp weapon.", "subjects": "Philosophy, astrology, rhetoric, logic, palmistry, and fire divination."}, {"number": 51, "name": "Balam", "rank": "King", "appearance": "A three-headed figure riding a bear.", "subjects": "Past, present, future, wit, and invisibility lore."}, {"number": 52, "name": "Alloces", "rank": "Duke", "appearance": "A lion-faced soldier riding a great horse.", "subjects": "Astronomy, liberal sciences, and familiars."}, {"number": 53, "name": "Camio or Caim", "rank": "President", "appearance": "A thrush, later a man carrying a sword.", "subjects": "Debate, animal voices, water, and future events."}, {"number": 54, "name": "Murmur, or Murmus", "rank": "Duke and Earl", "appearance": "A crowned warrior riding a gryphon.", "subjects": "Philosophy and traditional accounts concerning the dead."}, {"number": 55, "name": "Orobas", "rank": "Prince", "appearance": "A horse, later appearing as a man.", "subjects": "Truth, dignity, favor, protection, and future events."}, {"number": 56, "name": "Gremory, or Gamori", "rank": "Duke", "appearance": "A crowned woman riding a camel.", "subjects": "Hidden treasure, affection, and past, present, and future."}, {"number": 57, "name": "Osé, or Voso", "rank": "President", "appearance": "A leopard, later appearing as a man.", "subjects": "Liberal sciences, secret matters, answers, and altered identity."}, {"number": 58, "name": "Amy, or Avnas", "rank": "President", "appearance": "Flame, later appearing as a man.", "subjects": "Astrology, liberal sciences, treasure, and familiars."}, {"number": 59, "name": "Oriax, or Orias", "rank": "Marquis", "appearance": "A lion riding a horse and holding serpents.", "subjects": "Stars, planetary mansions, dignity, transformation, and favor."}, {"number": 60, "name": "Vapula, or Naphula", "rank": "Duke", "appearance": "A winged lion.", "subjects": "Crafts, professions, philosophy, and sciences."}, {"number": 61, "name": "Zagan", "rank": "King and President", "appearance": "A winged bull, later appearing as a man.", "subjects": "Wit and symbolic transformations of liquids, metals, and coin."}, {"number": 62, "name": "Volac, or Valak, or Valu, or Ualac", "rank": "President", "appearance": "A winged child riding a two-headed dragon.", "subjects": "Hidden treasure and serpents."}, {"number": 63, "name": "Andras", "rank": "Marquis", "appearance": "A raven-headed angel riding a black wolf.", "subjects": "Discord and violence in the traditional warning account."}, {"number": 64, "name": "Haures, Hauras, Havres, or Flauros", "rank": "Duke", "appearance": "A leopard, later a fiery-eyed man.", "subjects": "Truth, hidden matters, creation, and destruction in the old text."}, {"number": 65, "name": "Andrealphus", "rank": "Marquis", "appearance": "A peacock, later appearing in human shape.", "subjects": "Geometry, measurement, astronomy, and transformation imagery."}, {"number": 66, "name": "Cimejes, Cimeies, or Kimaris", "rank": "Marquis", "appearance": "A warrior riding a black horse.", "subjects": "Grammar, logic, rhetoric, treasure, courage, and hidden things."}, {"number": 67, "name": "Amdusias, or Amdukias", "rank": "Duke", "appearance": "A unicorn, later appearing in human shape.", "subjects": "Music, instruments, trees, and familiars."}, {"number": 68, "name": "Belial", "rank": "King", "appearance": "Two beautiful angels in a chariot of fire.", "subjects": "Office, favor, status, dignity, and familiars."}, {"number": 69, "name": "Decarabia", "rank": "Marquis", "appearance": "A star in a pentacle, later appearing as a man.", "subjects": "Birds, precious stones, and symbolic qualities."}, {"number": 70, "name": "Seere, Sear, or Seir", "rank": "Prince", "appearance": "A beautiful rider upon a winged horse.", "subjects": "Speed, travel, retrieval, treasure, and swift accomplishment."}, {"number": 71, "name": "Dantalion", "rank": "Duke", "appearance": "A many-faced figure carrying a book.", "subjects": "Thoughts, arts, sciences, counsel, affection, and visions."}, {"number": 72, "name": "Andromalius", "rank": "Earl", "appearance": "A man holding a great serpent.", "subjects": "Recovering stolen goods, exposing wrongdoing, and hidden treasure."}];
 
-const $=id=>document.getElementById(id);
-const output=$("output"),cursor=$("cursor"),firstArea=$("firstArea"),firstWish=$("firstWish"),sealFirst=$("sealFirst"),secondButton=$("secondButton"),secondArea=$("secondArea"),secondWish=$("secondWish"),sealSecond=$("sealSecond"),finalPage=$("finalPage"),finalMessage=$("finalMessage"),journeyCode=$("journeyCode"),lesserKey=$("lesserKey");
-const sleep=ms=>new Promise(r=>setTimeout(r,ms)),pick=a=>a[Math.floor(Math.random()*a.length)];
-let busy=false;
+/* =========================================================
+   DATABASE SETTINGS
+   ========================================================= */
 
-const intro=["Connecting... just wait.","","The Feather watches.","The Hawk waits.","","You have been granted one wish.","Choose carefully.","Not every wish asks the same price."];
-const firstOpenings=["Your wish has been accepted.","The Feather has received your words.","The Hawk has taken notice.","Your wish crossed the threshold.","The seal has been accepted.","The Sorcerer received your wish.","The mirror has remembered your request."];
-const firstHope=["The path before it is still forming.","Watch for the first ordinary sign.","The answer may arrive in a shape you did not expect.","Patience will reveal what haste would hide.","A door may appear where you stopped looking.","What you asked for has begun to move."];
-const firstMystery=["Do not repeat the wish aloud.","The first price is rarely named.","Not every answer arrives alone.","Time has begun counting.","Something else may have heard it too.","Every gift leaves an empty place.","Nothing crosses the threshold unchanged."];
-const firstClose=["Wait for the first sign.","Time will decide what follows.","The journey has already begun.","The seal cannot be recalled.","The balance has been marked.","Nothing more is required... yet."];
-const secondButtons=["ONE WISH SHOULD HAVE BEEN ENOUGH... WILL YOU ASK AGAIN?","THE FEATHER STILL LISTENS... BUT ONLY ONCE MORE.","ONE FINAL WISH REMAINS... IF YOU DARE.","WALK AWAY NOW... OR SPEAK ONE LAST WISH.","GREED OFTEN BEGINS WITH JUST ONE MORE.","THE SILENCE OFFERS ONE FINAL CHOICE."];
-const greedWarnings=["You were granted one wish.\nYet you returned.\n\nA second wish is not taken without notice.\nThe Hawk has already seen you cross this threshold once.\n\nContinue only if the first wish was not enough.","One wish was the gift.\nThe second is your decision.\n\nThe Feather has noticed your return.\nThere will be no third request.","The Feather answered once.\nStill, you ask it to answer again.\n\nHope and greed often speak with the same voice.\nChoose carefully."];
-const prophecies=["The second seal is shut.\nThe Hawk did not blink.\nThere will be no third wish.\nThe old writing claims that refusing the final task turns the week against the traveler.\nBad days are said to follow.","The second seal has closed.\nThe Hawk watched.\nThe third wish was never meant to be spoken.\nThe old tale says that a refused task leaves seven days of misfortune behind.\nWhether the tale is true has never been answered.","The first wish opened the door.\nThe second has locked it behind you.\nThe Feather has fallen silent.\nThe asking is finished.\nOnly the journey remains."];
-const rituals=["Carry a black feather until tomorrow.\nDo not explain it to anyone who asks.","Avoid mirrors until sunrise.","Place a glass of water beside your bed tonight.\nIn the morning, pour it onto the earth.","Keep a small stone in your pocket for three days.\nReturn it to the ground before the third sunset.","Say nothing about the wish until the next sunset.","Carry three pennies for five hours.\nAfterward, leave one where another person may find it.","Stand beneath the open sky for one silent minute.\nDo not ask for another sign."];
+const SUPABASE_URL =
+"https://qchdhrxniqpwcwtxkrgz.supabase.co";
 
-async function typeText(t,s=34){cursor.style.display="inline-block";for(const ch of t){output.textContent+=ch;await sleep(ch==="\n"?145:s)}}
-async function saveWish(text,number){
- for(const row of [{text,wish_number:number},{wish_text:text,wish_number:number},{text},{wish_text:text}]){
-  try{
-   const r=await Promise.race([supabaseClient.from("wishes").insert([row]),new Promise((_,j)=>setTimeout(()=>j(new Error("timeout")),12000))]);
-   if(!r.error)return true;
-  }catch(e){console.warn(e)}
- }
- return false;
+const SUPABASE_KEY =
+"sb_publishable_lYRHZV7dGb74UBYmfPTdbg_-RTlhzeO";
+
+let supabaseClient = null;
+
+try {
+  if (window.supabase) {
+    supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+  }
+} catch (err) {
+  console.warn("Supabase could not initialize:", err);
 }
-function code(){const c="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let x="FEATHER-";for(let i=0;i<8;i++)x+=c[Math.floor(Math.random()*c.length)];return x}
-function firstMessage(){return [pick(firstOpenings),pick(firstHope),pick(firstMystery),pick(firstClose)].join("\n")}
 
-async function start(){await sleep(700);for(const line of intro){await typeText(line+"\n");await sleep(300)}cursor.style.display="none";firstArea.classList.remove("hidden");firstWish.focus()}
 
-sealFirst.onclick=async()=>{
- if(busy)return;const t=firstWish.value.trim();
- if(!t){firstWish.placeholder="A wish must first be written...";firstWish.focus();return}
- busy=true;sealFirst.disabled=firstWish.disabled=true;sealFirst.textContent="SEALING...";output.textContent="The seal is listening...\n";
- if(!await saveWish(t,1)){output.textContent="The connection could not receive your wish.\nPlease try again.";cursor.style.display="none";sealFirst.disabled=firstWish.disabled=false;sealFirst.textContent="SEAL MY WISH";busy=false;return}
- firstArea.classList.add("hidden");output.textContent="";
- await typeText("Receiving...\n",48);await sleep(600);await typeText("Reading...\n",48);await sleep(700);
- await typeText("\nThe Ink Dried.\nDo not waste time.\nJust wish.\nRemember, you were given one.\nDo not be greedy.\n",54);
- await sleep(700);await typeText("\n"+firstMessage()+"\n",38);
- cursor.style.display="none";secondButton.textContent=pick(secondButtons);secondButton.classList.remove("hidden");busy=false;
+/* =========================================================
+   SPIRIT DATA
+   ========================================================= */
+
+const spirits = [
+
+{
+number:1,
+name:"Bael",
+rank:"King",
+appearance:"Cat, toad, man, or all three at once.",
+subjects:"Invisibility, command, hiddenness, and strategy."
+},
+
+{
+number:2,
+name:"Agares",
+rank:"Duke",
+appearance:"An elderly rider upon a crocodile carrying a goshawk.",
+subjects:"Languages, movement, runaways, dignity, and earthquakes."
+},
+
+{
+number:3,
+name:"Vassago",
+rank:"Prince",
+appearance:"Appearance varies by edition.",
+subjects:"Past and future events, hidden things, and lost things."
+},
+
+{
+number:4,
+name:"Samigina, or Gamigin",
+rank:"Marquis",
+appearance:"A small horse or ass, later changing into human form.",
+subjects:"Liberal sciences and accounts of the dead."
+},
+
+{
+number:5,
+name:"Marbas",
+rank:"President",
+appearance:"A great lion, later appearing in human shape.",
+subjects:"Secrets, mechanical arts, transformation, disease, and healing."
+},
+
+{
+number:6,
+name:"Valefor",
+rank:"Duke",
+appearance:"A lion with an ass's head.",
+subjects:"Familiarity, loyalty, temptation, and theft."
+},
+
+{
+number:7,
+name:"Amon",
+rank:"Marquis",
+appearance:"A wolf with a serpent's tail, or a raven-headed man.",
+subjects:"Past and future events, disputes, and reconciliation."
+},
+
+{
+number:8,
+name:"Barbatos",
+rank:"Duke",
+appearance:"A woodland figure accompanied by kings and companies.",
+subjects:"Animal voices, hidden treasure, and reconciliation."
+},
+
+{
+number:9,
+name:"Paimon",
+rank:"King",
+appearance:"A crowned rider upon a dromedary with a musical procession.",
+subjects:"Arts, sciences, secrets, dignity, command, and knowledge."
+},
+
+{
+number:10,
+name:"Buer",
+rank:"President",
+appearance:"Often shown as a wheel-like figure with multiple legs.",
+subjects:"Philosophy, logic, herbs, plants, healing, and familiars."
+},
+
+{
+number:11,
+name:"Gusion",
+rank:"Duke",
+appearance:"Described as a Xenopilus in some texts.",
+subjects:"Past, present, future, answers, honor, and reconciliation."
+},
+
+{
+number:12,
+name:"Sitri",
+rank:"Prince",
+appearance:"Leopard-headed with gryphon wings, later appearing in human form.",
+subjects:"Attraction, desire, and concealed feelings."
+},
+
+{
+number:13,
+name:"Beleth",
+rank:"King",
+appearance:"A terrible king riding a pale horse amid music.",
+subjects:"Love, attraction, strong emotion, and imposing presence."
+},
+
+{
+number:16,
+name:"Zepar",
+rank:"Duke",
+appearance:"A soldier dressed in red armor.",
+subjects:"Attraction and relationships."
+},
+
+{
+number:19,
+name:"Sallos",
+rank:"Duke",
+appearance:"A peaceful soldier riding a crocodile.",
+subjects:"Affection, attraction, and relationships."
+},
+
+{
+number:26,
+name:"Bune, or Bimé",
+rank:"Duke",
+appearance:"A three-headed dragon.",
+subjects:"Wealth, eloquence, wisdom, the dead, and answers."
+},
+
+{
+number:29,
+name:"Astaroth",
+rank:"Duke",
+appearance:"A winged figure riding a dragon and carrying a viper.",
+subjects:"Secrets, history, sciences, and past, present, and future."
+},
+
+{
+number:32,
+name:"Asmoday",
+rank:"King",
+appearance:"A three-headed figure riding a dragon and carrying a lance.",
+subjects:"Arithmetic, astronomy, geometry, crafts, secrets, and treasure."
+},
+
+{
+number:36,
+name:"Stolas, or Stolos",
+rank:"Prince",
+appearance:"A mighty raven or owl, later appearing as a man.",
+subjects:"Astronomy, herbs, and precious stones."
+},
+
+{
+number:47,
+name:"Uvall, Vual, or Voval",
+rank:"Duke",
+appearance:"A dromedary, later appearing in human shape.",
+subjects:"Love, friendship, and past, present, and future."
+},
+
+{
+number:55,
+name:"Orobas",
+rank:"Prince",
+appearance:"A horse, later appearing as a man.",
+subjects:"Truth, dignity, favor, protection, and future events."
+},
+
+{
+number:56,
+name:"Gremory, or Gamori",
+rank:"Duke",
+appearance:"A crowned woman riding a camel.",
+subjects:"Hidden treasure, affection, and past, present, and future."
+},
+
+{
+number:62,
+name:"Volac, Valak, Valu, or Ualac",
+rank:"President",
+appearance:"A winged child riding a two-headed dragon.",
+subjects:"Hidden treasure and serpents."
+},
+
+{
+number:68,
+name:"Belial",
+rank:"King",
+appearance:"Two beautiful angels in a chariot of fire.",
+subjects:"Office, favor, status, dignity, and familiars."
+},
+
+{
+number:70,
+name:"Seere, Sear, or Seir",
+rank:"Prince",
+appearance:"A beautiful rider upon a winged horse.",
+subjects:"Speed, travel, retrieval, treasure, and swift accomplishment."
+},
+
+{
+number:71,
+name:"Dantalion",
+rank:"Duke",
+appearance:"A many-faced figure carrying a book.",
+subjects:"Thoughts, arts, sciences, counsel, affection, and visions."
+},
+
+{
+number:72,
+name:"Andromalius",
+rank:"Earl",
+appearance:"A man holding a great serpent.",
+subjects:"Recovering stolen goods, exposing wrongdoing, and hidden treasure."
+}
+
+];
+
+
+/* =========================================================
+   DOM REFERENCES
+   ========================================================= */
+
+const $ = id => document.getElementById(id);
+
+const output = $("output");
+const cursor = $("cursor");
+
+const firstArea = $("firstArea");
+const firstWish = $("firstWish");
+const sealFirst = $("sealFirst");
+
+const secondButton = $("secondButton");
+const secondArea = $("secondArea");
+const secondWish = $("secondWish");
+const sealSecond = $("sealSecond");
+
+const finalPage = $("finalPage");
+const finalMessage = $("finalMessage");
+const journeyCode = $("journeyCode");
+
+const lesserKey = $("lesserKey");
+
+const sleep = ms =>
+  new Promise(resolve => setTimeout(resolve,ms));
+
+const pick = arr =>
+  arr[Math.floor(Math.random()*arr.length)];
+
+let busy = false;
+
+
+/* =========================================================
+   STORY TEXT
+   ========================================================= */
+
+const intro = [
+"Connecting... just wait.",
+"",
+"The Feather watches.",
+"The Hawk waits.",
+"",
+"You have been granted one wish.",
+"Choose carefully.",
+"Not every wish asks the same price."
+];
+
+const firstOpenings = [
+"Your wish has been accepted.",
+"The Feather has received your words.",
+"The Hawk has taken notice.",
+"Your wish crossed the threshold.",
+"The seal has been accepted.",
+"The Sorcerer received your wish.",
+"The mirror has remembered your request."
+];
+
+const firstHope = [
+"The path before it is still forming.",
+"Watch for the first ordinary sign.",
+"The answer may arrive in a shape you did not expect.",
+"Patience will reveal what haste would hide.",
+"A door may appear where you stopped looking.",
+"What you asked for has begun to move."
+];
+
+const firstMystery = [
+"Do not repeat the wish aloud.",
+"The first price is rarely named.",
+"Not every answer arrives alone.",
+"Time has begun counting.",
+"Something else may have heard it too.",
+"Every gift leaves an empty place.",
+"Nothing crosses the threshold unchanged."
+];
+
+const firstClose = [
+"Wait for the first sign.",
+"Time will decide what follows.",
+"The journey has already begun.",
+"The seal cannot be recalled.",
+"The balance has been marked.",
+"Nothing more is required... yet."
+];
+
+const secondButtons = [
+"ONE WISH SHOULD HAVE BEEN ENOUGH... WILL YOU ASK AGAIN?",
+"THE FEATHER STILL LISTENS... BUT ONLY ONCE MORE.",
+"ONE FINAL WISH REMAINS... IF YOU DARE.",
+"WALK AWAY NOW... OR SPEAK ONE LAST WISH.",
+"GREED OFTEN BEGINS WITH JUST ONE MORE.",
+"THE SILENCE OFFERS ONE FINAL CHOICE."
+];
+
+const greedWarnings = [
+`You were granted one wish.
+Yet you returned.
+
+A second wish is not taken without notice.
+The Hawk has already seen you cross this threshold once.
+
+Continue only if the first wish was not enough.`,
+
+`One wish was the gift.
+The second is your decision.
+
+The Feather has noticed your return.
+There will be no third request.`,
+
+`The Feather answered once.
+Still, you ask it to answer again.
+
+Hope and greed often speak with the same voice.
+Choose carefully.`
+];
+
+const prophecies = [
+`The second seal is shut.
+The Hawk did not blink.
+There will be no third wish.
+The old writing claims that refusing the final task turns the week against the traveler.
+Bad days are said to follow.`,
+
+`The second seal has closed.
+The Hawk watched.
+The third wish was never meant to be spoken.
+The old tale says that a refused task leaves seven days of misfortune behind.
+Whether the tale is true has never been answered.`,
+
+`The first wish opened the door.
+The second has locked it behind you.
+The Feather has fallen silent.
+The asking is finished.
+Only the journey remains.`
+];
+
+const rituals = [
+`Carry a black feather until tomorrow.
+Do not explain it to anyone who asks.`,
+
+`Avoid mirrors until sunrise.`,
+
+`Place a glass of water beside your bed tonight.
+In the morning, pour it onto the earth.`,
+
+`Keep a small stone in your pocket for three days.
+Return it to the ground before the third sunset.`,
+
+`Say nothing about the wish until the next sunset.`,
+
+`Carry three pennies for five hours.
+Afterward, leave one where another person may find it.`,
+
+`Stand beneath the open sky for one silent minute.
+Do not ask for another sign.`
+];
+
+
+/* =========================================================
+   TYPEWRITER
+   ========================================================= */
+
+async function typeText(text,speed=34){
+
+  cursor.style.display="inline-block";
+
+  for(const ch of text){
+
+    output.textContent += ch;
+
+    await sleep(
+      ch === "\n"
+      ? 145
+      : speed
+    );
+  }
+}
+
+
+/* =========================================================
+   SAVE WISH
+   IMPORTANT CHANGE:
+   THE EXPERIENCE CONTINUES EVEN IF THE DATABASE FAILS
+   ========================================================= */
+
+async function saveWish(text,number){
+
+  if(!supabaseClient){
+    console.warn("No Supabase connection. Continuing without saving.");
+    return false;
+  }
+
+  const rows = [
+
+    {
+      wish_text:text,
+      wish_number:number
+    },
+
+    {
+      text:text,
+      wish_number:number
+    },
+
+    {
+      wish_text:text
+    },
+
+    {
+      text:text
+    }
+
+  ];
+
+  for(const row of rows){
+
+    try{
+
+      const result =
+        await Promise.race([
+
+          supabaseClient
+            .from("wishes")
+            .insert([row]),
+
+          new Promise((_,reject)=>
+            setTimeout(
+              ()=>reject(new Error("Supabase timeout")),
+              8000
+            )
+          )
+
+        ]);
+
+      if(!result.error){
+
+        console.log("Wish saved successfully.");
+
+        return true;
+
+      }
+
+      console.warn(
+        "Supabase insert failed:",
+        result.error
+      );
+
+    }catch(err){
+
+      console.warn(
+        "Supabase request failed:",
+        err
+      );
+
+    }
+  }
+
+  return false;
+}
+
+
+/* =========================================================
+   JOURNEY CODE
+   ========================================================= */
+
+function code(){
+
+  const chars =
+  "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+  let result="FEATHER-";
+
+  for(let i=0;i<8;i++){
+
+    result +=
+      chars[
+        Math.floor(
+          Math.random()*chars.length
+        )
+      ];
+
+  }
+
+  return result;
+}
+
+
+/* =========================================================
+   FIRST MESSAGE
+   ========================================================= */
+
+function firstMessage(){
+
+  return [
+
+    pick(firstOpenings),
+
+    pick(firstHope),
+
+    pick(firstMystery),
+
+    pick(firstClose)
+
+  ].join("\n");
+
+}
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+async function start(){
+
+  await sleep(700);
+
+  for(const line of intro){
+
+    await typeText(
+      line+"\n"
+    );
+
+    await sleep(300);
+  }
+
+  cursor.style.display="none";
+
+  firstArea
+    .classList
+    .remove("hidden");
+
+  firstWish.focus();
+}
+
+
+/* =========================================================
+   FIRST WISH
+   ========================================================= */
+
+sealFirst.onclick =
+async()=>{
+
+  if(busy)return;
+
+  const wish =
+    firstWish.value.trim();
+
+  if(!wish){
+
+    firstWish.placeholder =
+    "A wish must first be written...";
+
+    firstWish.focus();
+
+    return;
+  }
+
+  busy=true;
+
+  sealFirst.disabled=true;
+  firstWish.disabled=true;
+
+  sealFirst.textContent=
+  "SEALING...";
+
+  output.textContent=
+  "The seal is listening...\n";
+
+  const saved =
+    await saveWish(
+      wish,
+      1
+    );
+
+  /*
+  IMPORTANT:
+  DATABASE FAILURE DOES NOT STOP THE PAGE.
+  */
+
+  if(!saved){
+
+    console.warn(
+      "Wish was not stored, but the story will continue."
+    );
+
+  }
+
+  firstArea
+    .classList
+    .add("hidden");
+
+  output.textContent="";
+
+  await typeText(
+    "Receiving...\n",
+    48
+  );
+
+  await sleep(600);
+
+  await typeText(
+    "Reading...\n",
+    48
+  );
+
+  await sleep(700);
+
+  await typeText(
+`\nThe Ink Dried.
+Do not waste time.
+Just wish.
+Remember, you were given one.
+Do not be greedy.
+`,
+54
+  );
+
+  await sleep(700);
+
+  await typeText(
+    "\n"+
+    firstMessage()+
+    "\n",
+    38
+  );
+
+  cursor.style.display="none";
+
+  secondButton.textContent=
+    pick(secondButtons);
+
+  secondButton
+    .classList
+    .remove("hidden");
+
+  busy=false;
 };
 
-secondButton.onclick=()=>{if(busy)return;secondButton.classList.add("hidden");output.textContent="";$("greedWarning").textContent=pick(greedWarnings);secondArea.classList.remove("hidden");secondArea.scrollIntoView({behavior:"smooth",block:"start"});secondWish.focus()};
 
-sealSecond.onclick=async()=>{
- if(busy)return;const t=secondWish.value.trim();
- if(!t){secondWish.placeholder="The second wish must first be written...";secondWish.focus();return}
- busy=true;sealSecond.disabled=secondWish.disabled=true;sealSecond.textContent="SEALING THE SECOND WISH...";output.textContent="The second seal is listening...\n";
- if(!await saveWish(t,2)){output.textContent="The connection could not receive the second wish.\nPlease try again.";cursor.style.display="none";sealSecond.disabled=secondWish.disabled=false;sealSecond.textContent="SEAL THE SECOND WISH";busy=false;return}
- secondArea.classList.add("hidden");lesserKey.classList.add("hidden");finalPage.classList.remove("hidden");
- finalMessage.textContent=pick(prophecies)+"\n\nYOUR FINAL TASK\n\n"+pick(rituals);
- journeyCode.textContent="Journey Feather Code: "+code();cursor.style.display="none";scrollTo({top:0,behavior:"smooth"});busy=false;
+/* =========================================================
+   SECOND BUTTON
+   ========================================================= */
+
+secondButton.onclick =
+()=>{
+
+  if(busy)return;
+
+  secondButton
+    .classList
+    .add("hidden");
+
+  output.textContent="";
+
+  $("greedWarning")
+    .textContent =
+    pick(greedWarnings);
+
+  secondArea
+    .classList
+    .remove("hidden");
+
+  secondArea.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+  secondWish.focus();
 };
 
-$("lesserKeyButton").onclick=()=>{lesserKey.classList.remove("hidden");lesserKey.scrollIntoView({behavior:"smooth",block:"start"})};
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".book-panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(b.dataset.panel).classList.add("active")});
-$("closeBook").onclick=()=>{lesserKey.classList.add("hidden");secondArea.scrollIntoView({behavior:"smooth",block:"start"})};
 
-function render(list){$("grid").innerHTML="";list.forEach(s=>{const c=document.createElement("article");c.className="card";c.tabIndex=0;c.innerHTML=`<h3>${s.number}. ${s.name}</h3><p class="rank">${s.rank}</p><p>${s.subjects}</p>`;const open=()=>show(s);c.onclick=open;c.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open()}};$("grid").appendChild(c)})}
-function show(s){$("detail").classList.remove("hidden");$("detailTitle").textContent=`${s.number}. ${s.name} — ${s.rank}`;$("detailText").textContent=`Traditional appearance:\n${s.appearance}\n\nAttributed subjects:\n${s.subjects}\n\nHistorical folklore summary. No supernatural claim is presented as fact.`;$("detail").focus();$("detail").scrollIntoView({behavior:"smooth",block:"start"})}
-$("search").oninput=e=>{const q=e.target.value.toLowerCase().trim();render(spirits.filter(s=>(s.number+" "+s.name+" "+s.rank+" "+s.appearance+" "+s.subjects).toLowerCase().includes(q)))};
+/* =========================================================
+   SECOND WISH
+   ========================================================= */
+
+sealSecond.onclick =
+async()=>{
+
+  if(busy)return;
+
+  const wish =
+    secondWish.value.trim();
+
+  if(!wish){
+
+    secondWish.placeholder =
+    "The second wish must first be written...";
+
+    secondWish.focus();
+
+    return;
+  }
+
+  busy=true;
+
+  sealSecond.disabled=true;
+  secondWish.disabled=true;
+
+  sealSecond.textContent =
+  "SEALING THE SECOND WISH...";
+
+  output.textContent =
+  "The second seal is listening...\n";
+
+  const saved =
+    await saveWish(
+      wish,
+      2
+    );
+
+  if(!saved){
+
+    console.warn(
+      "Second wish was not stored, but the story will continue."
+    );
+
+  }
+
+  secondArea
+    .classList
+    .add("hidden");
+
+  lesserKey
+    .classList
+    .add("hidden");
+
+  finalPage
+    .classList
+    .remove("hidden");
+
+  finalMessage.textContent =
+    pick(prophecies)
+    +
+    "\n\nYOUR FINAL TASK\n\n"
+    +
+    pick(rituals);
+
+  journeyCode.textContent =
+    "Journey Feather Code: "
+    +
+    code();
+
+  cursor.style.display="none";
+
+  scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  busy=false;
+};
+
+
+/* =========================================================
+   LESSER KEY
+   ========================================================= */
+
+$("lesserKeyButton").onclick =
+()=>{
+
+  lesserKey
+    .classList
+    .remove("hidden");
+
+  lesserKey.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+};
+
+
+/* =========================================================
+   TABS
+   ========================================================= */
+
+document
+.querySelectorAll(".tab")
+.forEach(button=>{
+
+  button.onclick =
+  ()=>{
+
+    document
+      .querySelectorAll(".tab")
+      .forEach(x=>
+        x.classList.remove("active")
+      );
+
+    document
+      .querySelectorAll(".book-panel")
+      .forEach(x=>
+        x.classList.remove("active")
+      );
+
+    button
+      .classList
+      .add("active");
+
+    $(button.dataset.panel)
+      .classList
+      .add("active");
+
+  };
+
+});
+
+
+/* =========================================================
+   CLOSE BOOK
+   ========================================================= */
+
+$("closeBook").onclick =
+()=>{
+
+  lesserKey
+    .classList
+    .add("hidden");
+
+  secondArea.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+};
+
+
+/* =========================================================
+   RENDER SPIRITS
+   ========================================================= */
+
+function render(list){
+
+  $("grid").innerHTML="";
+
+  list.forEach(spirit=>{
+
+    const card =
+      document.createElement("article");
+
+    card.className="card";
+
+    card.tabIndex=0;
+
+    card.innerHTML = `
+
+<h3>
+${spirit.number}. ${spirit.name}
+</h3>
+
+<p class="rank">
+${spirit.rank}
+</p>
+
+<p>
+${spirit.subjects}
+</p>
+
+`;
+
+    const open =
+    ()=>show(spirit);
+
+    card.onclick=open;
+
+    card.onkeydown =
+    event=>{
+
+      if(
+        event.key==="Enter"
+        ||
+        event.key===" "
+      ){
+
+        event.preventDefault();
+
+        open();
+      }
+
+    };
+
+    $("grid")
+      .appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================================
+   SPIRIT DETAILS
+   ========================================================= */
+
+function show(spirit){
+
+  $("detail")
+    .classList
+    .remove("hidden");
+
+  $("detailTitle")
+    .textContent =
+    `${spirit.number}. ${spirit.name} — ${spirit.rank}`;
+
+  $("detailText")
+    .textContent =
+
+`Traditional appearance:
+
+${spirit.appearance}
+
+Attributed subjects:
+
+${spirit.subjects}
+
+Historical folklore summary.
+No supernatural claim is presented as fact.`;
+
+  $("detail").focus();
+
+  $("detail")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+$("search").oninput =
+event=>{
+
+  const query =
+    event.target.value
+    .toLowerCase()
+    .trim();
+
+  const results =
+    spirits.filter(spirit=>
+
+      (
+        spirit.number+
+        " "+
+        spirit.name+
+        " "+
+        spirit.rank+
+        " "+
+        spirit.appearance+
+        " "+
+        spirit.subjects
+      )
+
+      .toLowerCase()
+      .includes(query)
+
+    );
+
+  render(results);
+
+};
+
+
 render(spirits);
 
-const canvas=$("dust"),ctx=canvas.getContext("2d");let particles=[];
-function resize(){canvas.width=innerWidth;canvas.height=innerHeight;particles=Array.from({length:Math.min(70,Math.floor(innerWidth/8))},()=>({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.6+.3,v:Math.random()*.25+.05,a:Math.random()*.45+.08}))}
-function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);for(const p of particles){ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(124,255,137,${p.a})`;ctx.fill();p.y-=p.v;if(p.y<-5){p.y=canvas.height+5;p.x=Math.random()*canvas.width}}requestAnimationFrame(draw)}
-addEventListener("resize",resize);resize();draw();start();
+
+/* =========================================================
+   PARTICLES
+   ========================================================= */
+
+const canvas =
+  $("dust");
+
+const ctx =
+  canvas.getContext("2d");
+
+let particles=[];
+
+
+function resize(){
+
+  canvas.width=
+    innerWidth;
+
+  canvas.height=
+    innerHeight;
+
+  particles =
+    Array.from(
+      {
+        length:
+        Math.min(
+          70,
+          Math.floor(
+            innerWidth/8
+          )
+        )
+      },
+
+      ()=>({
+
+        x:
+          Math.random()*
+          canvas.width,
+
+        y:
+          Math.random()*
+          canvas.height,
+
+        r:
+          Math.random()*1.6+.3,
+
+        v:
+          Math.random()*.25+.05,
+
+        a:
+          Math.random()*.45+.08
+
+      })
+
+    );
+
+}
+
+
+function draw(){
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  for(const particle of particles){
+
+    ctx.beginPath();
+
+    ctx.arc(
+      particle.x,
+      particle.y,
+      particle.r,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fillStyle =
+      `rgba(124,255,137,${particle.a})`;
+
+    ctx.fill();
+
+    particle.y -=
+      particle.v;
+
+    if(particle.y < -5){
+
+      particle.y =
+        canvas.height+5;
+
+      particle.x =
+        Math.random()*
+        canvas.width;
+
+    }
+
+  }
+
+  requestAnimationFrame(draw);
+}
+
+
+addEventListener(
+  "resize",
+  resize
+);
+
+resize();
+
+draw();
+
+start();
+
 </script>
+
 </body>
 </html>
